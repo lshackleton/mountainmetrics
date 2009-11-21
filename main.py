@@ -28,7 +28,6 @@ import urllib
 import logging
 import wsgiref.handlers
 import traceback
-import random
 
 from google.appengine.api import datastore
 from google.appengine.api import datastore_types
@@ -37,22 +36,15 @@ from google.appengine.api import users
 from google.appengine.api import memcache
 from google.appengine.api import mail
 from google.appengine.ext import webapp
-from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
-from google.appengine.ext.webapp.util import login_required
-from google.appengine.ext import search
-from google.appengine.ext import bulkload
+
 from google.appengine.ext import db
 from django.core.paginator import ObjectPaginator, InvalidPage
 
 
 # Datastore models.
 import models
-
-
-# GLOBAL CONSTANTS
-RESULTS_PER_PAGE = 50
 
 
 ## Set logging level.
@@ -106,8 +98,6 @@ class BaseRequestHandler(webapp.RequestHandler):
     values = {
       'debug': self.request.get('deb'),
       'user': users.GetCurrentUser(),
-      'login_url': users.CreateLoginURL(self.request.uri),
-      'logout_url': users.CreateLogoutURL(self.request.uri),
 
     }
 
@@ -122,131 +112,14 @@ class BaseRequestHandler(webapp.RequestHandler):
 #
 
 
-class InputNewEntry(BaseRequestHandler):
-  """ Inputs new data into the data model.
-  """
-  def post(self):
-    user = users.get_current_user()
-    if user:
-      logging.info('User ==  %s' % str(user))
-      logging.info('Fetching user')
-      trainee = models.Trainees.gql("WHERE user = :1", user).get()
-      logging.info('trainee = %s ' % trainee)
-      if not trainee:
-        trainee = models.Trainees(user=user)
-        trainee.put()
-        logging.info('Created user: %s.' % str(user))        
-      logging.info('Inputting Data')
-      date_day = int(cgi.escape(self.request.get('date_day')))
-      date_month = int(cgi.escape(self.request.get('date_month')))
-      date_sel2 = cgi.escape(self.request.get('date_sel2'))
-      activity = cgi.escape(self.request.get('activity'))
-      miles = float(cgi.escape(self.request.get('miles')))
-      minutes = float(cgi.escape(self.request.get('minutes')))
-      notes = cgi.escape(self.request.get('notes'))
-
-      new_entry = models.LogEntry(trainee=trainee,
-                                  date_day=date_day,
-                                  date_month=date_month,
-                                  date_sel2=date_sel2,
-                                  activity=activity,
-                                  miles=miles,
-                                  minutes=minutes,
-                                  notes=notes
-                                 )
-      new_entry.put()
-      self.redirect('/enter')
-    else:
-      self.redirect(users.create_login_url('/enter'))
-
-
 #
 # End Action Handlers
 #
 
-#
-# Start Helper Functions
-#
-
-def Paging(page=None):
-  """ Classes handles page variables in case of erronious page input.
-  """
-  if not page:
-    page = 0
-    logging.info('Page variable is None? page: %s ' % page)
-  try:
-    page = int(page)
-  except ValueError:
-    logging.error('ERROR: Page value is not an int. Page = %s' % page)
-    page = 0
-
-  logging.info('Results page number: %s.' % page)
-  return page
-
-#
-# End Helper Functions
-#
 
 #
 # Start Webpage Handlers
 #
-
-class MainPage(BaseRequestHandler):
-  """ Generates the all Logs page.
-  """
-  def get(self):
-    logging.info('Visiting the homepage')
-
-    self.generate('base.html', {
-      'title': 'Train - Home',
-    })
-
-class ShowResults(BaseRequestHandler):
-  """ Generates the results page.
-  """
-  def get(self):
-    logging.info('Visiting the all entries results.html page')
-    user = users.get_current_user()
-    if user:
-      logging.info('User ==  %s' % str(user))
-   
-      logging.info('Page variable: %s' % self.request.get('page'))
-      resultspage = Paging(page=self.request.get('page'))
-
-      query = models.LogEntry.all()
-      query.filter('trainee =', user)
-      query.order('-creation_time')
-
-      paginator = ObjectPaginator(query, RESULTS_PER_PAGE)
-      logging.info('Paginator.pages: %s.' % paginator.pages)
-      if resultspage >= paginator.pages:
-        logging.info('resultspage: %s. paginator.pages %s' %
-                     (resultspage, paginator.pages))
-        resultspage = paginator.pages - 1
-
-      self.generate('results.html', {
-        'entries': paginator.get_page(resultspage),
-        'resultspages' : range(0, paginator.pages),
-        'resultspage' : resultspage,
-        'nickname': user.nickname,
-      })
-    else:
-      self.redirect(users.create_login_url('/results'))
-
-
-class EnterLogPage(BaseRequestHandler):
-  """ Displays page allowing users to submit entries.
-  """
-  def get(self):
-    logging.info('Visiting the myframps.html page')
-    user = users.get_current_user()
-    logging.info('User ==  %s' % str(user))
-    if user:
-      logging.info('Visiting the enter page')
-      self.generate('enter.html', {
-      })
-    else:
-      self.redirect(users.create_login_url('/enter'))
 
 class HomePageHandler(BaseRequestHandler):
   """  Generates the start/home page.
@@ -269,14 +142,11 @@ class HomePageHandler(BaseRequestHandler):
 #
 
 # Map URLs to our RequestHandler classes above
-_TRAINAUCTION_URLS = [
+_MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
-   ('/enter', EnterLogPage), #enter.html
-   ('/results', ShowResults), #results.html
    ('/home', HomePageHandler), #home.html
-   ('/.*$', MainPage), #base.html
+   ('/.*$', HomePageHandler), #base.html
 ]
-
 
 #
 # End URL Map
@@ -284,7 +154,7 @@ _TRAINAUCTION_URLS = [
 
 
 def main():
-  application = webapp.WSGIApplication(_TRAINAUCTION_URLS, debug=_DEBUG)
+  application = webapp.WSGIApplication(_MountainMetrics_Urls, debug=_DEBUG)
   run_wsgi_app(application)
 
 if __name__ == '__main__':
