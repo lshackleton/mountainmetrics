@@ -167,9 +167,14 @@ img {
 				text-decoration: none;
 			}
 		#content .post p {
-			padding-left:10px;
+			padding-left:20px;
 			padding-top: 5px;
 			padding-bottom:10px;
+		}
+		
+		#content .post ul {
+			padding-left:40px;
+			padding-bottom:5px;
 		}
 		#content .post .details {
 			padding-top: 5px;
@@ -297,6 +302,8 @@ img {
 		}
 		#sidebar .box .popular li {
 			padding: 8px 0;
+			margin-left:10px;
+
 		}
 		#sidebar .box .popular a {
 			font-weight: bold;
@@ -305,6 +312,7 @@ img {
 		}
 		#sidebar .box .popular p {
 			padding-top: 5px;
+			margin-left:10px;
 		}
 		#sidebar form {
 			width: 302px; height: 39px;
