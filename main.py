@@ -42,6 +42,8 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 from django.core.paginator import ObjectPaginator, InvalidPage
 
+from mmlib.pywapi import get_weather_from_noaa
+
 
 # Datastore models.
 import models
@@ -131,6 +133,18 @@ class HomePageHandler(BaseRequestHandler):
     self.generate('home.html', {
     })
 
+
+class BillHandler(BaseRequestHandler):
+  """  Generates the start/home page.
+  """
+
+  def get(self):
+    logging.info('Visiting the bill test page.')
+    
+    a = get_weather_from_noaa('KJFK')
+    logging.info('a = %s' % str(a["icon_url_name"]))    
+    print 'PLEASE?!'
+
 #
 # End Webpage Handlers
 #
@@ -144,6 +158,7 @@ class HomePageHandler(BaseRequestHandler):
 # Map URLs to our RequestHandler classes above
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
+   ('/bill', BillHandler), #home.html
    ('/home', HomePageHandler), #home.html
    ('/.*$', HomePageHandler), #base.html
 ]
