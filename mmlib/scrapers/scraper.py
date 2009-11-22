@@ -5,7 +5,7 @@ __author__ = "Bill Ferrell"
 
 import sys
 
-from lib.status_value import StatusValue
+from mmlib.status_value import StatusValue
 from third_party.BeautifulSoup import BeautifulSoup
 
 from google.appengine.api import urlfetch

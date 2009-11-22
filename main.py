@@ -42,9 +42,6 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 from django.core.paginator import ObjectPaginator, InvalidPage
 
-from mmlib.pywapi import get_weather_from_noaa
-
-
 # Datastore models.
 import models
 
@@ -129,8 +126,12 @@ class HomePageHandler(BaseRequestHandler):
 
   def get(self, garbageinput=None):
     logging.info('Visiting the homepage')
+    query = models.ThreeDayWeatherForecast.all()
+    query.order('-date_time_added')
+    weather = query.get()
 
     self.generate('home.html', {
+      'ThreeDayWeatherForecast': weather,
     })
 
 
@@ -145,11 +146,27 @@ class BillHandler(BaseRequestHandler):
     logging.info('a = %s' % str(a["icon_url_name"]))    
     print 'PLEASE?!'
 
+
+class BillHandler2(BaseRequestHandler):
+  """  Generates the start/home page.
+  """
+
+  def get(self):
+    logging.info('Visiting the bill2 test page.')
+    self.response.out.write("""<html><FORM ACTION="/cron/process/AddRoadDataFetcherTask" METHOD=POST>
+    <INPUT TYPE=submit NAME=foo VALUE="Go to destination">
+    </FORM> """)
+
+class BillHandler3(BaseRequestHandler):
+  def get(self):
+    logging.info('Visiting the bill3 test page.')
+    i80_parser.i80Parser()
+
+
+
 #
 # End Webpage Handlers
 #
-
-
 
 #
 # Start URL Map
@@ -158,7 +175,7 @@ class BillHandler(BaseRequestHandler):
 # Map URLs to our RequestHandler classes above
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
-   ('/bill', BillHandler), #home.html
+   ('/bill', BillHandler3), #home.html
    ('/home', HomePageHandler), #home.html
    ('/.*$', HomePageHandler), #base.html
 ]

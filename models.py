@@ -12,6 +12,7 @@ class ThreeDayWeatherForecast(db.Model):
   wind_dir = db.StringProperty()
   wind_mph = db.FloatProperty()
   wind_gust_mph = db.FloatProperty()
+  station_id = db.StringProperty()
   dewpoint_string = db.StringProperty()
   dewpoint_f = db.FloatProperty()
   dewpoint_c = db.FloatProperty()
@@ -65,10 +66,10 @@ class KirkwoodSnowReport(db.Model):
   third_day_tomorrow_low_temp = db.FloatProperty()
   third_day_tomorrow_expected_snowfall = db.FloatProperty()
 
-class DOTRoadConditions(db.Model):
+class DOTi80RoadConditions(db.Model):
   """AppEngine data model to store DOT Road Conditions. All data in table from DOT website"""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
-  road_conditions_details = db.StringProperty()
+  road_conditions_details = db.TextProperty()
 
 class TodaysAvalancheReport(db.Model):
   """AppEngine data model to store Todays Avalanche Report. All data in table from Sierra Avalanche Center"""

@@ -2,7 +2,7 @@
 #
 __author__ = ""
 
-from lib.validators import Validators
+from mmlib.validators import Validators
 from google.appengine.ext import db
 
 class StatusValue(db.Model):
