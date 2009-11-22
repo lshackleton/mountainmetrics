@@ -42,6 +42,9 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 from django.core.paginator import ObjectPaginator, InvalidPage
 
+
+from mmlib.scrapers.avalanche import avalanche_parser
+
 # Datastore models.
 import models
 
@@ -160,7 +163,7 @@ class BillHandler2(BaseRequestHandler):
 class BillHandler3(BaseRequestHandler):
   def get(self):
     logging.info('Visiting the bill3 test page.')
-    i80_parser.i80Parser()
+    avalanche_parser.AvalancheConditionsParser()
 
 
 
