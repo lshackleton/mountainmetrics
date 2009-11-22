@@ -11,7 +11,6 @@ class ThreeDayWeatherForecast(db.Model):
   wind_string = db.StringProperty()
   wind_dir = db.StringProperty()
   wind_mph = db.FloatProperty()
-  wind_mph = db.FloatProperty()
   wind_gust_mph = db.FloatProperty()
   dewpoint_string = db.StringProperty()
   dewpoint_f = db.FloatProperty()
@@ -22,7 +21,7 @@ class ThreeDayWeatherForecast(db.Model):
   weather = db.StringProperty()
   icon_url_base = db.StringProperty()
   icon_url_name = db.StringProperty()
-  two_day_history_rul = db.StringProperty()
+  two_day_history_url = db.StringProperty()
 
 class SquawValleySnowReport(db.Model):
   """AppEngine data model to store Squaw Valley Snow Report. All data in table from ____"""
@@ -67,6 +66,15 @@ class KirkwoodSnowReport(db.Model):
   third_day_tomorrow_expected_snowfall = db.FloatProperty()
 
 class DOTRoadConditions(db.Model):
-  """AppEngine data model to store DOT Road Conditions. All data in table from ____"""
+  """AppEngine data model to store DOT Road Conditions. All data in table from DOT website"""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
   road_conditions_details = db.StringProperty()
+
+class TodaysAvalancheReport(db.Model):
+  """AppEngine data model to store Todays Avalanche Report. All data in table from Sierra Avalanche Center"""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  avalanche_report_paragraph = db.TextProperty()
+  avalanche_danger_rating = db.StringProperty()
+  avalanche_danger_image_url = db.LinkProperty()
+  
+
