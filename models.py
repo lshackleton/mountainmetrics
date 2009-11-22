@@ -1,22 +1,72 @@
 from google.appengine.ext import db
-from google.appengine.ext.db import polymodel
 
+class ThreeDayWeatherForecast(db.Model):
+  """AppEngine data model to store 3 day weather forecast module. All data in table from NOAA"""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  noaa_observation_time = db.DateTimeProperty()
+  noaa_observation_location = db.StringProperty()
+  current_temp_c = db.FloatProperty()
+  current_temp_f = db.FloatProperty()
+  temperature_string = db.StringProperty()
+  wind_string = db.StringProperty()
+  wind_dir = db.StringProperty()
+  wind_mph = db.FloatProperty()
+  wind_mph = db.FloatProperty()
+  wind_gust_mph = db.FloatProperty()
+  dewpoint_string = db.StringProperty()
+  dewpoint_f = db.FloatProperty()
+  dewpoint_c = db.FloatProperty()
+  pressure_string = db.StringProperty()
+  pressure_mb = db.FloatProperty()
+  pressure_in = db.FloatProperty()
+  weather = db.StringProperty()
+  icon_url_base = db.StringProperty()
+  icon_url_name = db.StringProperty()
+  two_day_history_rul = db.StringProperty()
 
-class Trainees(db.Model):
-  """AppEngine data model to store users and list of associated groups."""
-  creation_time = db.DateTimeProperty(auto_now_add=True)
-  user = db.UserProperty(required=True)
-  update_time = db.DateTimeProperty(auto_now=True)
+class SquawValleySnowReport(db.Model):
+  """AppEngine data model to store Squaw Valley Snow Report. All data in table from ____"""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  today_high_temp = db.FloatProperty()
+  today_low_temp = db.FloatProperty()
+  today_new_snow = db.FloatProperty()
+  today_expected_snowfall = db.FloatProperty()
+  tomorrow_high_temp = db.FloatProperty()
+  tomorrow_low_temp = db.FloatProperty()
+  tomorrow_expected_snowfall = db.FloatProperty()
+  third_day_high_temp = db.FloatProperty()
+  third_day_tomorrow_low_temp = db.FloatProperty()
+  third_day_tomorrow_expected_snowfall = db.FloatProperty()
 
+class AlpineMeadowsSnowReport(db.Model):
+  """AppEngine data model to store Alpine Meadows Snow Report. All data in table from ____"""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  today_high_temp = db.FloatProperty()
+  today_low_temp = db.FloatProperty()
+  today_new_snow = db.FloatProperty()
+  today_expected_snowfall = db.FloatProperty()
+  tomorrow_high_temp = db.FloatProperty()
+  tomorrow_low_temp = db.FloatProperty()
+  tomorrow_expected_snowfall = db.FloatProperty()
+  third_day_high_temp = db.FloatProperty()
+  third_day_tomorrow_low_temp = db.FloatProperty()
+  third_day_tomorrow_expected_snowfall = db.FloatProperty()
 
-class LogEntry(db.Model):
-  """Stores all training input by user."""
-  date_day = db.IntegerProperty()
-  date_month = db.IntegerProperty()
-  date_sel2 = db.TextProperty()
-  activity = db.TextProperty()
-  miles = db.FloatProperty()
-  minutes = db.FloatProperty()
-  notes = db.TextProperty()
-  trainee = db.ReferenceProperty(Trainees)
-  creation_time = db.DateTimeProperty(auto_now_add=True)
+class KirkwoodSnowReport(db.Model):
+  """AppEngine data model to store Kirkwood Snow Report. All data in table from ____"""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  today_high_temp = db.FloatProperty()
+  today_low_temp = db.FloatProperty()
+  today_new_snow = db.FloatProperty()
+  today_expected_snowfall = db.FloatProperty()
+  tomorrow_high_temp = db.FloatProperty()
+  tomorrow_low_temp = db.FloatProperty()
+  tomorrow_expected_snowfall = db.FloatProperty()
+  third_day_high_temp = db.FloatProperty()
+  third_day_tomorrow_low_temp = db.FloatProperty()
+  third_day_tomorrow_expected_snowfall = db.FloatProperty()
+
+class DOTRoadConditions(db.Model):
+  """AppEngine data model to store DOT Road Conditions. All data in table from ____"""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  road_conditions_details = db.StringProperty()
