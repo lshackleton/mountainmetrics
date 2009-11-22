@@ -1,0 +1,10 @@
+queue:
+- name: default
+  rate: 5/s
+  bucket_size: 10
+- name: WeatherFetcher
+  rate: 5/s
+  bucket_size: 10
+- name: i80ConditionsFetcher
+  rate: 5/s
+  bucket_size: 10
