@@ -12,7 +12,7 @@
         <h2>3 Day Weather Forecast</h2>
         <p>Today {Insert Day}</p>
           <ul>
-            <li>Current Temp: {Insert Temp}</li>
+            <li>Current Temp: {% ThreeDayWeatherForecast.current_temp_f %}</li>
             <li>High Temp: {Insert Temp}</li>
             <li>Low Temp: {Insert Temp}</li>
             <li>New Snow: {Insert New Snow}</li>
@@ -150,7 +150,7 @@
         <h2>3 Day Detailed Weather</h2>
               <p>Yesterday</p>
               <ul>
-              <li>Wind Direction: {Insert Direction}</li>
+              <li>Wind Direction: {Insert Wind Direction}</li>
               <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
               <li>Dewpoint: {Insert Dewpoint}</li>
               <li>Relative Humidity: {Insert Relative Humidity}</li>
@@ -159,11 +159,11 @@
               </ul>
             <p>Today</p>
               <ul>
-              <li>Wind Direction: {Insert Direction}</li>
-              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
-              <li>Dewpoint: {Insert Dewpoint}</li>
-              <li>Relative Humidity: {Insert Relative Humidity}</li>
-              <li>Visibility: {Insert Visibility}</li>
+              <li>Wind Direction: {% ThreeDayWeatherForecast.wind_dir %}</li>
+              <li>Wind Speed: {% ThreeDayWeatherForecast.wind_mph %}mph to {% ThreeDayWeatherForecast.wind_gust_mph %}mph</li>
+              <li>Dewpoint: {% ThreeDayWeatherForecast.dewpoint_f %}</li>
+              <li>Relative Humidity: {% ThreeDayWeatherForecast.wind_dir %}</li>
+              <li>Visibility: {% ThreeDayWeatherForecast.wind_dir %}</li>
               <li>Expected Snowfall: {Insert Expected Snowfall}</li>
               </ul>
             <p>Tonight</p>
