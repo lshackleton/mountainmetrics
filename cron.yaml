@@ -1,0 +1,14 @@
+cron:
+- description: AddWeatherFetcherTask 
+  url: /tasks/process/AddWeatherFetcherTask
+  schedule: every 24 hours 09:00
+#  schedule: every 1 minutes
+
+- description: Addi80ConditionsFetcherTask 
+  url: /tasks/process/Addi80ConditionsFetcherTask
+  schedule: every 10 minutes
+
+#- description: AddForecastFetcherTask 
+#  url: /cron/process/AddForecastFetcherTask
+#  schedule: every 1 minutes
+#  schedule: every 24 hours 11:00
