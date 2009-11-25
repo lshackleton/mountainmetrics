@@ -28,6 +28,7 @@ class i80Parser(Scraper):
     logging.info('i80Parser running Parse')
     self.status = {}
     block = self.soup.find('pre')
+    block = str(block)
     
     match_term = 'IN NORTHERN CALIFORNIA & THE SIERRA NEVADA'
     position =re.search(match_term, block).span()

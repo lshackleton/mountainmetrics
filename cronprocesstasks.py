@@ -129,6 +129,101 @@ class Addi80ConditionsFetcherTask(webapp.RequestHandler):
 
 class WeatherFetcher(webapp.RequestHandler):
   """ Class used to update the Weather data from NOAA."""
+  def get(self):
+    logging.info('Running the WeatherFetcher.')
+
+    a = get_weather_from_noaa('KTRK')
+    # KTRK is the station id for Tahoe / Truckee
+    try:
+      time_var = a["observation_time"]
+      time_var = rfc822.parsedate_tz(time_var)
+    except:
+      time_var = datetime.datetime.now()
+
+    new_forecast_data = models.ThreeDayWeatherForecast()
+    
+    new_forecast_data.noaa_observation_time = time_var
+    try:
+      new_forecast_data.noaa_observation_location = a["location"]
+    except:
+      pass
+    try:
+      new_forecast_data.current_temp_c = float(a["temp_c"])
+    except:
+      pass
+    try:
+      new_forecast_data.current_temp_f = float(a["temp_f"])
+    except:
+      pass
+    try:
+      new_forecast_data.temperature_string = a["temperature_string"]
+    except:
+      pass
+    try:
+      new_forecast_data.wind_string = a["wind_string"]
+    except:
+      pass
+    try:
+      new_forecast_data.wind_dir = a["wind_dir"]
+    except:
+      pass
+    try:
+      new_forecast_data.wind_mph = float(a["wind_mph"])
+    except:
+      pass
+    try:
+      new_forecast_data.dewpoint_string = a["dewpoint_string"]
+    except:
+      pass
+    try:
+      new_forecast_data.dewpoint_f = float(a["dewpoint_f"])
+    except:
+      pass
+    try:
+      new_forecast_data.dewpoint_c = float(a["dewpoint_c"])
+    except:
+      pass
+    try:
+      new_forecast_data.pressure_string = a["pressure_string"]
+    except:
+      pass
+    try:
+      new_forecast_data.pressure_mb = float(a["pressure_mb"])
+    except:
+      pass
+    try:
+      new_forecast_data.pressure_in = float(a["pressure_in"])
+    except:
+      pass
+    try:
+      new_forecast_data.weather = a["weather"]
+    except:
+      pass
+    try:
+      new_forecast_data.icon_url_base = a["icon_url_base"]
+    except:
+      pass
+    try:
+      new_forecast_data.icon_url_name = a["icon_url_name"]
+    except:
+      pass
+    try:
+      new_forecast_data.two_day_history_url = a["two_day_history_url"]
+    except:
+      pass
+    try:
+      new_forecast_data.station_id = a["station_id"]
+    except:
+      pass
+    try:
+      new_forecast_data.wind_gust_mph = float(a["wind_gust_mph"])
+    except:
+      pass
+
+    new_forecast_data.put()
+    logging.info('SUCCESS: Running the WeatherFetcher.')
+
+
   def post(self):
     logging.info('Running the WeatherFetcher.')
 
@@ -224,9 +319,16 @@ class WeatherFetcher(webapp.RequestHandler):
     logging.info('SUCCESS: Running the WeatherFetcher.')
 
 
+
+
 class i80ConditionsFetcher(webapp.RequestHandler):
+  def get(self):
+    logging.info('Running the WeatherFetcher. GET')
+    i80_parser.i80Parser()
+    logging.info('SUCCESS: Running the WeatherFetcher.')
+
   def post(self):
-    logging.info('Running the WeatherFetcher.')
+    logging.info('Running the WeatherFetcher. POST')
     i80_parser.i80Parser()
     logging.info('SUCCESS: Running the WeatherFetcher.')
     
