@@ -129,7 +129,7 @@ class Addi80ConditionsFetcherTask(webapp.RequestHandler):
 
 class WeatherFetcher(webapp.RequestHandler):
   """ Class used to update the Weather data from NOAA."""
-  def get(self):
+  def post(self):
     logging.info('Running the WeatherFetcher.')
 
     a = get_weather_from_noaa('KTRK')
@@ -221,14 +221,15 @@ class WeatherFetcher(webapp.RequestHandler):
       pass
 
     new_forecast_data.put()
-    print 'Success!'
+    logging.info('SUCCESS: Running the WeatherFetcher.')
 
 
 class i80ConditionsFetcher(webapp.RequestHandler):
-  def get(self):
+  def post(self):
     logging.info('Running the WeatherFetcher.')
     i80_parser.i80Parser()
-    print 'Success!'
+    logging.info('SUCCESS: Running the WeatherFetcher.')
+    
 
 
 def main():
