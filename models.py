@@ -70,6 +70,7 @@ class DOTi80RoadConditions(db.Model):
   """AppEngine data model to store DOT Road Conditions. All data in table from DOT website"""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
   road_conditions_details = db.TextProperty()
+  stretch_of_road = db.StringProperty()
 
 class TodaysAvalancheReport(db.Model):
   """AppEngine data model to store Todays Avalanche Report. All data in table from Sierra Avalanche Center"""

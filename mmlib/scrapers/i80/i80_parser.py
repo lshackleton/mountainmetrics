@@ -29,8 +29,13 @@ class i80Parser(Scraper):
     self.status = {}
     block = self.soup.find('pre')
     
-    logging.info('Prepping to put data into database.')    
+    match_term = 'IN NORTHERN CALIFORNIA & THE SIERRA NEVADA'
+    position =re.search(match_term, block).span()
+    conditions = block[position[1]+2:-7]
+    
+    logging.info('Prepping to put data into database.')
     new_i80_conditions = models.DOTi80RoadConditions()
-    new_i80_conditions.road_conditions_details = str(block)
+    new_i80_conditions.stretch_of_road = match_term
+    new_i80_conditions.road_conditions_details = str(conditions)
     new_i80_conditions.put()
     logging.info('Finished adding to the databse.')
