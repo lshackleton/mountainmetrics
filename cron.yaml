@@ -7,6 +7,7 @@ cron:
 - description: Addi80ConditionsFetcherTask 
   url: /tasks/process/Addi80ConditionsFetcherTask
   schedule: every 10 minutes
+#  schedule: every 1 minutes
 
 #- description: AddForecastFetcherTask 
 #  url: /cron/process/AddForecastFetcherTask

@@ -63,34 +63,61 @@ twentythree = datetime.datetime.combine(tomorrow, datetime.time(23, 50, 1))
 class AddWeatherFetcherTask(webapp.RequestHandler):
   """Cron calls this class to enqueue more AddWeatherFetcherTasks tasks."""
   def get(self):
-    logging.info('Running the WeatherFetcher.')
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=one)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=two)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=three)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=four)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=five)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=six)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=seven)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=eight)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=nine)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=ten)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=eleven)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=twelve)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=thirteen)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=fourteen)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=fifteen)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=sixteen)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=seventeen)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=eightteen)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=nineteen)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=twenty)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=twentyone)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=twentytwo)
-    taskqueue.add(queue_name='WeatherFetcher', url='/tasks/process/WeatherFetcher', eta=twentythree)
+    logging.info('Running the AddWeatherFetcherTask.')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=one).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=two).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=three).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=four).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=five).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=six).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=seven).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=eight).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=nine).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=ten).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=eleven).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=twelve).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=thirteen).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=fourteen).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=fifteen).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=sixteen).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=seventeen).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=eightteen).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=nineteen).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=twenty).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=twentyone).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                   eta=twentytwo).add(queue_name='WeatherFetcher')
+    taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                  eta=twentythree).add(queue_name='WeatherFetcher')
+
 
 class Addi80ConditionsFetcherTask(webapp.RequestHandler):
   """Cron calls this class to enqueue more AddRoadDataFetcherTasks tasks."""
-  taskqueue.add(queue_name='i80ConditionsFetcher', url='/tasks/process/i80ConditionsFetcher')
+  def get(self):
+    logging.info('Running the Addi80ConditionsFetcherTask.')
+    taskqueue.Task(url='/tasks/process/i80ConditionsFetcher').add(
+                   queue_name='i80ConditionsFetcher')
 
 
 
@@ -194,14 +221,14 @@ class WeatherFetcher(webapp.RequestHandler):
       pass
 
     new_forecast_data.put()
-    print 'success!'
+    print 'Success!'
 
 
-class i80ConditionsFetcher(BaseRequestHandler):
+class i80ConditionsFetcher(webapp.RequestHandler):
   def get(self):
     logging.info('Running the WeatherFetcher.')
     i80_parser.i80Parser()
-
+    print 'Success!'
 
 
 def main():

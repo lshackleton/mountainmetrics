@@ -133,6 +133,8 @@ class HomePageHandler(BaseRequestHandler):
     query.order('-date_time_added')
     weather = query.get()
 
+    logging.info('weather.current_temp_f: %s' % str(weather.current_temp_f))
+
     self.generate('home.html', {
       'ThreeDayWeatherForecast': weather,
     })
