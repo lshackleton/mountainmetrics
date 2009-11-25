@@ -129,14 +129,17 @@ class HomePageHandler(BaseRequestHandler):
 
   def get(self, garbageinput=None):
     logging.info('Visiting the homepage')
-    query = models.ThreeDayWeatherForecast.all()
-    query.order('-date_time_added')
-    weather = query.get()
-
-    logging.info('weather.current_temp_f: %s' % str(weather.current_temp_f))
+    weather_query = models.ThreeDayWeatherForecast.all()
+    weather_query.order('-date_time_added')
+    weather = weather_query.get()
+    
+    road_query = models.DOTi80RoadConditions.all()
+    road_query.order('-date_time_added')
+    roads = road_query.get()
 
     self.generate('home.html', {
       'ThreeDayWeatherForecast': weather,
+      'DOTi80RoadConditions':roads,
     })
 
 
