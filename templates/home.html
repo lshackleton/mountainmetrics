@@ -12,10 +12,11 @@
         <h2>3 Day Weather Forecast</h2>
         <p>Today - {{ ThreeDayWeatherForecast.date_time_added|date:"F j, Y - P" }}</p>
           <ul>
-            <li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>
+            {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
             <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>
             <li>High Temp: {Insert Temp}</li>
             <li>Low Temp: {Insert Temp}</li>
+            {% if ThreeDayWeatherForecast.wind_string %}<li>Wind: {{ ThreeDayWeatherForecast.wind_string }}</li>{% else %}{% endif %}
             <li>New Snow: {Insert New Snow}</li>
             <li>Expected Snowfall: {Insert Expected Snow}</li>
           </ul>
