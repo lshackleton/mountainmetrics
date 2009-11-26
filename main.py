@@ -139,8 +139,37 @@ class HomePageHandler(BaseRequestHandler):
 
     self.generate('home.html', {
       'ThreeDayWeatherForecast': weather,
-      'DOTi80RoadConditions': roads,
+      'DOTi80RoadConditions':roads,
     })
+
+
+class BillHandler(BaseRequestHandler):
+  """  Generates the start/home page.
+  """
+
+  def get(self):
+    logging.info('Visiting the bill test page.')
+    
+    a = get_weather_from_noaa('KJFK')
+    logging.info('a = %s' % str(a["icon_url_name"]))    
+    print 'PLEASE?!'
+
+
+class BillHandler2(BaseRequestHandler):
+  """  Generates the start/home page.
+  """
+
+  def get(self):
+    logging.info('Visiting the bill2 test page.')
+    self.response.out.write("""<html><FORM ACTION="/cron/process/AddRoadDataFetcherTask" METHOD=POST>
+    <INPUT TYPE=submit NAME=foo VALUE="Go to destination">
+    </FORM> """)
+
+class BillHandler3(BaseRequestHandler):
+  def get(self):
+    logging.info('Visiting the bill3 test page.')
+    avalanche_parser.AvalancheConditionsParser()
+
 
 
 #
@@ -154,6 +183,8 @@ class HomePageHandler(BaseRequestHandler):
 # Map URLs to our RequestHandler classes above
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
+   ('/bill', BillHandler3), #home.html
+   ('/home', HomePageHandler), #home.html
    ('/.*$', HomePageHandler), #base.html
 ]
 

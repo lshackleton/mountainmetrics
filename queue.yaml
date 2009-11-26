@@ -8,6 +8,3 @@ queue:
 - name: i80ConditionsFetcher
   rate: 5/s
   bucket_size: 10
-- name: AvalancheConditionsFetcher
-  rate: 5/s
-  bucket_size: 10

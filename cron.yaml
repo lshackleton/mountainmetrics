@@ -9,7 +9,7 @@ cron:
   schedule: every 10 minutes
 #  schedule: every 1 minutes
 
-- description: AddAvalancheConditionsFetcherTask 
-  url: /tasks/process/AvalancheConditionsFetcher
-  schedule: every 24 hours 11:00
+#- description: AddForecastFetcherTask 
+#  url: /cron/process/AddForecastFetcherTask
 #  schedule: every 1 minutes
+#  schedule: every 24 hours 11:00

@@ -25,7 +25,6 @@ from mmlib.pywapi import get_weather_from_noaa
 
 #The library for fetching i80 conditions.
 from mmlib.scrapers.i80 import i80_parser
-from mmlib.scrapers.avalanche import avalanche_parser
 
 
 ## Set logging level.
@@ -62,7 +61,7 @@ twentythree = datetime.datetime.combine(tomorrow, datetime.time(23, 50, 1))
 
 
 class AddWeatherFetcherTask(webapp.RequestHandler):
-  """Cron calls this class to enqueue more AddWeatherFetcher tasks."""
+  """Cron calls this class to enqueue more AddWeatherFetcherTasks tasks."""
   def get(self):
     logging.info('Running the AddWeatherFetcherTask.')
     taskqueue.Task(url='/tasks/process/WeatherFetcher',
@@ -114,19 +113,17 @@ class AddWeatherFetcherTask(webapp.RequestHandler):
 
 
 class Addi80ConditionsFetcherTask(webapp.RequestHandler):
-  """Cron calls this class to enqueue more AddRoadDataFetcher tasks."""
+  """Cron calls this class to enqueue more AddRoadDataFetcherTasks tasks."""
   def get(self):
     logging.info('Running the Addi80ConditionsFetcherTask.')
     taskqueue.Task(url='/tasks/process/i80ConditionsFetcher').add(
                    queue_name='i80ConditionsFetcher')
 
 
-class AddAvalancheConditionsFetcherTask(webapp.RequestHandler):
- """Cron calls this class to enqueue more AvalancheConditionsFetcher tasks."""
- def get(self):
-   logging.info('Running the AvalancheConditionsFetcherTask.')
-   taskqueue.Task(url='/tasks/process/AvalancheConditionsFetcher').add(
-                  queue_name='AvalancheConditionsFetcher')
+
+
+#class AddForecastFetcherTask(webapp.RequestHandler):
+  """Cron calls this class to enqueue more AddForecastFetcherTask tasks."""
 
 
 
@@ -326,40 +323,22 @@ class WeatherFetcher(webapp.RequestHandler):
 
 class i80ConditionsFetcher(webapp.RequestHandler):
   def get(self):
-    logging.info('Running the i80ConditionsFetcher. GET')
+    logging.info('Running the WeatherFetcher. GET')
     i80_parser.i80Parser()
-    logging.info('SUCCESS: Running the i80ConditionsFetcher.')
+    logging.info('SUCCESS: Running the WeatherFetcher.')
 
   def post(self):
-    logging.info('Running the i80ConditionsFetcher. POST')
+    logging.info('Running the WeatherFetcher. POST')
     i80_parser.i80Parser()
-    logging.info('SUCCESS: Running the i80ConditionsFetcher.')
+    logging.info('SUCCESS: Running the WeatherFetcher.')
     
-
-class AvalancheConditionsFetcher(webapp.RequestHandler):
-  def get(self):
-    logging.info('Running the AvalancheConditionsFetcher. GET')
-    #NEED TO CORRECT
-    i80_parser.i80Parser()
-    logging.info('SUCCESS: Running the AvalancheConditionsFetcher.')
-
-  def post(self):
-    logging.info('Running the AvalancheConditionsFetcher. POST')
-    #NEED TO CORRECT
-    i80_parser.i80Parser()
-    logging.info('SUCCESS: Running the AvalancheConditionsFetcher.')
-
 
 
 def main():
     wsgiref.handlers.CGIHandler().run(webapp.WSGIApplication([
         ('/tasks/process/AddWeatherFetcherTask', AddWeatherFetcherTask),
         ('/tasks/process/Addi80ConditionsFetcherTask',  
-          Addi80ConditionsFetcherTask),
-        ('/tasks/process/AddAvalancheConditionsFetcherTask',  
-          AddAvalancheConditionsFetcherTask),
-        ('/tasks/process/AvalancheConditionsFetcher', 
-          AvalancheConditionsFetcher),
+          Addi80ConditionsFetcherTask),        
         ('/tasks/process/WeatherFetcher', WeatherFetcher),
         ('/tasks/process/i80ConditionsFetcher', i80ConditionsFetcher),
     ]))

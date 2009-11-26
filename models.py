@@ -1,6 +1,5 @@
 from google.appengine.ext import db
 
-
 class ThreeDayWeatherForecast(db.Model):
   """AppEngine data model to store 3 day weather forecast module. All data in table from NOAA"""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
@@ -25,7 +24,6 @@ class ThreeDayWeatherForecast(db.Model):
   icon_url_name = db.StringProperty()
   two_day_history_url = db.StringProperty()
 
-
 class SquawValleySnowReport(db.Model):
   """AppEngine data model to store Squaw Valley Snow Report. All data in table from ____"""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
@@ -39,7 +37,6 @@ class SquawValleySnowReport(db.Model):
   third_day_high_temp = db.FloatProperty()
   third_day_tomorrow_low_temp = db.FloatProperty()
   third_day_tomorrow_expected_snowfall = db.FloatProperty()
-
 
 class AlpineMeadowsSnowReport(db.Model):
   """AppEngine data model to store Alpine Meadows Snow Report. All data in table from ____"""
@@ -55,7 +52,6 @@ class AlpineMeadowsSnowReport(db.Model):
   third_day_tomorrow_low_temp = db.FloatProperty()
   third_day_tomorrow_expected_snowfall = db.FloatProperty()
 
-
 class KirkwoodSnowReport(db.Model):
   """AppEngine data model to store Kirkwood Snow Report. All data in table from ____"""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
@@ -70,14 +66,11 @@ class KirkwoodSnowReport(db.Model):
   third_day_tomorrow_low_temp = db.FloatProperty()
   third_day_tomorrow_expected_snowfall = db.FloatProperty()
 
-
 class DOTi80RoadConditions(db.Model):
   """AppEngine data model to store DOT Road Conditions. All data in table from DOT website"""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
   road_conditions_details = db.TextProperty()
   stretch_of_road = db.StringProperty()
-  chains_required = db.BooleanProperty()
-
 
 class TodaysAvalancheReport(db.Model):
   """AppEngine data model to store Todays Avalanche Report. All data in table from Sierra Avalanche Center"""
