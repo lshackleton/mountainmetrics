@@ -10,9 +10,10 @@
       <!-- BEGIN weather forecast module -->
       <div class="post">
         <h2>3 Day Weather Forecast</h2>
-        <p>Today {Insert Day}</p>
+        <p>Today - {{ ThreeDayWeatherForecast.date_time_added|date:"F j, Y - P" }}</p>
           <ul>
-            <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}</li>
+            <li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>
+            <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>
             <li>High Temp: {Insert Temp}</li>
             <li>Low Temp: {Insert Temp}</li>
             <li>New Snow: {Insert New Snow}</li>
@@ -77,9 +78,15 @@
         
         <p>Details</p>
           <ul>
-            <li>{Insert Details: EX: A high wind advisory is in effect from Solano Co line to the Sacramento Valley.  Travel is not recommended for trailers and campers. </li>
+            {% if road_conditions_details %}
+              {% for road_condition_details in DOTi80RoadConditions %}
+                <li>{{ DOTi80RoadConditions.road_conditions_details }}</li>
+              {% endfor %}
+            {% else %}
+              <li>No New Traffic Updates</li>
+            {% endif %}
           </ul>
-       <br />
+        <p>  - Last Updated: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>
       </div>
       <!-- END dot traffic conditions module -->
 
@@ -139,8 +146,15 @@
       <!-- BEGIN avalanche conditions module -->
       <div class="box">
         <h2>Today's Avalanche Report</h2>
-        <p><img src="http://chart.apis.google.com/chart?cht=gom&chs=400x150&chd=t:25&chl=Low/Moderate&chdlp=b" /></p>
-            <p>6 to 12 inches of snow fell across the forecast area since yesterday afternoon. Snow showers started to taper off last night as the low-pressure system continued moving east. Along with the snow, this system brought sustained winds between 40 and 70 mph with some gusts reaching 116 mph. As this system exits the region today, the winds should decrease, and the skies should begin to clear. Another smaller low pressure system passing to the north of the forecast area should cause the wind to increase again overnight and through Sunday. This second system does not have much water associated with it and should not produce any additional accumulation.  <a href="http://www.sierraavalanchecenter.org/advisory.php" target="_blank">Full report...</a></p>
+        <p>{{ TodaysAvalancheReport.avalanche_danger_image_url }}</p>
+            <p>{{ TodaysAvalancheReport.avalanche_report_paragraph }}</p>
+             {% if avalanche_report_paragraph %}
+              {% for avalanche_report_paragraph in TodaysAvalancheReport %}
+                <p>{{ TodaysAvalancheReport.avalanche_report_paragraph }}</p>
+              {% endfor %}
+            {% else %}
+              <p>No new avalanche report today.  Please see <a href="http://www.sierraavalanchecenter.org/advisory.php" target="_blank">Sierra Avalanche website</a> for more details.</p>
+            {% endif %}
         <br />
       </div>
       <!-- END avalanche conditions module -->
@@ -157,11 +171,11 @@
               <li>Visibility: {Insert Visibility}</li>
               <li>Expected Snowfall: {Insert Expected Snowfall}</li>
               </ul>
-            <p>Today</p>
+            <p>Today - {{ ThreeDayWeatherForecast.date_time_added|date:"F j, Y - P" }}</p>
               <ul>
               <li>Wind Direction: {{  ThreeDayWeatherForecast.wind_dir }}</li>
-              <li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }}mph to {% ThreeDayWeatherForecast.wind_gust_mph }}mph</li>
-              <li>Dewpoint: {{ ThreeDayWeatherForecast.dewpoint_f }}</li>
+              <li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }} mph to {{ ThreeDayWeatherForecast.wind_gust_mph }} mph</li>
+              <li>Dewpoint: {{ ThreeDayWeatherForecast.dewpoint_f }}&deg; F</li>
               <li>Relative Humidity: {{ ThreeDayWeatherForecast.wind_dir }}</li>
               <li>Visibility: {{ ThreeDayWeatherForecast.wind_dir }}</li>
               <li>Expected Snowfall: {Insert Expected Snowfall}</li>
