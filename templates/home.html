@@ -78,15 +78,14 @@
         
         <p>Details</p>
           <ul>
-            {% if road_conditions_details %}
-              {% for road_condition_details in DOTi80RoadConditions %}
+            {% if DOTi80RoadConditions %}
                 <li>{{ DOTi80RoadConditions.road_conditions_details }}</li>
-              {% endfor %}
+		        <p>  - Last Updated: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>
+
             {% else %}
-              <li>No New Traffic Updates</li>
+              <li>No Traffic Updates</li>
             {% endif %}
           </ul>
-        <p>  - Last Updated: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>
       </div>
       <!-- END dot traffic conditions module -->
 
