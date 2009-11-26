@@ -78,62 +78,16 @@
         
         <p>Details</p>
           <ul>
-            {% if road_conditions_details %}
-              {% for road_condition_details in DOTi80RoadConditions %}
+            {% if DOTi80RoadConditions.road_conditions_details %}
                 <li>{{ DOTi80RoadConditions.road_conditions_details }}</li>
-              {% endfor %}
-            {% else %}
+              {% else %}
               <li>No New Traffic Updates</li>
             {% endif %}
           </ul>
         <p>  - Last Updated: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>
       </div>
       <!-- END dot traffic conditions module -->
-
-      <!-- BEGIN google maps with traffic layer of tahoe -->
-      <div class="post"> 
-        <h2>Map of Traffic Conditions</h2>
-<table cellspacing="0" cellpadding="0" border="0"><tr><td><iframe src="http://www.map-generator.net/extmap.php?name=Squaw%20Valley%20USA&amp;address=squaw%20valley%2C%20calififornia&amp;width=440&amp;height=300&amp;maptype=map&amp;zoom=14&amp;hl=en&amp;t=1255915918" width="440" height="300" marginwidth="0" marginheight="0" frameborder="0" scrolling="no"></iframe></td></tr></td></tr></table><!-- Do not change code! -->
-         <br />
-      </div>
-      <!-- END google maps with traffic layer of tahoe -->
     
-      <!-- BEGIN twitter feed of 'tahoe' search -->
-    <div class="post"> 
-      <h2><a href="/home">Twitter Feed</a></h2>
-      <script language="javascript">
-	/* widget config */
-	var jtw_divname                = 'jtw_widget1';
-	var jtw_search                 = 'tahoe';
-	var jtw_width                  = '445px';
-	var jtw_height                 = '300px';
-	var jtw_scroll                 = 'yes';
-	var jtw_widget_background      = 'FFFFFF';
-	var jtw_widget_border          = 'none';
-	var jtw_center_widget          = 'yes';
-	
-	/* tweet styling */
-	var jtw_tweet_textcolor        = '';
-	var jtw_tweet_background       = 'url(./img/greygrad.png) repeat-x #FFFFFF';
-	var jtw_tweet_newbackground    = '#FFFFFF';
-	var jtw_tweet_border           = '1px solid #4192AF';
-	var jtw_tweet_margin           = '5px';
-	var jtw_tweet_fontsize         = '12px';
-	var jtw_hide_img               = '';
-	
-	/* search and display config */
-	var jtw_pre_html               = '<center><b>Tweets about Tahoe</b></center>';
-	var jtw_post_html              = '';
-	var jtw_mid_html               = '<hr>';
-	var jtw_num_tweets             = '25';
-	var jtw_tweet_lang             = 'en';
-	var jtw_widget_refresh_interval= 10;
-	
-      </script>
-     <script src="http://tweetgrid.com/widget/widget.js" type="text/javascript"></script>
-  </div>
-      <!-- END twitter feed of 'tahoe' search -->
-  
   <!-- END left column -->
   </div>
   <!-- END content -->
@@ -146,12 +100,11 @@
       <!-- BEGIN avalanche conditions module -->
       <div class="box">
         <h2>Today's Avalanche Report</h2>
-        <p>{{ TodaysAvalancheReport.avalanche_danger_image_url }}</p>
-            <p>{{ TodaysAvalancheReport.avalanche_report_paragraph }}</p>
-             {% if avalanche_report_paragraph %}
-              {% for avalanche_report_paragraph in TodaysAvalancheReport %}
+            {% if TodaysAvalancheReport.avalanche_danger_image_url %}
+              <p><img src="{{ TodaysAvalancheReport.avalanche_danger_image_url }}" /></p>
+            {% endif %}             
+             {% if TodaysAvalancheReport.avalanche_report_paragraph %}
                 <p>{{ TodaysAvalancheReport.avalanche_report_paragraph }}</p>
-              {% endfor %}
             {% else %}
               <p>No new avalanche report today.  Please see <a href="http://www.sierraavalanchecenter.org/advisory.php" target="_blank">Sierra Avalanche website</a> for more details.</p>
             {% endif %}
@@ -169,7 +122,7 @@
               <li>Dewpoint: {Insert Dewpoint}</li>
               <li>Relative Humidity: {Insert Relative Humidity}</li>
               <li>Visibility: {Insert Visibility}</li>
-              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
+              <li>Snowfall: {Insert Expected Snowfall}</li>
               </ul>
             <p>Today - {{ ThreeDayWeatherForecast.date_time_added|date:"F j, Y - P" }}</p>
               <ul>
