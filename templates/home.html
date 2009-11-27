@@ -10,7 +10,7 @@
       <!-- BEGIN weather forecast module -->
       <div class="post">
         <h2>3 Day Weather Forecast</h2>
-        <p>Today - {{ ThreeDayWeatherForecast.date_time_added|date:"F j, Y - P" }}</p>
+        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
           <ul>
             {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
             <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>
@@ -21,14 +21,14 @@
             <li>Expected Snowfall: {Insert Expected Snow}</li>
           </ul>
         
-        <p>Tomorrow {Insert Day}</p>
+        <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
           <ul>
             <li>High Temp: {Insert Temp}</li>
             <li>Low Temp: {Insert Temp}</li>
             <li>Expected Snowfall: {Insert Expected Snow}</li>
           </ul>
 
-        <p>{Insert Day}</p>
+        <p>{{ dayaftertomorrow|date:"D - F j, Y" }}</p>
           <ul>
             <li>High Temp: {Insert Temp}</li>
             <li>Low Temp: {Insert Temp}</li>
@@ -113,7 +113,7 @@
       <!-- BEGIN detailed weather module -->
       <div class="box">
         <h2>3 Day Detailed Weather</h2>
-              <p>Yesterday</p>
+              <p>Yesterday: {{ yesterday|date:"D - F j, Y" }}</p>
               <ul>
               <li>Wind Direction: {Insert Wind Direction}</li>
               <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
@@ -122,7 +122,7 @@
               <li>Visibility: {Insert Visibility}</li>
               <li>Snowfall: {Insert Expected Snowfall}</li>
               </ul>
-            <p>Today - {{ ThreeDayWeatherForecast.date_time_added|date:"F j, Y - P" }}</p>
+            <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
               <ul>
               <li>Wind Direction: {{  ThreeDayWeatherForecast.wind_dir }}</li>
               <li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }} mph to {{ ThreeDayWeatherForecast.wind_gust_mph }} mph</li>
@@ -137,7 +137,7 @@
               <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
               <li>Expected Snowfall: {Insert Expected Snowfall}</li>
               </ul>
-            <p>Tomorrow</p>
+            <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
               <ul>
               <li>Wind Direction: {Insert Direction}</li>
               <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
