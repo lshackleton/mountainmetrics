@@ -13,6 +13,7 @@ import wsgiref.handlers
 
 from google.appengine.api.labs import taskqueue
 from google.appengine.ext import webapp
+from google.appengine.api import memcache
 
 #The data models.
 import models
@@ -189,7 +190,8 @@ class WeatherFetcher(webapp.RequestHandler):
 
     new_forecast_data.put()
     logging.info('SUCCESS: Running the WeatherFetcher.')
-    
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')    
 
   def get(self):
     WeatherFetcherprocess()
@@ -208,6 +210,8 @@ class i80ConditionsFetcher(webapp.RequestHandler):
     logging.info('Running the i80ConditionsFetcher.')
     i80_parser.i80Parser()
     logging.info('SUCCESS: Running the i80ConditionsFetcher.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
 
   def get(self):
     i80ConditionsFetcherprocess()
@@ -223,12 +227,15 @@ class AvalancheConditionsFetcher(webapp.RequestHandler):
     #NEED TO CORRECT
     i80_parser.i80Parser()
     logging.info('SUCCESS: Running the AvalancheConditionsFetcher.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
   
   def get(self):
     AvalancheConditionsFetcherProcess()
 
   def post(self):
     AvalancheConditionsFetcherProcess()
+
 
 
 def main():

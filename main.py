@@ -129,20 +129,41 @@ class HomePageHandler(BaseRequestHandler):
 
   def get(self, garbageinput=None):
     logging.info('Visiting the homepage')
-    weather_query = models.ThreeDayWeatherForecast.all()
-    weather_query.order('-date_time_added')
-    weather = weather_query.get()
     
-    road_query = models.DOTi80RoadConditions.all()
-    road_query.order('-date_time_added')
-    roads = road_query.get()
+    weather = memcache.get("weather")
+    if weather is None:
+      weather_query = models.ThreeDayWeatherForecast.all()
+      weather_query.order('-date_time_added')
+      weather = weather_query.get()
+      memcache.set("weather", weather, time=3600)
+
+    roads = memcache.get("roads")
+    if roads is None:
+      road_query = models.DOTi80RoadConditions.all()
+      road_query.order('-date_time_added')
+      roads = road_query.get()
+      memcache.set("roads", roads, time=3600)
+
+    logging.info('get_stats(): %s' % memcache.get_stats())
+
 
     self.generate('home.html', {
       'ThreeDayWeatherForecast': weather,
       'DOTi80RoadConditions': roads,
+      'yesterday': datetime.datetime.today() - datetime.timedelta(1),
+      'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
+      'dayaftertomorrow': datetime.datetime.today() + datetime.timedelta(2),      
     })
 
 
+class Bill(BaseRequestHandler):
+  def get(self, garbageinput=None):
+    logging.info('Visiting the bill page')
+
+
+
+    self.generate('home.html', {
+    })
 #
 # End Webpage Handlers
 #
@@ -154,6 +175,7 @@ class HomePageHandler(BaseRequestHandler):
 # Map URLs to our RequestHandler classes above
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
+   ('/bill', Bill), #base.html
    ('/.*$', HomePageHandler), #base.html
 ]
 
