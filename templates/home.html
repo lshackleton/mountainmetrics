@@ -71,21 +71,18 @@
       <!-- BEGIN dot traffic conditions module -->
       <div class="post">
         <h2>DOT Road Conditions</h2>
-        <p>Chains</p>
+        {% if DOTi80RoadConditions.chains_required %}<p>Chains</p>{% else %}{% endif %}
           <ul>
-            <li>Chains Required: {Insert Yes / No}</li>
-            <li>Location of Requirement: {Insert Location}</li>
+            {% if DOTi80RoadConditions.chains_required %}<li>Chains Required: {{ DOTi80RoadConditions.chains_required }}</li>{% else %}{% endif %}
+            {% if DOTi80RoadConditions.chains_required %}<li>Location of Requirement: {{ DOTi80RoadConditions.stretch_of_road }}{% else %}{% endif %}</li>
           </ul>
         
         <p>Details</p>
           <ul>
-            {% if DOTi80RoadConditions.road_conditions_details %}
-                <li>{{ DOTi80RoadConditions.road_conditions_details }}</li>
-              {% else %}
-              <li>No New Traffic Updates</li>
-            {% endif %}
+            {% if DOTi80RoadConditions.road_conditions_details %}<li>{{ DOTi80RoadConditions.road_conditions_details }}</li>{% else %}<li>No New Traffic Updates</li>{% endif %}
           </ul>
         <p>  - Last Updated: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>
+        <br />
       </div>
       <!-- END dot traffic conditions module -->
     
