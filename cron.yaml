@@ -3,13 +3,13 @@ cron:
   url: /tasks/process/AddWeatherFetcherTask
   schedule: every 24 hours 09:00
 #  schedule: every 1 minutes
-
+ 
 - description: Addi80ConditionsFetcherTask 
   url: /tasks/process/Addi80ConditionsFetcherTask
   schedule: every 10 minutes
 #  schedule: every 1 minutes
-
-#- description: AddForecastFetcherTask 
-#  url: /cron/process/AddForecastFetcherTask
+ 
+- description: AddAvalancheConditionsFetcherTask 
+  url: /tasks/process/AvalancheConditionsFetcher
+  schedule: every 24 hours 11:00
 #  schedule: every 1 minutes
-#  schedule: every 24 hours 11:00
