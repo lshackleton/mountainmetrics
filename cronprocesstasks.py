@@ -5,7 +5,7 @@ Mountain Metrics Cron and Tasks functionality.
 Used to grab data, process it and store it!
 """
 
-__author__ = '(Bill Ferrell)'
+__author__ = 'Bill Ferrell'
 
 import logging
 import datetime
@@ -59,58 +59,21 @@ twentyone = datetime.datetime.combine(tomorrow, datetime.time(21, 50, 1))
 twentytwo = datetime.datetime.combine(tomorrow, datetime.time(22, 50, 1))
 twentythree = datetime.datetime.combine(tomorrow, datetime.time(23, 50, 1))
 
+twenty_four_hour_schedule = [one, two, three, four, five, six, seven, eight, 
+                             nine, ten, eleven, twelve, thirteen, fourteen,
+                             fifteen, sixteen, seventeen, eightteen, nineteen,
+                             twenty, twentyone, twentytwo, twentythree, midnight
+                            ]
+
 
 
 class AddWeatherFetcherTask(webapp.RequestHandler):
   """Cron calls this class to enqueue more AddWeatherFetcher tasks."""
   def get(self):
     logging.info('Running the AddWeatherFetcherTask.')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=one).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=two).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=three).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=four).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=five).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=six).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=seven).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=eight).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=nine).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=ten).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=eleven).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=twelve).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=thirteen).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=fourteen).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=fifteen).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=sixteen).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=seventeen).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=eightteen).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=nineteen).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=twenty).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=twentyone).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                   eta=twentytwo).add(queue_name='WeatherFetcher')
-    taskqueue.Task(url='/tasks/process/WeatherFetcher',
-                  eta=twentythree).add(queue_name='WeatherFetcher')
+    for eta in twenty_four_hour_schedule:
+      taskqueue.Task(url='/tasks/process/WeatherFetcher',
+                     eta=eta).add(queue_name='WeatherFetcher')
 
 
 class Addi80ConditionsFetcherTask(webapp.RequestHandler):
@@ -132,7 +95,8 @@ class AddAvalancheConditionsFetcherTask(webapp.RequestHandler):
 
 class WeatherFetcher(webapp.RequestHandler):
   """ Class used to update the Weather data from NOAA."""
-  def get(self):
+
+  def WeatherFetcherprocess(self):
     logging.info('Running the WeatherFetcher.')
 
     a = get_weather_from_noaa('KTRK')
@@ -225,130 +189,46 @@ class WeatherFetcher(webapp.RequestHandler):
 
     new_forecast_data.put()
     logging.info('SUCCESS: Running the WeatherFetcher.')
+    
+
+  def get(self):
+    WeatherFetcherprocess()
 
 
   def post(self):
-    logging.info('Running the WeatherFetcher.')
-
-    a = get_weather_from_noaa('KTRK')
-    # KTRK is the station id for Tahoe / Truckee
-    try:
-      time_var = a["observation_time"]
-      time_var = rfc822.parsedate_tz(time_var)
-    except:
-      time_var = datetime.datetime.now()
-
-    new_forecast_data = models.ThreeDayWeatherForecast()
+    WeatherFetcherprocess()
     
-    new_forecast_data.noaa_observation_time = time_var
-    try:
-      new_forecast_data.noaa_observation_location = a["location"]
-    except:
-      pass
-    try:
-      new_forecast_data.current_temp_c = float(a["temp_c"])
-    except:
-      pass
-    try:
-      new_forecast_data.current_temp_f = float(a["temp_f"])
-    except:
-      pass
-    try:
-      new_forecast_data.temperature_string = a["temperature_string"]
-    except:
-      pass
-    try:
-      new_forecast_data.wind_string = a["wind_string"]
-    except:
-      pass
-    try:
-      new_forecast_data.wind_dir = a["wind_dir"]
-    except:
-      pass
-    try:
-      new_forecast_data.wind_mph = float(a["wind_mph"])
-    except:
-      pass
-    try:
-      new_forecast_data.dewpoint_string = a["dewpoint_string"]
-    except:
-      pass
-    try:
-      new_forecast_data.dewpoint_f = float(a["dewpoint_f"])
-    except:
-      pass
-    try:
-      new_forecast_data.dewpoint_c = float(a["dewpoint_c"])
-    except:
-      pass
-    try:
-      new_forecast_data.pressure_string = a["pressure_string"]
-    except:
-      pass
-    try:
-      new_forecast_data.pressure_mb = float(a["pressure_mb"])
-    except:
-      pass
-    try:
-      new_forecast_data.pressure_in = float(a["pressure_in"])
-    except:
-      pass
-    try:
-      new_forecast_data.weather = a["weather"]
-    except:
-      pass
-    try:
-      new_forecast_data.icon_url_base = a["icon_url_base"]
-    except:
-      pass
-    try:
-      new_forecast_data.icon_url_name = a["icon_url_name"]
-    except:
-      pass
-    try:
-      new_forecast_data.two_day_history_url = a["two_day_history_url"]
-    except:
-      pass
-    try:
-      new_forecast_data.station_id = a["station_id"]
-    except:
-      pass
-    try:
-      new_forecast_data.wind_gust_mph = float(a["wind_gust_mph"])
-    except:
-      pass
-
-    new_forecast_data.put()
-    logging.info('SUCCESS: Running the WeatherFetcher.')
 
 
 
 
 class i80ConditionsFetcher(webapp.RequestHandler):
-  def get(self):
-    logging.info('Running the i80ConditionsFetcher. GET')
+
+  def i80ConditionsFetcherprocess(self):
+    logging.info('Running the i80ConditionsFetcher.')
     i80_parser.i80Parser()
     logging.info('SUCCESS: Running the i80ConditionsFetcher.')
 
+  def get(self):
+    i80ConditionsFetcherprocess()
+
   def post(self):
-    logging.info('Running the i80ConditionsFetcher. POST')
-    i80_parser.i80Parser()
-    logging.info('SUCCESS: Running the i80ConditionsFetcher.')
-    
+    i80ConditionsFetcherprocess()    
+
 
 class AvalancheConditionsFetcher(webapp.RequestHandler):
-  def get(self):
-    logging.info('Running the AvalancheConditionsFetcher. GET')
+  
+  def AvalancheConditionsFetcherProcess(self):
+    logging.info('Running the AvalancheConditionsFetcher.')
     #NEED TO CORRECT
     i80_parser.i80Parser()
     logging.info('SUCCESS: Running the AvalancheConditionsFetcher.')
+  
+  def get(self):
+    AvalancheConditionsFetcherProcess()
 
   def post(self):
-    logging.info('Running the AvalancheConditionsFetcher. POST')
-    #NEED TO CORRECT
-    i80_parser.i80Parser()
-    logging.info('SUCCESS: Running the AvalancheConditionsFetcher.')
-
+    AvalancheConditionsFetcherProcess()
 
 
 def main():
