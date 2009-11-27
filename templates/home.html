@@ -41,28 +41,28 @@
       <!-- BEGIN resort snow report module -->
       <div class="post">
         <h2>Today's Resort Snow Report</h2>
-        <p>Squaw Valley</p>
+        <p>{% if SquawValleySnowReport.date_time_added %}<p>Squaw Valley {{ SquawValleySnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Squaw Valley.{% endif %}
           <ul>
-            <li>High Temp: {Insert Temp}</li>
-            <li>Low Temp: {Insert Temp}</li>
-            <li>New Snow: {Insert New Snow}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
+            {% if SquawValleySnowReport.today_high_temp %}<li>High Temp: {{ SquawValleySnowReport.today_high_temp }}</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.today_low_temp %}<li>Low Temp: {{ SquawValleySnowReport.today_low_temp }}</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.today_new_snow %}<li>New Snow: {{ SquawValleySnowReport.today_new_snow }} in</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.today_expected_snowfall %}<li>Expected Snow: {{ SquawValleySnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
           </ul>
         
-        <p>Alpine Meadows</p>
+        <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpingMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
           <ul>
-            <li>High Temp: {Insert Temp}</li>
-            <li>Low Temp: {Insert Temp}</li>
-            <li>New Snow: {Insert New Snow}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
+            {% if AlpineMeadowsSnowReport.today_high_temp %}<li>High Temp: {{ AlpineMeadowsSnowReport.today_high_temp }}</li>{% else %}{% endif %}
+            {% if AlpineMeadowsSnowReport.today_low_temp %}<li>Low Temp: {{ AlpineMeadowsSnowReport.today_low_temp }}</li>{% else %}{% endif %}
+            {% if AlpineMeadowsSnowReport.today_new_snow %}<li>New Snow: {{ AlpineMeadowsSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
+            {% if AlpineMeadowsSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ AlpineMeadowsSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
           </ul>
 
-        <p>Kirkwood</p>
+        <p>{% if KirkwoodSnowReport.date_time_added %}<p>Kirkwood {{ KirkwoodSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Kirkwood.{% endif %}
           <ul>
-            <li>High Temp: {Insert Temp}</li>
-            <li>Low Temp: {Insert Temp}</li>
-            <li>New Snow: {Insert New Snow}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
+            {% if KirkwoodSnowReport.today_high_temp %}<li>High Temp: {{KirkwoodSnowReport.today_high_temp }}</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.today_low_temp %}<li>Low Temp: {{ KirkwoodSnowReport.today_low_temp }}</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.today_new_snow %}<li>New Snow: {{ KirkwoodSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ KirkwoodSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
           </ul>
        <br />
       </div>
@@ -77,11 +77,10 @@
             {% if DOTi80RoadConditions.chains_required %}<li>Location of Requirement: {{ DOTi80RoadConditions.stretch_of_road }}{% else %}{% endif %}</li>
           </ul>
         
-        <p>Details</p>
+        {% if DOTi80RoadConditions.date_time_added %}<p>Details: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>{% else %}<p>No New Traffic Updates</p>{% endif %}
           <ul>
-            {% if DOTi80RoadConditions.road_conditions_details %}<li>{{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}<li>No New Traffic Updates</li>{% endif %}
+            {% if DOTi80RoadConditions.road_conditions_details %}<li>{{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}{% endif %}
           </ul>
-        <p>  - Last Updated: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>
         <br />
       </div>
       <!-- END dot traffic conditions module -->
