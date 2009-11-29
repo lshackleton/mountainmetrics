@@ -1,60 +1,79 @@
 #!/usr/bin/env python
 __author__ = "Bill Ferrell"
 
-"""Parses the DOT i80 live status page. 
+"""Parses the Sierra avalanche center status page. 
 
-i80 Status Page: http://www.dot.ca.gov/hq/roadinfo/i80
+Page found here: http://www.sierraavalanchecenter.org/advisory
 
 This class parses the page and returns an object that allows you to get various status bits. 
 """
 
 import re
+import logging
 
 import models
 from mmlib.scrapers.scraper import Scraper
 
 class AvalancheConditionsParser(Scraper):
   def __init__(self):
-    url = 'http://www.sierraavalanchecenter.org/advisory.php'
+    url = 'http://www.sierraavalanchecenter.org/advisory'
     Scraper.__init__(self, url=url, geography='Tahoe', 
-                     valueType='RoadConditions')
+                     valueType='AvalancheConditions')
     self.scrape()
-    intro_paragraph = self.parseBlockText()
-###### PROBLEM CODE BELOW #######
-    condition = self.parseCondition()
-    if condition == 1:
-      avalanche_danger_rating = 1
-      avalanche_danger_image_url = 1  
-    elif condition == 2:
-      avalanche_danger_rating = 1
-      avalanche_danger_image_url = 1      
-    elif condition == 3:
-      pass
-    else:
-      pass 
+    intro_paragraph = self.parseIntroText()
+    low = self.parseDanger(find_value=
+      'http://www.avalanche.org/%7Euac/encyclopedia/low_avalanche_hazard.htm')
+    moderate = self.parseDanger(find_value=
+      'http://www.avalanche.org/%7Euac/encyclopedia/moderate_danger.htm')
+    considerable = self.parseDanger(find_value=
+      'http://www.avalanche.org/%7Euac/encyclopedia/considerable_danger.htm')
+    high = self.parseDanger(find_value=
+      'http://www.avalanche.org/%7Euac/encyclopedia/high_danger.htm')
+    extreme = self.parseDanger(find_value=
+      'http://www.avalanche.org/%7Euac/encyclopedia/extreme_danger.htm')
     
-    
-    
+    conditions = [low, moderate, considerable, high, extreme]
+    condition_counter = 0
+    for condition in conditions:
+        if condition:
+          condition_counter += 1
+
+    if condition_counter > 1:
+      multiple_danger_levels = True
+
     new_avalanche_data = models.TodaysAvalancheReport()
+
     new_avalanche_data.avalanche_report_paragraph = str(intro_paragraph)
-    #new_avalanche_data.avalanche_danger_rating = 
-    #new_avalanche_data.avalanche_danger_image_url =
+    new_avalanche_data.low_danger = low
+    new_avalanche_data.moderate_danger = moderate
+    new_avalanche_data.considerable_danger = considerable
+    new_avalanche_data.high_danger = high
+    new_avalanche_data.extreme_danger = extreme
+    new_avalanche_data.multiple_danger_levels = multiple_danger_levels
+
     new_avalanche_data.put()
+
+
+  def parseDanger(self, find_value):
+    logging.info('starting parseDanger')
+    logging.info('findvalue = %s' % find_value)
+    block = self.soup.findAll(attrs={'href': find_value})
+
+    if block:
+      logging.info('Found danger')
+      return True
+    logging.info('Found nothing')
+    return False
+
+
+  def parseIntroText(self):
+    intro = None
+    block = self.soup.findAll(attrs={'class':"views-field views-field-field-discussion-php-value"})
+    for tag in block:
+      if tag.name == 'td':
+        intro = tag.findNext('p')
+    if not intro:
+      intro = 'None'
     
-
-  def parseCondition(self):
-    block2 = self.soup.find('a', href=re.compile('^http://www.avalanche.org/~uac/encyclopedia/moderate_danger.htm'))
-    print block2
-    return 
-
-#Have BS -- find in the large mess the BIG section -- from which we pull based on URL to understand what the condition is.  
-
-#Then match based on the tag
-
-#Then yse the block again -- but this time find something else.
-
-  def parseBlockText(self):
-    block = self.soup.find('div', id='today')
-    intro = block.find('p')
+    logging.info('intro = %s' % str(intro))
     return str(intro)
-

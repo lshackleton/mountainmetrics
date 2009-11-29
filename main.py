@@ -42,8 +42,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 from django.core.paginator import ObjectPaginator, InvalidPage
 
-
-from mmlib.scrapers.avalanche import avalanche_parser
+from mmlib.scrapers.squaw import squaw_parser
 
 # Datastore models.
 import models
@@ -110,16 +109,6 @@ class BaseRequestHandler(webapp.RequestHandler):
 
 
 #
-# Start Action Handlers
-#
-
-
-#
-# End Action Handlers
-#
-
-
-#
 # Start Webpage Handlers
 #
 
@@ -144,12 +133,47 @@ class HomePageHandler(BaseRequestHandler):
       roads = road_query.get()
       memcache.set("roads", roads, time=3600)
 
+    avalanche = memcache.get("avalanche")
+    if avalanche is None:
+      avalanche_query = models.TodaysAvalancheReport.all()
+      avalanche_query.order('-date_time_added')
+      avalanche = avalanche_query.get()
+      memcache.set("avalanche", avalanche, time=3600)
+    
+    alpine_meadows_snow_report = memcache.get("alpine_meadows_snow_report")
+    if alpine_meadows_snow_report is None:
+      alpine_meadows_snow_report_query = models.AlpineMeadowsSnowReport.all()
+      alpine_meadows_snow_report_query.order('-date_time_added')
+      alpine_meadows_snow_report = alpine_meadows_snow_report_query.get()
+      memcache.set("alpine_meadows_snow_report", alpine_meadows_snow_report,
+                   time=3600)
+
+    #squaw_valley_snow_report = memcache.get("squaw_valley_snow_report")
+    #if squaw_valley_snow_report is None:
+    #  squaw_valley_snow_report_query = models.SquawValleySnowReport.all()
+    #squaw_valley_snow_report_query.order('-date_time_added')
+    #squaw_valley_snow_report = squaw_valley_snow_report_query.get()
+    #memcache.set("squaw_valley_snow_report", squaw_valley_snow_report,
+    #             time=3600)
+
+#    kirkwood_snow_report = memcache.get("kirkwood_snow_report")
+#    if kirkwood_snow_report is None:
+#     kirkwood_snow_report_query = models.KirkwoodSnowReport.all()
+#    kirkwood_snow_report_query.order('-date_time_added')
+#    kirkwood_snow_report = kirkwood_snow_report_query.get()
+#    memcache.set("kirkwood_snow_report", kirkwood_snow_report,
+#                 time=3600)
+
     logging.info('get_stats(): %s' % memcache.get_stats())
 
 
     self.generate('home.html', {
       'ThreeDayWeatherForecast': weather,
       'DOTi80RoadConditions': roads,
+      'TodaysAvalancheReport': avalanche,
+      'AlpineMeadowsSnowReport': alpine_meadows_snow_report,
+#      'SquawValleySnowReport': squaw_valley_snow_report,
+#      'KirkwoodSnowReport': kirkwood_snow_report,
       'yesterday': datetime.datetime.today() - datetime.timedelta(1),
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
       'dayaftertomorrow': datetime.datetime.today() + datetime.timedelta(2),      
@@ -159,14 +183,14 @@ class HomePageHandler(BaseRequestHandler):
 class Bill(BaseRequestHandler):
   def get(self, garbageinput=None):
     logging.info('Visiting the bill page')
+#    alpinemeadows_parser.AlpineMeadowsSnowReportParser()
+#    logging.info('Success for AlpineMeadowsSnowReportParser()')
 
 
-
-    self.generate('home.html', {
-    })
 #
 # End Webpage Handlers
 #
+
 
 #
 # Start URL Map

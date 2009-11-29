@@ -15,6 +15,9 @@ from google.appengine.api.labs import taskqueue
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
+#Import the BaseRequestHandler so we have error handling!
+from main import BaseRequestHandler
+
 #The data models.
 import models
 
@@ -24,9 +27,10 @@ import rfc822
 #The library for actually fetching the data from noaa.
 from mmlib.pywapi import get_weather_from_noaa
 
-#The library for fetching i80 conditions.
+#The libraries for scraping data
 from mmlib.scrapers.i80 import i80_parser
 from mmlib.scrapers.avalanche import avalanche_parser
+from mmlib.scrapers.alpinemeadows import alpinemeadows_parser
 
 
 ## Set logging level.
@@ -67,8 +71,7 @@ twenty_four_hour_schedule = [one, two, three, four, five, six, seven, eight,
                             ]
 
 
-
-class AddWeatherFetcherTask(webapp.RequestHandler):
+class AddWeatherFetcherTask(BaseRequestHandler):
   """Cron calls this class to enqueue more AddWeatherFetcher tasks."""
   def get(self):
     logging.info('Running the AddWeatherFetcherTask.')
@@ -77,7 +80,7 @@ class AddWeatherFetcherTask(webapp.RequestHandler):
                      eta=eta).add(queue_name='WeatherFetcher')
 
 
-class Addi80ConditionsFetcherTask(webapp.RequestHandler):
+class Addi80ConditionsFetcherTask(BaseRequestHandler):
   """Cron calls this class to enqueue more AddRoadDataFetcher tasks."""
   def get(self):
     logging.info('Running the Addi80ConditionsFetcherTask.')
@@ -85,16 +88,24 @@ class Addi80ConditionsFetcherTask(webapp.RequestHandler):
                    queue_name='i80ConditionsFetcher')
 
 
-class AddAvalancheConditionsFetcherTask(webapp.RequestHandler):
+class AddAvalancheConditionsFetcherTask(BaseRequestHandler):
  """Cron calls this class to enqueue more AvalancheConditionsFetcher tasks."""
  def get(self):
    logging.info('Running the AvalancheConditionsFetcherTask.')
    taskqueue.Task(url='/tasks/process/AvalancheConditionsFetcher').add(
                   queue_name='AvalancheConditionsFetcher')
 
+class AddAlpineMeadowsConditionsFetcherTask(BaseRequestHandler):
+  """Cron calls this class to enqueue more AddAlpineMeadowsConditionsFetcher 
+     tasks.
+  """
+  def get(self):
+    logging.info('Running the AddAlpineMeadowsConditionsFetcherTask.')
+    taskqueue.Task(url='/tasks/process/AlpineMeadowsConditionsFetcher').add(
+                   queue_name='ResortReportFetcher')
 
 
-class WeatherFetcher(webapp.RequestHandler):
+class WeatherFetcher(BaseRequestHandler):
   """ Class used to update the Weather data from NOAA."""
 
   def WeatherFetcherprocess(self):
@@ -194,17 +205,16 @@ class WeatherFetcher(webapp.RequestHandler):
     logging.info('memcache.flush_all() run.')    
 
   def get(self):
-    WeatherFetcherprocess()
-
+    self.WeatherFetcherprocess()
 
   def post(self):
-    WeatherFetcherprocess()
+    self.WeatherFetcherprocess()
     
 
 
 
 
-class i80ConditionsFetcher(webapp.RequestHandler):
+class i80ConditionsFetcher(BaseRequestHandler):
 
   def i80ConditionsFetcherprocess(self):
     logging.info('Running the i80ConditionsFetcher.')
@@ -214,27 +224,42 @@ class i80ConditionsFetcher(webapp.RequestHandler):
     logging.info('memcache.flush_all() run.')
 
   def get(self):
-    i80ConditionsFetcherprocess()
+    self.i80ConditionsFetcherprocess()
 
   def post(self):
-    i80ConditionsFetcherprocess()    
+    self.i80ConditionsFetcherprocess()    
 
 
-class AvalancheConditionsFetcher(webapp.RequestHandler):
+class AvalancheConditionsFetcher(BaseRequestHandler):
   
   def AvalancheConditionsFetcherProcess(self):
     logging.info('Running the AvalancheConditionsFetcher.')
-    #NEED TO CORRECT
-    i80_parser.i80Parser()
+    avalanche_parser.AvalancheConditionsParser()
     logging.info('SUCCESS: Running the AvalancheConditionsFetcher.')
     memcache.flush_all()
     logging.info('memcache.flush_all() run.')
   
   def get(self):
-    AvalancheConditionsFetcherProcess()
+    self.AvalancheConditionsFetcherProcess()
 
   def post(self):
-    AvalancheConditionsFetcherProcess()
+    self.AvalancheConditionsFetcherProcess()
+
+
+class AlpineMeadowsConditionsFetcher(BaseRequestHandler):
+
+  def AlpineMeadowsFetcherProcess(self):
+    logging.info('Running the AlpineMeadowsConditionsFetcher.')
+    alpinemeadows_parser.AlpineMeadowsSnowReportParser()
+    logging.info('SUCCESS: Running the AlpineMeadowsConditionsFetcher.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.AlpineMeadowsFetcherProcess()
+
+  def post(self):
+    self.AlpineMeadowsFetcherProcess()
 
 
 
@@ -245,10 +270,15 @@ def main():
           Addi80ConditionsFetcherTask),
         ('/tasks/process/AddAvalancheConditionsFetcherTask',  
           AddAvalancheConditionsFetcherTask),
+        ('/tasks/process/AddAlpineMeadowsConditionsFetcherTask',  
+          AddAlpineMeadowsConditionsFetcherTask),
         ('/tasks/process/AvalancheConditionsFetcher', 
           AvalancheConditionsFetcher),
         ('/tasks/process/WeatherFetcher', WeatherFetcher),
         ('/tasks/process/i80ConditionsFetcher', i80ConditionsFetcher),
+        ('/tasks/process/AlpineMeadowsConditionsFetcher',   
+          AlpineMeadowsConditionsFetcher)
+        
     ]))
 
 if __name__ == '__main__':

@@ -11,3 +11,6 @@ queue:
 - name: AvalancheConditionsFetcher
   rate: 5/s
   bucket_size: 10
+- name: ResortReportFetcher
+  rate: 5/s
+  bucket_size: 10
