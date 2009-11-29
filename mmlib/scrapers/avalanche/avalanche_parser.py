@@ -74,6 +74,7 @@ class AvalancheConditionsParser(Scraper):
     for tag in block:
       if tag.name == 'td':
         intro = tag.findNext('p')
+        intro = intro.contents[0]
     if not intro:
       intro = 'None'
     
