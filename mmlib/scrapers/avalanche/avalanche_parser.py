@@ -40,6 +40,8 @@ class AvalancheConditionsParser(Scraper):
 
     if condition_counter > 1:
       multiple_danger_levels = True
+    else:
+      multiple_danger_levels = False
 
     new_avalanche_data = models.TodaysAvalancheReport()
 
