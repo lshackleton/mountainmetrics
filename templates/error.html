@@ -2,16 +2,33 @@
 
 {% block content %}
 
-    <!-- BEGIN error module -->
-    <div id="content">
-      <div class="post">
-        <h2>Wow, we failed. but not as bad as this guy...</h2>
-          <p><object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/7Mlch97EQDA&hl=en_US&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/7Mlch97EQDA&hl=en_US&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
-          </p>
-      </div>
+<!-- BEGIN error module -->
+<div id="content">
+  <div class="post">
+    <h2>Why am I on this page?</h2>
+         <p>Congrats, you found a little bug running around in our code somewhere!  We have automatically notified about this error, so no need to report it to us.  Thanks very much for finding the issue, we'll likely have it fixed in a couple of hours.  In the meantime, try hitting the back button.
+        </p>
+  </div>
+  
+    <div class="post">
+    <h2>Wow, we failed.  But so did this guy...</h2>
+       &nbsp;&nbsp;<img src="/static/images/ski_fail.jpeg" />
+
+  </div>
+</div>
       
-      <div class="box">
-      </div>
-    </div>  
-      <!-- END error module -->
+<!-- END error module -->
+      
+<!-- BEGIN right column -->
+  <div id="sidebar">    
+
+<!-- BEGIN picture module -->
+    <div class="box">
+      <h2>Gotta love the 80's crash</h2>
+       <p>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/static/images/ski_crash.jpeg" /></p>
+       <br />
+     </div>
+<!-- END picture module -->
+  </div>
+</div>
 {% endblock %}
