@@ -53,7 +53,7 @@
             {% if SquawValleySnowReport.today_expected_snowfall %}<li>Expected Snow: {{ SquawValleySnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
           </ul>
         
-        <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpingMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
+        <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpineMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
           <ul>
             {% if AlpineMeadowsSnowReport.current_temp_f %}<li>Current Temp: {{ AlpineMeadowsSnowReport.current_temp_f }} &deg;F</li>{% else %}{% endif %}
             {% if AlpineMeadowsSnowReport.current_condition %}<li>Current Condition: {{ AlpineMeadowsSnowReport.current_condition }}</li>{% else %}{% endif %}
