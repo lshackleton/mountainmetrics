@@ -192,6 +192,14 @@ class AboutPageHandler(BaseRequestHandler):
       #'title': 'About',
     })
 
+class ErrorPageHandler(BaseRequestHandler):
+  def get(self, garbageinput=None):
+    logging.info('Visiting the about page')
+    self.generate('error.html', {
+      #'title': 'About',
+    })
+
+
 #
 # End Webpage Handlers
 #
@@ -205,6 +213,7 @@ class AboutPageHandler(BaseRequestHandler):
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
 #   ('/bill', Bill), #base.html
+   ('/error', ErrorPageHandler), #about.html
    ('/about', AboutPageHandler), #about.html
    ('/.*$', HomePageHandler), #base.html
 ]
