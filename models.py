@@ -40,6 +40,8 @@ class ResortSnowReportBase(db.Model):
   lower_mountain_snow_base_cm = db.FloatProperty()
   lower_mountain_snow_base_inches = db.FloatProperty()
   current_condition = db.StringProperty(multiline=True)
+  current_condition_top = db.StringProperty(multiline=True)
+  current_condition_base = db.StringProperty(multiline=True)
   new_snow_total_inches = db.FloatProperty()
   new_snow_total_inches_base = db.FloatProperty()
   new_snow_total_inches_top = db.FloatProperty()
@@ -60,6 +62,8 @@ class ResortSnowReportBase(db.Model):
 class SquawValleySnowReport(ResortSnowReportBase):
   """AppEngine data model to store Squaw Valley Snow Report."""
   is_squaw_valley = db.BooleanProperty()
+  squaw_lower_mountain_snow_base_inches = db.StringProperty(multiline=True)
+  squaw_upper_mountain_snow_base_inches = db.StringProperty(multiline=True)
 
 class AlpineMeadowsSnowReport(ResortSnowReportBase):
   """AppEngine data model to store Alpine Meadows Snow Report."""
@@ -68,6 +72,11 @@ class AlpineMeadowsSnowReport(ResortSnowReportBase):
 class KirkwoodSnowReport(ResortSnowReportBase):
   """AppEngine data model to store Kirkwood Snow Report."""
   is_kirkwood = db.BooleanProperty()
+  kirkwood_forcast = db.StringProperty(multiline=True)
+  kirkwood_mid_mountain_snow_base = db.StringProperty(multiline=True)
+  kirkwood_24_hour_snow_total_inches = db.StringProperty(multiline=True)
+  kirkwood_new_snow_total_inches = db.StringProperty(multiline=True)
+
 
 class DOTi80RoadConditions(db.Model):
   """AppEngine data model to store DOT Road Conditions. All data in table from DOT website"""
@@ -86,3 +95,10 @@ class TodaysAvalancheReport(db.Model):
   high_danger = db.BooleanProperty()
   extreme_danger = db.BooleanProperty()
   multiple_danger_levels = db.BooleanProperty()  
+
+
+class SevenDayWeatherForecast(db.Model):
+  """AppEngine data model to hold the seven day forecast."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  time_of_report = db.StringProperty(multiline=True)
+  #TODO: Fill this out when we have a forecast provider.

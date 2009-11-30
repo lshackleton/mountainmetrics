@@ -31,6 +31,8 @@ from mmlib.pywapi import get_weather_from_noaa
 from mmlib.scrapers.i80 import i80_parser
 from mmlib.scrapers.avalanche import avalanche_parser
 from mmlib.scrapers.alpinemeadows import alpinemeadows_parser
+from mmlib.scrapers.squaw import squaw_parser
+from mmlib.scrapers.kirkwood import kirkwood_parser
 
 
 ## Set logging level.
@@ -104,6 +106,23 @@ class AddAlpineMeadowsConditionsFetcherTask(BaseRequestHandler):
     taskqueue.Task(url='/tasks/process/AlpineMeadowsConditionsFetcher').add(
                    queue_name='ResortReportFetcher')
 
+class AddSquawValleyConditionsFetcherTask(BaseRequestHandler):
+  """Cron calls this class to enqueue more AddSquawValleyConditionsFetcher 
+     tasks.
+  """
+  def get(self):
+    logging.info('Running the AddSquawValleyConditionsFetcherTask.')
+    taskqueue.Task(url='/tasks/process/SquawValleyConditionsFetcher').add(
+                   queue_name='ResortReportFetcher')
+
+class AddKirkwoodConditionsFetcherTask(BaseRequestHandler):
+   """Cron calls this class to enqueue more AddKirkwoodConditionsFetcher 
+      tasks.
+   """
+   def get(self):
+     logging.info('Running the AddKirkwoodConditionsFetcherTask.')
+     taskqueue.Task(url='/tasks/process/KirkwoodConditionsFetcher').add(
+                    queue_name='ResortReportFetcher')
 
 class WeatherFetcher(BaseRequestHandler):
   """ Class used to update the Weather data from NOAA."""
@@ -209,9 +228,6 @@ class WeatherFetcher(BaseRequestHandler):
 
   def post(self):
     self.WeatherFetcherprocess()
-    
-
-
 
 
 class i80ConditionsFetcher(BaseRequestHandler):
@@ -262,6 +278,37 @@ class AlpineMeadowsConditionsFetcher(BaseRequestHandler):
     self.AlpineMeadowsFetcherProcess()
 
 
+class SquawValleyConditionsFetcher(BaseRequestHandler):
+  
+  def SquawValleyFetcherProcess(self):
+    logging.info('Running the SquawValleyFetcherProcess.')
+    squaw_parser.SquawSnowReportParser()
+    logging.info('SUCCESS: Running the SquawValleyFetcherProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.SquawValleyFetcherProcess()
+
+  def post(self):
+    self.SquawValleyFetcherProcess()
+
+
+class KirkwoodConditionsFetcher(BaseRequestHandler):
+
+  def KirkwoodFetcherProcess(self):
+    logging.info('Running the KirkwoodFetcherProcess.')
+    kirkwood_parser.KirkwoodSnowReportParser()
+    logging.info('SUCCESS: Running the KirkwoodFetcherProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.KirkwoodFetcherProcess()
+
+  def post(self):
+    self.KirkwoodFetcherProcess()
+
 
 def main():
     wsgiref.handlers.CGIHandler().run(webapp.WSGIApplication([
@@ -272,13 +319,22 @@ def main():
           AddAvalancheConditionsFetcherTask),
         ('/tasks/process/AddAlpineMeadowsConditionsFetcherTask',  
           AddAlpineMeadowsConditionsFetcherTask),
+        ('/tasks/process/AddSquawValleyConditionsFetcherTask',  
+          AddSquawValleyConditionsFetcherTask),
+        ('/tasks/process/AddKirkwoodConditionsFetcherTask',  
+          AddKirkwoodConditionsFetcherTask),
+# Above are URLs that the cron job calls -- to queue up fetchers.
+# Below are URLs for actually fetching data.
         ('/tasks/process/AvalancheConditionsFetcher', 
           AvalancheConditionsFetcher),
         ('/tasks/process/WeatherFetcher', WeatherFetcher),
         ('/tasks/process/i80ConditionsFetcher', i80ConditionsFetcher),
         ('/tasks/process/AlpineMeadowsConditionsFetcher',   
-          AlpineMeadowsConditionsFetcher)
-        
+          AlpineMeadowsConditionsFetcher),
+        ('/tasks/process/SquawValleyConditionsFetcher',   
+          SquawValleyConditionsFetcher),
+        ('/tasks/process/KirkwoodConditionsFetcher',   
+          KirkwoodConditionsFetcher),        
     ]))
 
 if __name__ == '__main__':

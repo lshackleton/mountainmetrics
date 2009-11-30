@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 __author__ = "Bill Ferrell"
 
-"""Parses the Alpine Meadows Snow report page. 
+"""Parses the Squaw Valley Snow report page. 
 
-Page found here: http://www.skialpine.com/mountain/snow-report
+Page found here: http://www.squaw.com/winter/mtnreport.html
 
 This class parses the page and returns an object that allows you to get various status bits. 
 """
@@ -15,125 +15,85 @@ import models
 from mmlib.scrapers.scraper import Scraper
 
 
-class AlpineMeadowsSnowReportParser(Scraper):
+class SquawSnowReportParser(Scraper):
   def __init__(self):
-    url = 'http://www.skialpine.com/mountain/snow-report'
+    url = 'http://www.squaw.com/winter/mtnreport.html'
     Scraper.__init__(self, url=url, geography='Tahoe', 
-                     valueType='AlpineMeadowsConditions')
+                     valueType='SquawConditions')
     self.scrape()
     time = self.parseTimeLastUpdate()
-    temp = self.parseTemp()
-    current_condition = self.parseWeatherDescription()
     snow_conditions = self.parseSnowConditions()
 
-    upper_m_snowbase = float(snow_conditions[1][:-1])
-    lower_m_snowbase = float(snow_conditions[2][:-1])
+    temp = float(snow_conditions[10][36:-12])
+    lower_mountain_temp_f = float(snow_conditions[1][36:-12])
+    upper_mountain_temp_f = float(snow_conditions[10][36:-12])
 
-    twentyfour_total_in = float(snow_conditions[5][:-1])
-    twentyfour_total_in_base = float(snow_conditions[4][:-1])
-    twentyfour_total_in_top = float(snow_conditions[5][:-1])
-    
-    new_snow_total_inches = float(snow_conditions[8][:-1])
-    new_snow_total_inches_base = float(snow_conditions[7][:-1])
-    new_snow_total_inches_top = float(snow_conditions[8][:-1])        
+    current_condition = snow_conditions[12][4:]
+    current_condition_top = snow_conditions[12][4:]
+    current_condition_base = snow_conditions[3][4:]
 
+    upper_m_snowbase = snow_conditions[14][36:-13]
+    lower_m_snowbase = snow_conditions[5][36:-13]
 
-    lower_mountain_temp_f =  float(snow_conditions[10][:-7])
-    upper_mountain_temp_f = float(snow_conditions[11][:-7])
+    # Squaw does not provide the following data
+    #twentyfour_total_in = 
+    #twentyfour_total_in_base = 
+    #twentyfour_total_in_top = 
     
-    wind = snow_conditions[14]
-    wind_base = snow_conditions[13]
-    wind_top = snow_conditions[14]
+    #new_snow_total_inches = 
+    #new_snow_total_inches_base = 
+    #new_snow_total_inches_top =        
+
+    wind = snow_conditions[11][4:-4]
+    wind_base = snow_conditions[2][4:-4]
+    wind_top = snow_conditions[11][4:-4]
     
-    new_snow_report = models.AlpineMeadowsSnowReport()
+    new_snow_report = models.SquawValleySnowReport()
 
     new_snow_report.time_of_report = str(time)
     new_snow_report.current_temp_f = temp
     new_snow_report.upper_mountain_temp_f = upper_mountain_temp_f
     new_snow_report.lower_mountain_temp_f = lower_mountain_temp_f
-    new_snow_report.upper_mountain_snow_base_inches = upper_m_snowbase 
-    new_snow_report.lower_mountain_snow_base_inches = lower_m_snowbase
+    new_snow_report.squaw_upper_mountain_snow_base_inches = upper_m_snowbase 
+    new_snow_report.squaw_lower_mountain_snow_base_inches = lower_m_snowbase
     new_snow_report.current_condition = str(current_condition)
-    new_snow_report.new_snow_total_inches = new_snow_total_inches
-    new_snow_report.new_snow_total_inches_base = new_snow_total_inches_base
-    new_snow_report.new_snow_total_inches_top = new_snow_total_inches_top
-    new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
-    new_snow_report.twentyfour_hour_snow_total_inches_base = twentyfour_total_in_base
-    new_snow_report.twentyfour_hour_snow_total_inches_top = twentyfour_total_in_top
+    new_snow_report.current_condition_top = str(current_condition_top)
+    new_snow_report.current_condition_base = str(current_condition_base)
+# Commented out because Squaw does not provide this data
+#    new_snow_report.new_snow_total_inches = new_snow_total_inches
+#    new_snow_report.new_snow_total_inches_base = new_snow_total_inches_base
+#    new_snow_report.new_snow_total_inches_top = new_snow_total_inches_top
+#    new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
+#    new_snow_report.twentyfour_hour_snow_total_inches_base = twentyfour_total_in_base
+#    new_snow_report.twentyfour_hour_snow_total_inches_top = twentyfour_total_in_top
+#    new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
+
     new_snow_report.wind = wind
     new_snow_report.wind_base = wind_base
     new_snow_report.wind_top = wind_top
-    new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
-    new_snow_report.is_alpine_meadows = True
+    new_snow_report.is_squaw_valley = True
 
     new_snow_report.put()
-
-#  def parseDanger(self, find_value):
-#    logging.info('starting parseDanger')
-#    logging.info('findvalue = %s' % find_value)
-#    block = self.soup.findAll(attrs={'href': find_value})
-#
-#    if block:
-#      logging.info('Found danger')
-#      return True
-#    logging.info('Found nothing')
-#    return False
 
 
   def parseTimeLastUpdate(self):
     time = None
-    block = self.soup.findAll(attrs={'id':"sr_title"})
-    for tag in block:
-      if tag.name == 'div':
-        time = tag.findNext('h2')
-        time = time.contents[0]
-        logging.info('time: %s' % str(time))
+    block = self.soup.find(attrs={'id':"snow-report"})
+    span = block.findNext('span')
+    time = span.contents[0]
+    logging.info('time: %s' % str(time))
     if not time:
       time = ''
       logging.info('Failing to find data.')
     return time
 
-  def parseTemp(self):
-    temp = None
-    block = self.soup.findAll(attrs={'id':"weather_details_current"})
-    for tag in block:
-      if tag.name == 'div':
-        temp = tag.findNext('span')
-        temp = temp.contents[0]
-        temp = temp[:-6]
-        logging.info('temp: %s' % temp)
-        temp = float(temp)
-        logging.info('converting temp into a float')
-    if not temp:
-      temp = 99999999
-      logging.info('Failing to find data.')
-    return temp
-
-
-  def parseWeatherDescription(self):
-    weather = None
-    block = self.soup.findAll(attrs={'id':"weather_details_current"})
-    for tag in block:
-      if tag.name == 'div':
-        weather = tag.findNext('div')
-        weather = weather.contents[0]
-        logging.info('weather: %s' % str(weather))
-    if not weather:
-      weather = ''
-      logging.info('Failing to find data.')
-    return weather
-
   def parseSnowConditions(self):
     dat = []
-    block = self.soup.find(attrs={'id':"current_snow_conditions"})
-    table = block.findNext('table')
-    for row in table.findAll("tr"):
-      td = row.findAll("td")
-      for t in td:
-        print t.contents
-        dat += map(str, t.contents)
+    block = self.soup.findAll('p', attrs={'class': 'snowreport-item'})
+    for tag in block:
+#      print tag.attrs
+#      print tag.contents
+      dat += map(str, tag.contents)
+#    print dat [1]
     logging.info('dat: %s' % str(dat))
-    
     return dat
-
-

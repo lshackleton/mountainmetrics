@@ -19,3 +19,12 @@ cron:
   schedule: every 1 hours
 #  schedule: every 1 minutes
 
+- description: AddSquawValleyConditionsFetcherTask 
+  url: /tasks/process/AddSquawValleyConditionsFetcherTask
+  schedule: every 1 hours
+#  schedule: every 1 minutes
+
+- description: AddKirkwoodConditionsFetcherTask 
+  url: /tasks/process/AddKirkwoodConditionsFetcherTask
+  schedule: every 1 hours
+#  schedule: every 1 minutes
