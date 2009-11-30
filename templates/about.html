@@ -1,148 +1,174 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>ModuleMag - About</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" href="style.css" />
-<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="ie.css" /><![endif]-->
-<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.cycle.all.min.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
-</head>
-<body>
-<!-- BEGIN wrapper -->
-<div id="wrapper">
-  <!-- BEGIN header -->
-  <div id="header">
-    <ul class="pages">
-      <li class="f"><a href="index.html">Home</a></li>
-      <li><a href="about.html">About us</a></li>
-      <li><a href="page.html">Demo Page</a></li>
-      <li><a href="contact.html">Contact Page</a></li>
-    </ul>
-    <p class="links"> <a href="http://www.free-css.com/">Posts</a> | <a href="http://www.free-css.com/">Comments</a> | <a href="http://www.free-css.com/">E-mail</a> </p>
-    <h1><a href="http://www.free-css.com/">ModuleMag</a></h1>
-    <div class="ad468x60"><a href="http://www.free-css.com/"><img src="images/ad468x60.gif" alt="" /></a></div>
-    <ul class="categories">
-      <li class="f"><a href="http://www.free-css.com/">Advertising</a></li>
-      <li><a href="http://www.free-css.com/">Entertainment</a></li>
-      <li><a href="http://www.free-css.com/">Fashion</a></li>
-      <li><a href="http://www.free-css.com/">Lifestyle</a></li>
-      <li><a href="http://www.free-css.com/">Videos</a></li>
-    </ul>
-  </div>
-  <!-- END header -->
-  <!-- BEGIN content -->
+{% extends "base.html" %}
+
+{% block content %}
+    
+	  <!-- BEGIN content -->
   <div id="content">
-    <!-- begin post -->
-    <div class="single">
-      <h2>About</h2>
-      <p>Justopellenteget masse aucibulus pretium semper anterdum sus elit risus sempor pretra. Etet molesuada orci lobortortis pellentum consequat neque ulla nunc eu natis. Tinciduntlobortis tempus wisi nulla laoreet fauctortortis nam nulla volutpat maurisus tor. Velitcurabitae ut elit tur rhoncus sus sagittitor enim integer fring in. Velitdolor duis felit augue justo donec in fames loreet convallis elit.</p>
-      <p>Idvestibulum eget eget id id aliquam quisque ipsum gravida adipiscipis justo. Habitursed urnar sus pellus nam condimentum eu aucibulum phare tincidunt id. Utpellus quat nullam adipit maecenatis aucibulum tellentes tellus conseque eger eget. Justocongue ero nec dignisl trices non ligula laorem a magnissim ris. Sedalique nulla pede nequam wisis ac tincidunt feugiat vestiquam condimentum at.</p>
-      <p>Proinlaorem turis integet pellus ametus nisl consequat antesque metus condiment tincidunt. Magnapellus a vel cursus vitae semper conseque diam ac integet nibh. Intesquetellus id vel tur lorem sed tempus phasellenterdum ris tincidunt ridiculisi. Gravidapellent quam consectetus intesque ac eu anterdum aenec congue elit pellus. Tempercurabitae tellus nunc vitae sed auctorta laculum temportortis risus quis curabitur.</p>
-      <p>Phaselluscongue eget turpiscipis ut sed id temper loborta vitae loborttis cursus. Nibhfaucibulum urnar proin orci vitae commod dignisl pretra id laoreet id. Pretiumfaucibus quis vitae congue curabitur sagittis tortor felit estasse eu natoque. Intepellus curabiturpiscing eu nulla eros mauris ut dui in malesuada et. Conguetortor dui metuer lacus sus ac et a nec sed eget.</p>
-      <p>Orcinunc pellentum aliquam nam in consectus congue proin id et phasellus. Velitac convallisi turis pellenterdum conseque curabitur adipiscing ut quis masse pellentumsan. Fametuscondimentum fring semportis antesquet vitae non felit dui nulla libero volutpat. Ullamcorpermonterdum estas neque leo et ipsum famet elis lobortor sem id. Ameta vestibulum nulla condimentum quisque vitant ristibulum justo nam id et.</p>
-    </div>
-    <!-- end post -->
+    <!-- begin featured -->
+      <!-- begin left column -->
+      
+      <!-- BEGIN weather forecast module -->
+      <div class="post">
+        <h2>About</h2>
+        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
+          <ul>
+            {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
+            <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>
+            <li>High Temp: {Insert Temp}</li>
+            <li>Low Temp: {Insert Temp}</li>
+            {% if ThreeDayWeatherForecast.wind_string %}<li>Wind: {{ ThreeDayWeatherForecast.wind_string }}</li>{% else %}{% endif %}
+            <li>New Snow: {Insert New Snow}</li>
+            <li>Expected Snowfall: {Insert Expected Snow}</li>
+          </ul>
+        
+        <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
+          <ul>
+            <li>High Temp: {Insert Temp}</li>
+            <li>Low Temp: {Insert Temp}</li>
+            <li>Expected Snowfall: {Insert Expected Snow}</li>
+          </ul>
+
+        <p>{{ dayaftertomorrow|date:"D - F j, Y" }}</p>
+          <ul>
+            <li>High Temp: {Insert Temp}</li>
+            <li>Low Temp: {Insert Temp}</li>
+            <li>Expected Snowfall: {Insert Expected Snow}</li>
+          </ul>
+       <br />
+      </div>
+      <!-- END weather forecast module -->
+      
+      <!-- BEGIN resort snow report module -->
+      <div class="post">
+        <h2>About</h2>
+        <p>{% if SquawValleySnowReport.date_time_added %}<p>Squaw Valley {{ SquawValleySnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Squaw Valley.{% endif %}
+          <ul>
+            {% if SquawValleySnowReport.today_high_temp %}<li>High Temp: {{ SquawValleySnowReport.today_high_temp }}</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.today_low_temp %}<li>Low Temp: {{ SquawValleySnowReport.today_low_temp }}</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.today_new_snow %}<li>New Snow: {{ SquawValleySnowReport.today_new_snow }} in</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.today_expected_snowfall %}<li>Expected Snow: {{ SquawValleySnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
+          </ul>
+        
+        <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpingMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
+          <ul>
+            {% if AlpineMeadowsSnowReport.today_high_temp %}<li>High Temp: {{ AlpineMeadowsSnowReport.today_high_temp }}</li>{% else %}{% endif %}
+            {% if AlpineMeadowsSnowReport.today_low_temp %}<li>Low Temp: {{ AlpineMeadowsSnowReport.today_low_temp }}</li>{% else %}{% endif %}
+            {% if AlpineMeadowsSnowReport.today_new_snow %}<li>New Snow: {{ AlpineMeadowsSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
+            {% if AlpineMeadowsSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ AlpineMeadowsSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
+          </ul>
+
+        <p>{% if KirkwoodSnowReport.date_time_added %}<p>Kirkwood {{ KirkwoodSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Kirkwood.{% endif %}
+          <ul>
+            {% if KirkwoodSnowReport.today_high_temp %}<li>High Temp: {{KirkwoodSnowReport.today_high_temp }}</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.today_low_temp %}<li>Low Temp: {{ KirkwoodSnowReport.today_low_temp }}</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.today_new_snow %}<li>New Snow: {{ KirkwoodSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ KirkwoodSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
+          </ul>
+       <br />
+      </div>
+      <!-- END resort snow report module -->
+      
+      <!-- BEGIN dot traffic conditions module -->
+      <div class="post">
+        <h2>DOT Road Conditions</h2>
+        {% if DOTi80RoadConditions.chains_required %}<p>Chains</p>{% else %}{% endif %}
+          <ul>
+            {% if DOTi80RoadConditions.chains_required %}<li>Chains Required: {{ DOTi80RoadConditions.chains_required }}</li>{% else %}{% endif %}
+            {% if DOTi80RoadConditions.chains_required %}<li>Location of Requirement: {{ DOTi80RoadConditions.stretch_of_road }}{% else %}{% endif %}</li>
+          </ul>
+        
+        {% if DOTi80RoadConditions.date_time_added %}<p>Details: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>{% else %}<p>No New Traffic Updates</p>{% endif %}
+          <ul>
+            {% if DOTi80RoadConditions.road_conditions_details %}<li>{{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}{% endif %}
+          </ul>
+        <br />
+      </div>
+      <!-- END dot traffic conditions module -->
+    
+  <!-- END left column -->
   </div>
   <!-- END content -->
-  <!-- BEGIN sidebar -->
-  <div id="sidebar">
-    <!-- begin site sponsors -->
-    <div class="box">
-      <h2>Site Sponsors</h2>
-      <p class="ads"> <a href="http://www.free-css.com/"><img src="images/ad125x125.jpg" alt="" /></a> <a href="http://www.free-css.com/"><img src="images/ad125x125.jpg" alt="" /></a> <a href="http://www.free-css.com/"><img src="images/ad125x125.jpg" alt="" /></a> <a href="http://www.free-css.com/"><img src="images/ad125x125.jpg" alt="" /></a> </p>
-    </div>
-    <!-- end site sponsors -->
-    <!-- begin popular posts -->
-    <div class="box">
-      <h2>Popular Posts</h2>
-      <ul class="popular">
-        <li> <a href="http://www.free-css.com/">Top 10 Ways to Make Money Online</a>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse interdum..</p>
-        </li>
-        <li> <a href="http://www.free-css.com/">The Basics of Photography and Choosing the Right Subject</a>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse interdum..</p>
-        </li>
-        <li> <a href="http://www.free-css.com/">How to Create Wordpress Themes from Scratch and Selling Them Online</a>
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse interdum..</p>
-        </li>
-      </ul>
-    </div>
-    <!-- end popular posts -->
-    <!-- begin flickr photos -->
-    <div class="box">
-      <h2>Flickr Photos</h2>
-      <p class="flickr"> <a href="http://www.free-css.com/"><img src="images/_flickr.jpg" alt="" /></a> <a href="http://www.free-css.com/"><img src="images/_flickr.jpg" alt="" /></a> <a href="http://www.free-css.com/"><img src="images/_flickr.jpg" alt="" /></a> <a href="http://www.free-css.com/"><img src="images/_flickr.jpg" alt="" /></a> <a href="http://www.free-css.com/"><img src="images/_flickr.jpg" alt="" /></a> <a href="http://www.free-css.com/"><img src="images/_flickr.jpg" alt="" /></a> </p>
-    </div>
-    <!-- end flickr photos -->
-    <!-- begin featured video -->
-    <div class="box">
-      <h2>Featured Video</h2>
-      <div class="video"> <img src="images/_video.jpg" alt="" /> </div>
-    </div>
-    <!-- end featured video -->
-    <!-- begin search -->
-    <form action="http://www.free-css.com/">
-      <input type="text" name="s" id="s" value="" />
-      <button type="submit">Search</button>
-    </form>
-    <!-- end search -->
-    <div class="span box">
-      <!-- begin left -->
-      <div class="l">
-        <!-- begin pages -->
-        <h2>Pages</h2>
-        <ul>
-          <li><a href="http://www.free-css.com/">About</a></li>
-          <li><a href="http://www.free-css.com/">Archives</a></li>
-          <li><a href="http://www.free-css.com/">Contact</a></li>
-          <li><a href="http://www.free-css.com/">Links</a></li>
-        </ul>
-        <!-- end pages -->
-        <!-- begin categories -->
-        <h2>Categories</h2>
-        <ul>
-          <li><a href="http://www.free-css.com/">Advertising</a></li>
-          <li><a href="http://www.free-css.com/">Fashion</a></li>
-          <li><a href="http://www.free-css.com/">Gadgets</a></li>
-          <li><a href="http://www.free-css.com/">Lifestyle</a></li>
-          <li><a href="http://www.free-css.com/">Networking</a></li>
-          <li><a href="http://www.free-css.com/">News</a></li>
-          <li><a href="http://www.free-css.com/">Sports</a></li>
-        </ul>
-        <!-- end categories -->
+  
+  
+  
+  <!-- BEGIN right column -->
+  <div id="sidebar">    
+    
+      <!-- BEGIN avalanche conditions module -->
+      <div class="box">
+        <h2>Today's Avalanche Report</h2>
+            {% if TodaysAvalancheReport.avalanche_danger_image_url %}
+              <p><img src="{{ TodaysAvalancheReport.avalanche_danger_image_url }}" /></p>
+            {% endif %}             
+             {% if TodaysAvalancheReport.avalanche_report_paragraph %}
+                <p>{{ TodaysAvalancheReport.avalanche_report_paragraph }}</p>
+            {% else %}
+              <p>No new avalanche report today.  Please see <a href="http://www.sierraavalanchecenter.org/advisory.php" target="_blank">Sierra Avalanche website</a> for more details.</p>
+            {% endif %}
+        <br />
       </div>
-      <!-- end left -->
-      <!-- begin right -->
-      <div class="r">
-        <!-- begin blogroll -->
-        <h2>Blogroll</h2>
-        <ul>
-          <li><a href="http://www.free-css.com/">Documentation</a></li>
-          <li><a href="http://www.free-css.com/">Suggest Ideas</a></li>
-          <li><a href="http://www.free-css.com/">Support Forum</a></li>
-        </ul>
-        <!-- end blogroll -->
-        <!-- begin meta -->
-        <h2>Meta</h2>
-        <ul>
-          <li><a href="http://www.free-css.com/">Log in</a></li>
-          <li><a href="http://www.free-css.com/">Valid XHTML</a></li>
-        </ul>
-        <!-- end meta -->
+      <!-- END avalanche conditions module -->
+      
+      <!-- BEGIN detailed weather module -->
+      <div class="box">
+        <h2>3 Day Detailed Weather</h2>
+              <p>Yesterday: {{ yesterday|date:"D - F j, Y" }}</p>
+              <ul>
+              <li>Wind Direction: {Insert Wind Direction}</li>
+              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
+              <li>Dewpoint: {Insert Dewpoint}</li>
+              <li>Relative Humidity: {Insert Relative Humidity}</li>
+              <li>Visibility: {Insert Visibility}</li>
+              <li>Snowfall: {Insert Expected Snowfall}</li>
+              </ul>
+            <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
+              <ul>
+              <li>Wind Direction: {{  ThreeDayWeatherForecast.wind_dir }}</li>
+              <li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }} mph to {{ ThreeDayWeatherForecast.wind_gust_mph }} mph</li>
+              <li>Dewpoint: {{ ThreeDayWeatherForecast.dewpoint_f }}&deg; F</li>
+              <li>Relative Humidity: {{ ThreeDayWeatherForecast.wind_dir }}</li>
+              <li>Visibility: {{ ThreeDayWeatherForecast.wind_dir }}</li>
+              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
+              </ul>
+            <p>Tonight</p>
+              <ul>
+              <li>Wind Direction: {Insert Direction}</li>
+              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
+              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
+              </ul>
+            <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
+              <ul>
+              <li>Wind Direction: {Insert Direction}</li>
+              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
+              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
+              </ul>
+            <p><a href="http://www.weather.gov/data/obhistory/KTRK.html" target="_blank">Full Historical Report...</a></p>  
+        <br />
       </div>
-      <!-- end right -->
-      <div class="break"></div>
-    </div>
+      <!-- END detailed weather module -->
+
+      <!-- BEGIN snowfall trend module -->
+      <div class="box">
+        <h2>2009 Snowfall Trends</h2>
+<p><img src="http://chart.apis.google.com/chart?chs=400x200&amp;chdlp=b&amp;chf=bg,s,ffffff|c,s,ffffff&amp;chxt=x,y&amp;chxl=0:|Nov|Dec|Jan|1:|0.00|15.00|30.00&amp;cht=lc&amp;chd=t:0.00,26.66,40.00,46.66,73.33,100.00|0.00,26.66,13.33,6.66,26.66,33.33&amp;chdl=Base+Depth|New+Snow&amp;chco=0000ff,009900&amp;chls=2,1,0|2,3,3" /></p><br />
+      </div>
+      <!-- END snowfall trend module -->
+    
+      <!-- BEGIN snowfall trend module -->
+      <div class="box">
+        <h2>7 Day Temperature Profile</h2>
+        <p>Grab data from NOAA and display profile of last seven days highs and lows.</p>
+<p><img src="http://chart.apis.google.com/chart?cht=lc&chs=400x200&chxt=x,y&chxr=0,0,10|1,0,16.8&chd=t:71.4,65.5,59.5,65.5,77.4,95.2,89.3,83.3,65.5,71.4,77.4|59.5,47.6,29.8,23.8,29.8,35.7,41.7,29.8,23.8,35.7,41.7&chco=990000,339966&chls=1,1,0|1,1,0|1,1,0&chdl=High|Low
+ &chm=o,990000,0,0,3|o,990000,0,1,3|o,990000,0,2,3|o,990000,0,3,3|o,990000,0,4,3|o,990000,0,5,3|o,990000,0,6,3|o,990000,0,7,3|o,990000,0,8,3|o,990000,0,9,3|o,990000,0,10,3|o,990000,0,11,3|o,990000,0,12,3|o,990000,0,13,3|o,990000,0,14,3|o,990000,0,15,3|o,990000,0,16,3|o,990000,0,17,3|o,990000,0,18,3|o,990000,0,19,3|o,990000,0,20,3|o,990000,0,21,3|o,990000,0,22,3|o,990000,0,23,3|o,990000,0,24,3|o,990000,0,25,3|o,990000,0,26,3|o,990000,0,27,3|o,990000,0,28,3|o,990000,0,29,3|o,990000,0,30,3|o,990000,0,31,3|o,990000,0,32,3|
+  o,339966,1,0,3|o,339966,1,1,3|o,339966,1,2,3|o,339966,1,3,3|o,339966,1,4,3|o,339966,1,5,3|o,339966,1,6,3|o,339966,1,7,3|o,339966,1,8,3|o,339966,1,9,3|o,339966,1,10,3|o,339966,1,11,3|o,339966,1,12,3|o,339966,1,13,3|o,339966,1,14,3|o,339966,1,15,3|o,339966,1,16,3|o,339966,1,17,3|o,339966,1,18,3|o,339966,1,19,3|o,339966,1,20,3|o,339966,1,21,3|o,339966,1,22,3
+"/></p>
+      </div>
+      <!-- END snowfall trend module -->
+
+
   </div>
   <!-- END sidebar -->
 </div>
 <!-- END wrapper -->
-<!-- BEGIN footer -->
-<div id="footer">
-  <p>Copyright &copy; 2009 - <a href="http://www.free-css.com/">Website Name</a> &middot; All Rights Reserved | Template by: <a href="http://www.wpthemedesigner.com/">WordPress Designer</a> | Get More <a href="http://www.free-css.com/">Free CSS Templates</a></p>
-</div>
-<!-- END footer -->
-</body>
-</html>
+
+{% endblock %}

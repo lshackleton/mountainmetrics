@@ -185,6 +185,13 @@ class Bill(BaseRequestHandler):
 #    logging.info('Success for SevenDayForecastParser()')
 
 
+class AboutPageHandler(BaseRequestHandler):
+  def get(self, garbageinput=None):
+    logging.info('Visiting the about page')
+    self.generate('about.html', {
+      #'title': 'About',
+    })
+
 #
 # End Webpage Handlers
 #
@@ -198,6 +205,7 @@ class Bill(BaseRequestHandler):
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
 #   ('/bill', Bill), #base.html
+   ('/about', AboutPageHandler), #about.html
    ('/.*$', HomePageHandler), #base.html
 ]
 
