@@ -43,6 +43,10 @@
         <h2>Today's Resort Snow Report</h2>
         <p>{% if SquawValleySnowReport.date_time_added %}<p>Squaw Valley {{ SquawValleySnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Squaw Valley.{% endif %}
           <ul>
+            {% if SquawValleySnowReport.current_temp_f %}<li>Current Temp: {{ SquawValleySnowReport.current_temp_f }} &deg;F</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.current_condition %}<li>Current Condition: {{ SquawValleySnowReport.current_condition }}</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.wind %}<li>Wind: {{ SquawValleySnowReport.wind }}</li>{% else %}{% endif %}
+
             {% if SquawValleySnowReport.today_high_temp %}<li>High Temp: {{ SquawValleySnowReport.today_high_temp }}</li>{% else %}{% endif %}
             {% if SquawValleySnowReport.today_low_temp %}<li>Low Temp: {{ SquawValleySnowReport.today_low_temp }}</li>{% else %}{% endif %}
             {% if SquawValleySnowReport.today_new_snow %}<li>New Snow: {{ SquawValleySnowReport.today_new_snow }} in</li>{% else %}{% endif %}
@@ -51,6 +55,10 @@
         
         <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpingMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
           <ul>
+            {% if AlpineMeadowsSnowReport.current_temp_f %}<li>Current Temp: {{ AlpineMeadowsSnowReport.current_temp_f }} &deg;F</li>{% else %}{% endif %}
+            {% if AlpineMeadowsSnowReport.current_condition %}<li>Current Condition: {{ AlpineMeadowsSnowReport.current_condition }}</li>{% else %}{% endif %}
+            {% if AlpineMeadowsSnowReport.wind %}<li>Wind: {{ AlpineMeadowsSnowReport.wind }}</li>{% else %}{% endif %}
+
             {% if AlpineMeadowsSnowReport.today_high_temp %}<li>High Temp: {{ AlpineMeadowsSnowReport.today_high_temp }}</li>{% else %}{% endif %}
             {% if AlpineMeadowsSnowReport.today_low_temp %}<li>Low Temp: {{ AlpineMeadowsSnowReport.today_low_temp }}</li>{% else %}{% endif %}
             {% if AlpineMeadowsSnowReport.today_new_snow %}<li>New Snow: {{ AlpineMeadowsSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
@@ -59,6 +67,10 @@
 
         <p>{% if KirkwoodSnowReport.date_time_added %}<p>Kirkwood {{ KirkwoodSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Kirkwood.{% endif %}
           <ul>
+            {% if KirkwoodSnowReport.current_temp_f %}<li>Current Temp: {{KirkwoodSnowReport.current_temp_f }} &deg;F</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.current_condition %}<li>Current Condition: {{KirkwoodSnowReport.current_condition }}</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.wind %}<li>Wind: {{KirkwoodSnowReport.wind }}</li>{% else %}{% endif %}
+
             {% if KirkwoodSnowReport.today_high_temp %}<li>High Temp: {{KirkwoodSnowReport.today_high_temp }}</li>{% else %}{% endif %}
             {% if KirkwoodSnowReport.today_low_temp %}<li>Low Temp: {{ KirkwoodSnowReport.today_low_temp }}</li>{% else %}{% endif %}
             {% if KirkwoodSnowReport.today_new_snow %}<li>New Snow: {{ KirkwoodSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
