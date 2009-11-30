@@ -170,11 +170,13 @@ img {
 			padding-left:20px;
 			padding-top: 5px;
 			padding-bottom:10px;
+			padding-right: 20px;
 		}
 		
 		#content .post ul {
 			padding-left:40px;
 			padding-bottom:5px;
+			padding-right:20px;
 		}
 		#content .post .details {
 			padding-top: 5px;
@@ -254,11 +256,13 @@ img {
 		#sidebar .box ul {
 			padding-left:40px;
 			padding-bottom:5px;
+			padding-right:20px;
 
 		}
 		#sidebar .box p {
 			padding-left:20px;
 			padding-bottom:5px;
+			padding-right:15px;
 			margin-right:10px
 
 		}

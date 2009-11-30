@@ -7,83 +7,55 @@
     <!-- begin featured -->
       <!-- begin left column -->
       
-      <!-- BEGIN weather forecast module -->
+      <!-- BEGIN About module -->
       <div class="post">
         <h2>About</h2>
-        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
-          <ul>
-            {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
-            <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>
-            <li>High Temp: {Insert Temp}</li>
-            <li>Low Temp: {Insert Temp}</li>
-            {% if ThreeDayWeatherForecast.wind_string %}<li>Wind: {{ ThreeDayWeatherForecast.wind_string }}</li>{% else %}{% endif %}
-            <li>New Snow: {Insert New Snow}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
-          </ul>
-        
-        <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
-          <ul>
-            <li>High Temp: {Insert Temp}</li>
-            <li>Low Temp: {Insert Temp}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
-          </ul>
+        <p>Mountain Metrics is a small project by a couple of skiers.  We wanted a place to get all the info we need to head out to the resort or the backcountry.  We found ourself checking a bunch of different sites and not getting all the info we needed.  So we built Mountain Metrics and optimized it for mobile devices so we could check out the conditions when we are out enjoying the snow.  Have fun out there and be safe!</p>
 
-        <p>{{ dayaftertomorrow|date:"D - F j, Y" }}</p>
+       <br />
+      </div>
+      <!-- END About module -->
+      
+      <!-- BEGIN data sources module -->
+      <div class="post">
+        <h2>Data Sources</h2>
+        <p>Weather Conditions</p>
           <ul>
-            <li>High Temp: {Insert Temp}</li>
-            <li>Low Temp: {Insert Temp}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
+            <li><a href="www.noaa.gov" target="_blank">NOAA</a></li>
+          </ul>
+        <p>Avalanche Conditions</p>
+          <ul>
+            <li><a href="http://www.sierraavalanchecenter.org/" target="_blank">Sierra Avalanche Center</a></li>
+          </ul>
+        <p>Road Conditions</p>
+          <ul>
+            <li><a href="http://www.dot.ca.gov/" target="_blank">California Department of Transportation</a></li>
           </ul>
        <br />
       </div>
-      <!-- END weather forecast module -->
+      <!-- END data sources module -->
       
-      <!-- BEGIN resort snow report module -->
+      <!-- BEGIN contact module -->
       <div class="post">
-        <h2>About</h2>
-        <p>{% if SquawValleySnowReport.date_time_added %}<p>Squaw Valley {{ SquawValleySnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Squaw Valley.{% endif %}
+        <h2>Contact</h2>
+        <p>Please use the following information to contact the team.</p>
           <ul>
-            {% if SquawValleySnowReport.today_high_temp %}<li>High Temp: {{ SquawValleySnowReport.today_high_temp }}</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.today_low_temp %}<li>Low Temp: {{ SquawValleySnowReport.today_low_temp }}</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.today_new_snow %}<li>New Snow: {{ SquawValleySnowReport.today_new_snow }} in</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.today_expected_snowfall %}<li>Expected Snow: {{ SquawValleySnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
-          </ul>
-        
-        <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpingMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
-          <ul>
-            {% if AlpineMeadowsSnowReport.today_high_temp %}<li>High Temp: {{ AlpineMeadowsSnowReport.today_high_temp }}</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.today_low_temp %}<li>Low Temp: {{ AlpineMeadowsSnowReport.today_low_temp }}</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.today_new_snow %}<li>New Snow: {{ AlpineMeadowsSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ AlpineMeadowsSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
-          </ul>
-
-        <p>{% if KirkwoodSnowReport.date_time_added %}<p>Kirkwood {{ KirkwoodSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Kirkwood.{% endif %}
-          <ul>
-            {% if KirkwoodSnowReport.today_high_temp %}<li>High Temp: {{KirkwoodSnowReport.today_high_temp }}</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.today_low_temp %}<li>Low Temp: {{ KirkwoodSnowReport.today_low_temp }}</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.today_new_snow %}<li>New Snow: {{ KirkwoodSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ KirkwoodSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
+            <li>Submit your feedback, questions, etc through the form found <a href="http://www.verysmallventures.com/contact" target="_blank">here</a>.</li>
           </ul>
        <br />
       </div>
-      <!-- END resort snow report module -->
+      <!-- END contact module -->
       
-      <!-- BEGIN dot traffic conditions module -->
+      <!-- BEGIN data sources module -->
       <div class="post">
-        <h2>DOT Road Conditions</h2>
-        {% if DOTi80RoadConditions.chains_required %}<p>Chains</p>{% else %}{% endif %}
+        <h2>Advertising</h2>
+        <p>We are currently exploring the option of placing ads on the site.</p>
           <ul>
-            {% if DOTi80RoadConditions.chains_required %}<li>Chains Required: {{ DOTi80RoadConditions.chains_required }}</li>{% else %}{% endif %}
-            {% if DOTi80RoadConditions.chains_required %}<li>Location of Requirement: {{ DOTi80RoadConditions.stretch_of_road }}{% else %}{% endif %}</li>
+            <li>If you are interested in advertising or partnership opportunities, please contact us <a href="http://www.verysmallventures.com/contact" target="_blank">here</a>.</li>
           </ul>
-        
-        {% if DOTi80RoadConditions.date_time_added %}<p>Details: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>{% else %}<p>No New Traffic Updates</p>{% endif %}
-          <ul>
-            {% if DOTi80RoadConditions.road_conditions_details %}<li>{{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}{% endif %}
-          </ul>
-        <br />
+       <br />
       </div>
-      <!-- END dot traffic conditions module -->
+      <!-- END data sources module -->
     
   <!-- END left column -->
   </div>
@@ -94,74 +66,42 @@
   <!-- BEGIN right column -->
   <div id="sidebar">    
     
-      <!-- BEGIN avalanche conditions module -->
+      <!-- BEGIN terms of use module -->
       <div class="box">
-        <h2>Today's Avalanche Report</h2>
-            {% if TodaysAvalancheReport.avalanche_danger_image_url %}
-              <p><img src="{{ TodaysAvalancheReport.avalanche_danger_image_url }}" /></p>
-            {% endif %}             
-             {% if TodaysAvalancheReport.avalanche_report_paragraph %}
-                <p>{{ TodaysAvalancheReport.avalanche_report_paragraph }}</p>
-            {% else %}
-              <p>No new avalanche report today.  Please see <a href="http://www.sierraavalanchecenter.org/advisory.php" target="_blank">Sierra Avalanche website</a> for more details.</p>
-            {% endif %}
+        <h2>Terms of Use</h2>
+              <p>By using this site, you accept the following terms of use. Mountain Metrics, Very Small Ventures and the creators of this site take no responsibility for the accuracy or validity of any claims or statements contained in the information, or related graphics of this site. Further, Mountain Metrics, Very Small Ventures and the creators of this site make no representation whatsoever about the suitability of any of the information contained in the information or graphics on this site for any purpose. All such information and related graphics are provided without warranty of any kind. Mountain Metrics, Very Small Ventures and the creators of this site make no representations whatsoever about any other Web site which you may access through this site. When you access a 3rd party Web site, you understand and acknowledge that it is independent from Mountain Metrics, Very Small Ventures and the creators of this site, and that Mountain Metrics, Very Small Ventures and the creators of this site have no control over the content on any such Web site. In addition, a link to a 3rd party Web site does not mean that Mountain Metrics, Very Small Ventures and the creators of this site endorses or accepts any responsibility for the content, or the use, of such Web site. It is your responsibility to take precautions to ensure that whatever you select for your use by you is free of such items such as viruses, worms, Trojan horses and other items of a destructive nature. IN NO EVENT WILL MOUNTAIN METRICS, VERY SMALL VENTURES AND THE CREATORS OF THIS SITE BE LIABLE FOR ANY DAMAGES WHATSOEVER, INCLUDING SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE INFORMATION AVAILABLE OR REFERRED TO ON THIS SITE.</p>
         <br />
       </div>
-      <!-- END avalanche conditions module -->
+      <!-- END terms of use module -->
       
-      <!-- BEGIN detailed weather module -->
+      <!-- BEGIN contact module -->
       <div class="box">
-        <h2>3 Day Detailed Weather</h2>
-              <p>Yesterday: {{ yesterday|date:"D - F j, Y" }}</p>
+        <h2>Privacy Statement</h2>
+              <p>Introduction</p>
               <ul>
-              <li>Wind Direction: {Insert Wind Direction}</li>
-              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
-              <li>Dewpoint: {Insert Dewpoint}</li>
-              <li>Relative Humidity: {Insert Relative Humidity}</li>
-              <li>Visibility: {Insert Visibility}</li>
-              <li>Snowfall: {Insert Expected Snowfall}</li>
+                <li>Mountain Metrics, Very Small Ventures and the creators of this site take privacy very seriously and will respect your right to privacy as a user.</li>
+                <li>Below you will find the privacy standards of the site.</li>
               </ul>
-            <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
+              <p>Collection and Use of Data</p>
               <ul>
-              <li>Wind Direction: {{  ThreeDayWeatherForecast.wind_dir }}</li>
-              <li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }} mph to {{ ThreeDayWeatherForecast.wind_gust_mph }} mph</li>
-              <li>Dewpoint: {{ ThreeDayWeatherForecast.dewpoint_f }}&deg; F</li>
-              <li>Relative Humidity: {{ ThreeDayWeatherForecast.wind_dir }}</li>
-              <li>Visibility: {{ ThreeDayWeatherForecast.wind_dir }}</li>
-              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
+                <li>You are not required to provide any information to this site if you do not want to.</li>
+                <li>As on many web sites, Mountain Metrics, Very Small Ventures and the creators of the site may also automatically receive general information that is contained in server log files, such as your IP address, and cookie information.  This personal user data collected will not be released to third parties without a user's explicit consent.</li>
+                <li>To collect user data, Mountain Metrics, Very Small Ventures and the creators of the site use a service called Google Analytics.  For more information on this service and the privacy implications, please refer to the <a href="http://www.google.com/analytics/tos.html">Google Analytics Privacy Policy</a>. 
+                <li>Data collected may be used to customize, alter and improve the user experience on this site.</li>
               </ul>
-            <p>Tonight</p>
+              <p>Changes to the Privacy Policy</p>
               <ul>
-              <li>Wind Direction: {Insert Direction}</li>
-              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
-              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
+                <li>The privacy policy for this website may periodically change.</li>
               </ul>
-            <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
+              <p>Not Guaranteed</p>
               <ul>
-              <li>Wind Direction: {Insert Direction}</li>
-              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
-              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
+                <li>While this privacy policy states standards for collection and use data, and while efforts will be made to meet the standards above, Mountain Metrics, Very Small Ventures and the creators of this site are not in a position to guarantee compliance with these standards. There may be factors beyond the site creator's control that may result in disclosure of data. Consquently, Mountain Metrics, Very Small Ventures and the creators of this site offer no warranties or representations as regards maintenance or non-disclosure of data.</li>
               </ul>
-            <p><a href="http://www.weather.gov/data/obhistory/KTRK.html" target="_blank">Full Historical Report...</a></p>  
         <br />
       </div>
-      <!-- END detailed weather module -->
+      <!-- END contact module -->
 
-      <!-- BEGIN snowfall trend module -->
-      <div class="box">
-        <h2>2009 Snowfall Trends</h2>
-<p><img src="http://chart.apis.google.com/chart?chs=400x200&amp;chdlp=b&amp;chf=bg,s,ffffff|c,s,ffffff&amp;chxt=x,y&amp;chxl=0:|Nov|Dec|Jan|1:|0.00|15.00|30.00&amp;cht=lc&amp;chd=t:0.00,26.66,40.00,46.66,73.33,100.00|0.00,26.66,13.33,6.66,26.66,33.33&amp;chdl=Base+Depth|New+Snow&amp;chco=0000ff,009900&amp;chls=2,1,0|2,3,3" /></p><br />
-      </div>
-      <!-- END snowfall trend module -->
-    
-      <!-- BEGIN snowfall trend module -->
-      <div class="box">
-        <h2>7 Day Temperature Profile</h2>
-        <p>Grab data from NOAA and display profile of last seven days highs and lows.</p>
-<p><img src="http://chart.apis.google.com/chart?cht=lc&chs=400x200&chxt=x,y&chxr=0,0,10|1,0,16.8&chd=t:71.4,65.5,59.5,65.5,77.4,95.2,89.3,83.3,65.5,71.4,77.4|59.5,47.6,29.8,23.8,29.8,35.7,41.7,29.8,23.8,35.7,41.7&chco=990000,339966&chls=1,1,0|1,1,0|1,1,0&chdl=High|Low
- &chm=o,990000,0,0,3|o,990000,0,1,3|o,990000,0,2,3|o,990000,0,3,3|o,990000,0,4,3|o,990000,0,5,3|o,990000,0,6,3|o,990000,0,7,3|o,990000,0,8,3|o,990000,0,9,3|o,990000,0,10,3|o,990000,0,11,3|o,990000,0,12,3|o,990000,0,13,3|o,990000,0,14,3|o,990000,0,15,3|o,990000,0,16,3|o,990000,0,17,3|o,990000,0,18,3|o,990000,0,19,3|o,990000,0,20,3|o,990000,0,21,3|o,990000,0,22,3|o,990000,0,23,3|o,990000,0,24,3|o,990000,0,25,3|o,990000,0,26,3|o,990000,0,27,3|o,990000,0,28,3|o,990000,0,29,3|o,990000,0,30,3|o,990000,0,31,3|o,990000,0,32,3|
-  o,339966,1,0,3|o,339966,1,1,3|o,339966,1,2,3|o,339966,1,3,3|o,339966,1,4,3|o,339966,1,5,3|o,339966,1,6,3|o,339966,1,7,3|o,339966,1,8,3|o,339966,1,9,3|o,339966,1,10,3|o,339966,1,11,3|o,339966,1,12,3|o,339966,1,13,3|o,339966,1,14,3|o,339966,1,15,3|o,339966,1,16,3|o,339966,1,17,3|o,339966,1,18,3|o,339966,1,19,3|o,339966,1,20,3|o,339966,1,21,3|o,339966,1,22,3
-"/></p>
+
       </div>
       <!-- END snowfall trend module -->
 
