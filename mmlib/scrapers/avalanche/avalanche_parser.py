@@ -22,21 +22,27 @@ class AvalancheConditionsParser(Scraper):
     self.scrape()
     intro_paragraph = self.parseIntroText()
     low = self.parseDanger(find_value=
-      'http://www.avalanche.org/%7Euac/encyclopedia/low_avalanche_hazard.htm')
+#      'http://www.avalanche.org/%7Euac/encyclopedia/low_avalanche_hazard.htm')
+      'http://www.avalanche.org/~uac/encyclopedia/low_avalanche_hazard.htm')
     moderate = self.parseDanger(find_value=
-      'http://www.avalanche.org/%7Euac/encyclopedia/moderate_danger.htm')
+#      'http://www.avalanche.org/%7Euac/encyclopedia/moderate_danger.htm')
+      'http://www.avalanche.org/~uac/encyclopedia/moderate_danger.htm')
     considerable = self.parseDanger(find_value=
-      'http://www.avalanche.org/%7Euac/encyclopedia/considerable_danger.htm')
+#      'http://www.avalanche.org/%7Euac/encyclopedia/considerable_danger.htm')
+      'http://www.avalanche.org/~uac/encyclopedia/considerable_danger.htm')
     high = self.parseDanger(find_value=
-      'http://www.avalanche.org/%7Euac/encyclopedia/high_danger.htm')
+#      'http://www.avalanche.org/%7Euac/encyclopedia/high_danger.htm')
+      'http://www.avalanche.org/~uac/encyclopedia/high_danger.htm')
     extreme = self.parseDanger(find_value=
-      'http://www.avalanche.org/%7Euac/encyclopedia/extreme_danger.htm')
-    
+#      'http://www.avalanche.org/%7Euac/encyclopedia/extreme_danger.htm')
+      'http://www.avalanche.org/~uac/encyclopedia/extreme_danger.htm')
+
     conditions = [low, moderate, considerable, high, extreme]
     condition_counter = 0
     for condition in conditions:
-        if condition:
-          condition_counter += 1
+#      print condition
+      if condition:
+        condition_counter += 1
 
     if condition_counter > 1:
       multiple_danger_levels = True
@@ -59,10 +65,16 @@ class AvalancheConditionsParser(Scraper):
   def parseDanger(self, find_value):
     logging.info('starting parseDanger')
     logging.info('findvalue = %s' % find_value)
-    block = self.soup.findAll(attrs={'href': find_value})
+    block = self.soup.find(attrs={'href': find_value})
+# Code for troubleshooting.
+#    block = self.soup.findAll(True)
+#    for tag in block:
+#      print tag.name
+#      print tag.attrs
 
     if block:
       logging.info('Found danger')
+#      print 'DANGER'
       return True
     logging.info('Found nothing')
     return False

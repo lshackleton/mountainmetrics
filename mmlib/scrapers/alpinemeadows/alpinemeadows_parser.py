@@ -40,12 +40,28 @@ class AlpineMeadowsSnowReportParser(Scraper):
 
     lower_mountain_temp_f =  float(snow_conditions[10][:-7])
     upper_mountain_temp_f = float(snow_conditions[11][:-7])
-    
-    wind = snow_conditions[14]
-    wind_base = snow_conditions[13]
-    wind_top = snow_conditions[14]
-    
+
     new_snow_report = models.AlpineMeadowsSnowReport()
+
+    try:
+      if snow_conditions[14]:
+
+        wind = snow_conditions[14]
+        wind_base = snow_conditions[13]
+        wind_top = snow_conditions[14]
+        new_snow_report.wind = wind
+        new_snow_report.wind_base = wind_base
+        new_snow_report.wind_top = wind_top
+        logging.info('Have full wind data.')
+      elif snow_conditions[13]:
+        wind = snow_conditions[13]
+        wind_base = None
+        wind_top = None
+        new_snow_report.wind = wind
+        logging.info('Partial wind data.')
+    except:
+      pass
+      logging.info('No wind data.')
 
     new_snow_report.time_of_report = str(time)
     new_snow_report.current_temp_f = temp
@@ -60,9 +76,6 @@ class AlpineMeadowsSnowReportParser(Scraper):
     new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
     new_snow_report.twentyfour_hour_snow_total_inches_base = twentyfour_total_in_base
     new_snow_report.twentyfour_hour_snow_total_inches_top = twentyfour_total_in_top
-    new_snow_report.wind = wind
-    new_snow_report.wind_base = wind_base
-    new_snow_report.wind_top = wind_top
     new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
     new_snow_report.is_alpine_meadows = True
 

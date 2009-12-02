@@ -310,6 +310,30 @@ class KirkwoodConditionsFetcher(BaseRequestHandler):
     self.KirkwoodFetcherProcess()
 
 
+class AllFetcher(BaseRequestHandler):
+
+  def AllFetcherProcess(self):
+    logging.info('Running the AllFetcherProcess.')
+    kirkwood = KirkwoodConditionsFetcher()
+    kirkwood.KirkwoodFetcherProcess()
+    squaw = SquawValleyConditionsFetcher()
+    squaw.SquawValleyFetcherProcess()
+    alpine = AlpineMeadowsConditionsFetcher()
+    alpine.AlpineMeadowsFetcherProcess()
+    avalanche = AvalancheConditionsFetcher()
+    avalanche.AvalancheConditionsFetcherProcess()
+    i80 = i80ConditionsFetcher()
+    i80.i80ConditionsFetcherprocess()
+    weather = WeatherFetcher()
+    weather.WeatherFetcherprocess()
+    logging.info('SUCCESS: Running the AllFetcherProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.AllFetcherProcess()
+
+
 def main():
     wsgiref.handlers.CGIHandler().run(webapp.WSGIApplication([
         ('/tasks/process/AddWeatherFetcherTask', AddWeatherFetcherTask),
@@ -334,7 +358,10 @@ def main():
         ('/tasks/process/SquawValleyConditionsFetcher',   
           SquawValleyConditionsFetcher),
         ('/tasks/process/KirkwoodConditionsFetcher',   
-          KirkwoodConditionsFetcher),        
+          KirkwoodConditionsFetcher),      
+# This is intended to only be used by Bill and Lane
+        ('/tasks/process/allfetcher',   
+          AllFetcher),
     ]))
 
 if __name__ == '__main__':

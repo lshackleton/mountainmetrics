@@ -64,7 +64,7 @@ class BaseRequestHandler(webapp.RequestHandler):
     exception_details = str(sys.exc_info()[1])
     exception_traceback = ''.join(traceback.format_exception(*sys.exc_info()))
     logging.error(exception_traceback)
-    exception_expiration = 600 # seconds 
+    exception_expiration = 60*60*3 # seconds 
     mail_admin = "wferrell@gmail.com" # must be an admin 
     sitename = "mountainmetrics"
     throttle_name = 'exception-'+exception_name
@@ -138,6 +138,22 @@ class HomePageHandler(BaseRequestHandler):
       avalanche = avalanche_query.get()
       memcache.set("avalanche", avalanche, time=3600)
     
+    avalanche_multi_levels = False  
+    if avalanche.multiple_danger_levels:
+      avalanche_multi_levels = True
+
+    avalanche_graph_url = None
+    if avalanche.extreme_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:5&chl=Extreme&chdlp=b'
+    elif avalanche.high_danger:
+      avalanche_graph_url = ' http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:10&chl=High&chdlp=b'
+    elif avalanche.considerable_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:25&chl=Considerable&chdlp=b'
+    elif avalanche.moderate_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:50&chl=Moderate&chdlp=b'
+    elif avalanche.low_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:90&chl=Low&chdlp=b'
+    
     alpine_meadows_snow_report = memcache.get("alpine_meadows_snow_report")
     if alpine_meadows_snow_report is None:
       alpine_meadows_snow_report_query = models.AlpineMeadowsSnowReport.all()
@@ -168,7 +184,9 @@ class HomePageHandler(BaseRequestHandler):
     self.generate('home.html', {
       'ThreeDayWeatherForecast': weather,
       'DOTi80RoadConditions': roads,
-      'TodaysAvalancheReport': avalanche,
+      'avalanche_multi_levels': avalanche_multi_levels,
+      'avalanche_graph_url': avalanche_graph_url,
+      'avalanche_paragraph': avalanche.avalanche_report_paragraph,
       'AlpineMeadowsSnowReport': alpine_meadows_snow_report,
       'SquawValleySnowReport': squaw_valley_snow_report,
       'KirkwoodSnowReport': kirkwood_snow_report,
