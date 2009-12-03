@@ -146,7 +146,7 @@ class HomePageHandler(BaseRequestHandler):
     if avalanche.extreme_danger:
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:5&chl=Extreme&chdlp=b'
     elif avalanche.high_danger:
-      avalanche_graph_url = ' http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:10&chl=High&chdlp=b'
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:10&chl=High&chdlp=b'
     elif avalanche.considerable_danger:
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:25&chl=Considerable&chdlp=b'
     elif avalanche.moderate_danger:

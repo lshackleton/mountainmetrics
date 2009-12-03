@@ -10,7 +10,7 @@
       <!-- BEGIN weather forecast module -->
       <div class="post">
         <h2>3 Day Weather Forecast</h2>
-        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
+        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P) O" }}</p>
           <ul>
             {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
             <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>
@@ -109,11 +109,16 @@
       <!-- BEGIN avalanche conditions module -->
       <div class="box">
         <h2>Today's Avalanche Report</h2>
-            {% if TodaysAvalancheReport.avalanche_danger_image_url %}
-              <p><img src="{{ TodaysAvalancheReport.avalanche_danger_image_url }}" /></p>
+            {% if avalanche_graph_url %}
+              <p><img src="{{ avalanche_graph_url }}" /></p>
+            {% else %}
+            {% endif %}
+            
+            {% if multiple_danger_levels %}
+            <p>There are multiple danger levels today. In the graph above, we display the highest danger level.  We recommend reading <a href="http://www.sierraavalanchecenter.org/advisory" target="_blank">the full report</a>.</p>{% else %}
             {% endif %}             
-             {% if TodaysAvalancheReport.avalanche_report_paragraph %}
-                <p>{{ TodaysAvalancheReport.avalanche_report_paragraph }}  Please see <a href="http://www.sierraavalanchecenter.org/advisory" target="_blank">Sierra Avalanche Center website</a> for more details.</p>
+             {% if avalanche_paragraph %}
+                <p>{{ avalanche_paragraph }}  Please see <a href="http://www.sierraavalanchecenter.org/advisory" target="_blank">Sierra Avalanche Center website</a> for more details.</p>
             {% else %}
               <p>No new avalanche report today.  Please see <a href="http://www.sierraavalanchecenter.org/advisory" target="_blank">Sierra Avalanche website</a> for more details.</p>
             {% endif %}
