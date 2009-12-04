@@ -4,6 +4,7 @@
 __author__ = "Bill Ferrell"
 
 import sys
+import logging
 
 from mmlib.status_value import StatusValue
 from third_party.BeautifulSoup import BeautifulSoup
