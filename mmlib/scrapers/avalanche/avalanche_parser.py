@@ -22,20 +22,30 @@ class AvalancheConditionsParser(Scraper):
     self.scrape()
     intro_paragraph = self.parseIntroText()
     low = self.parseDanger(find_value=
-#      'http://www.avalanche.org/%7Euac/encyclopedia/low_avalanche_hazard.htm')
       'http://www.avalanche.org/~uac/encyclopedia/low_avalanche_hazard.htm')
+    if not low:
+      low = self.parseDanger(find_value=
+        'http://www.avalanche.org/%7Euac/encyclopedia/low_avalanche_hazard.htm')
     moderate = self.parseDanger(find_value=
-#      'http://www.avalanche.org/%7Euac/encyclopedia/moderate_danger.htm')
       'http://www.avalanche.org/~uac/encyclopedia/moderate_danger.htm')
+    if not moderate:
+      moderate = self.parseDanger(find_value=
+        'http://www.avalanche.org/%7Euac/encyclopedia/moderate_danger.htm')
     considerable = self.parseDanger(find_value=
-#      'http://www.avalanche.org/%7Euac/encyclopedia/considerable_danger.htm')
       'http://www.avalanche.org/~uac/encyclopedia/considerable_danger.htm')
+    if not considerable:
+       considerable = self.parseDanger(find_value=
+        'http://www.avalanche.org/%7Euac/encyclopedia/considerable_danger.htm')
     high = self.parseDanger(find_value=
-#      'http://www.avalanche.org/%7Euac/encyclopedia/high_danger.htm')
       'http://www.avalanche.org/~uac/encyclopedia/high_danger.htm')
+    if not high:
+      high = self.parseDanger(find_value=
+        'http://www.avalanche.org/%7Euac/encyclopedia/high_danger.htm')
     extreme = self.parseDanger(find_value=
-#      'http://www.avalanche.org/%7Euac/encyclopedia/extreme_danger.htm')
       'http://www.avalanche.org/~uac/encyclopedia/extreme_danger.htm')
+    if not extreme:
+      extreme = self.parseDanger(find_value=
+        'http://www.avalanche.org/%7Euac/encyclopedia/extreme_danger.htm')
 
     conditions = [low, moderate, considerable, high, extreme]
     condition_counter = 0
