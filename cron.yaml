@@ -28,3 +28,8 @@ cron:
   url: /tasks/process/AddKirkwoodConditionsFetcherTask
   schedule: every 1 hours
 #  schedule: every 1 minutes
+
+- description: Deletei80DataOneWeekAtATime 
+  url: /tasks/process/Deletei80DataOneWeekAtATime
+  schedule: every 24 hours 05:00
+#  schedule: every 1 minutes

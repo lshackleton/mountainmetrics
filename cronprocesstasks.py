@@ -12,8 +12,9 @@ import datetime
 import wsgiref.handlers
 
 from google.appengine.api.labs import taskqueue
-from google.appengine.ext import webapp
 from google.appengine.api import memcache
+from google.appengine.ext import webapp
+from google.appengine.ext import db
 
 #Import the BaseRequestHandler so we have error handling!
 from main import BaseRequestHandler
@@ -65,6 +66,8 @@ twenty = datetime.datetime.combine(tomorrow, datetime.time(20, 50, 1))
 twentyone = datetime.datetime.combine(tomorrow, datetime.time(21, 50, 1))
 twentytwo = datetime.datetime.combine(tomorrow, datetime.time(22, 50, 1))
 twentythree = datetime.datetime.combine(tomorrow, datetime.time(23, 50, 1))
+
+one_week_ago = today + datetime.timedelta(days=-7)
 
 twenty_four_hour_schedule = [one, two, three, four, five, six, seven, eight, 
                              nine, ten, eleven, twelve, thirteen, fourteen,
@@ -123,6 +126,20 @@ class AddKirkwoodConditionsFetcherTask(BaseRequestHandler):
      logging.info('Running the AddKirkwoodConditionsFetcherTask.')
      taskqueue.Task(url='/tasks/process/KirkwoodConditionsFetcher').add(
                     queue_name='ResortReportFetcher')
+
+
+class Deletei80DataOneWeekAtATime(BaseRequestHandler):
+   """ The i80 Data table is growing quickly. Old data is not needed.
+      This function deletes old data to ensure we don't grow our dataset and 
+      waste.
+   """
+   def get(self):
+     logging.info('Running the Deletei80DataOneWeekAtATime.')
+     q = db.GqlQuery("SELECT __key__ FROM models.DOTi80RoadConditions WHERE "
+                     " date_time_added < :1", one_week_ago)
+     results = q.fetch(50)
+     db.delete(results)
+
 
 class WeatherFetcher(BaseRequestHandler):
   """ Class used to update the Weather data from NOAA."""
@@ -347,8 +364,8 @@ def main():
           AddSquawValleyConditionsFetcherTask),
         ('/tasks/process/AddKirkwoodConditionsFetcherTask',  
           AddKirkwoodConditionsFetcherTask),
-# Above are URLs that the cron job calls -- to queue up fetchers.
-# Below are URLs for actually fetching data.
+# The section above are URLs that the cron job calls -- to queue up fetchers.
+# The section below are URLs for actually fetching data.
         ('/tasks/process/AvalancheConditionsFetcher', 
           AvalancheConditionsFetcher),
         ('/tasks/process/WeatherFetcher', WeatherFetcher),
@@ -359,6 +376,9 @@ def main():
           SquawValleyConditionsFetcher),
         ('/tasks/process/KirkwoodConditionsFetcher',   
           KirkwoodConditionsFetcher),      
+# This section contains processes that delete data
+        ('/tasks/process/Deletei80DataOneWeekAtATime',   
+          Deletei80DataOneWeekAtATime),
 # This is intended to only be used by Bill and Lane
         ('/tasks/process/allfetcher',   
           AllFetcher),
