@@ -24,9 +24,10 @@ class SquawSnowReportParser(Scraper):
     time = self.parseTimeLastUpdate()
     snow_conditions = self.parseSnowConditions()
 
-    temp = float(snow_conditions[10][36:-12])
-    lower_mountain_temp_f = float(snow_conditions[1][36:-12])
-    upper_mountain_temp_f = float(snow_conditions[10][36:-12])
+###    temp = float(snow_conditions[10][36:-12])
+    temp = snow_conditions[10][36:-12]
+###    lower_mountain_temp_f = float(snow_conditions[1][36:-12])
+###   upper_mountain_temp_f = float(snow_conditions[10][36:-12])
 
     current_condition = snow_conditions[12][4:]
     current_condition_top = snow_conditions[12][4:]
@@ -51,9 +52,9 @@ class SquawSnowReportParser(Scraper):
     new_snow_report = models.SquawValleySnowReport()
 
     new_snow_report.time_of_report = str(time)
-    new_snow_report.current_temp_f = temp
-    new_snow_report.upper_mountain_temp_f = upper_mountain_temp_f
-    new_snow_report.lower_mountain_temp_f = lower_mountain_temp_f
+    ###new_snow_report.current_temp_f = temp
+    ###new_snow_report.upper_mountain_temp_f = upper_mountain_temp_f
+    ###new_snow_report.lower_mountain_temp_f = lower_mountain_temp_f
     new_snow_report.squaw_upper_mountain_snow_base_inches = upper_m_snowbase 
     new_snow_report.squaw_lower_mountain_snow_base_inches = lower_m_snowbase
     new_snow_report.current_condition = str(current_condition)

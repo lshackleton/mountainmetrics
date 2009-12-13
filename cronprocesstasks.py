@@ -35,6 +35,7 @@ from mmlib.scrapers.avalanche import avalanche_parser
 from mmlib.scrapers.alpinemeadows import alpinemeadows_parser
 from mmlib.scrapers.squaw import squaw_parser
 from mmlib.scrapers.kirkwood import kirkwood_parser
+from mmlib.scrapers.expected_snowfall import expected_snowfall_parser
 
 
 ## Set logging level.
@@ -127,6 +128,15 @@ class AddKirkwoodConditionsFetcherTask(BaseRequestHandler):
      logging.info('Running the AddKirkwoodConditionsFetcherTask.')
      taskqueue.Task(url='/tasks/process/KirkwoodConditionsFetcher').add(
                     queue_name='ResortReportFetcher')
+
+class AddExpectedSnowfallFetcherTask(BaseRequestHandler):
+   """Cron calls this class to enqueue more AddExpectedSnowfallFetcher 
+      tasks.
+   """
+   def get(self):
+     logging.info('Running the AddExpectedSnowfallFetcherTask.')
+     taskqueue.Task(url='/tasks/process/ExpectedSnowfallFetcher').add(
+                    queue_name='AvalancheConditionsFetcher')
 
 
 class Deletei80DataOneWeekAtATime(BaseRequestHandler):
@@ -358,6 +368,23 @@ class KirkwoodConditionsFetcher(BaseRequestHandler):
     self.KirkwoodFetcherProcess()
 
 
+class ExpectedSnowfallFetcher(BaseRequestHandler):
+
+  def ExpectedSnowfallProcess(self):
+    logging.info('Running the ExpectedSnowfallProcess.')
+    expected_snowfall_parser.ExpectedSnowFallParser()
+    logging.info('SUCCESS: Running the ExpectedSnowfallProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.ExpectedSnowfallProcess()
+
+  def post(self):
+    self.ExpectedSnowfallProcess()
+
+
+
 class AllFetcher(BaseRequestHandler):
 
   def AllFetcherProcess(self):
@@ -374,6 +401,9 @@ class AllFetcher(BaseRequestHandler):
     i80.i80ConditionsFetcherprocess()
     weather = WeatherFetcher()
     weather.WeatherFetcherprocess()
+    expected_snowfall = ExpectedSnowfallFetcher()
+    expected_snowfall.ExpectedSnowfallProcess()
+
     logging.info('SUCCESS: Running the AllFetcherProcess.')
     memcache.flush_all()
     logging.info('memcache.flush_all() run.')
@@ -395,6 +425,8 @@ def main():
           AddSquawValleyConditionsFetcherTask),
         ('/tasks/process/AddKirkwoodConditionsFetcherTask',  
           AddKirkwoodConditionsFetcherTask),
+        ('/tasks/process/AddExpectedSnowfallFetcherTask',  
+          AddExpectedSnowfallFetcherTask),
 # The section above are URLs that the cron job calls -- to queue up fetchers.
 # The section below are URLs for actually fetching data.
         ('/tasks/process/AvalancheConditionsFetcher', 
@@ -407,6 +439,8 @@ def main():
           SquawValleyConditionsFetcher),
         ('/tasks/process/KirkwoodConditionsFetcher',   
           KirkwoodConditionsFetcher),      
+        ('/tasks/process/ExpectedSnowfallFetcher',   
+          ExpectedSnowfallFetcher),      
 # This section contains processes that delete data
         ('/tasks/process/Deletei80DataOneWeekAtATime',   
           Deletei80DataOneWeekAtATime),

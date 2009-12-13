@@ -1,4 +1,5 @@
 cron:
+# NOTE: We can have up to 20 scheduled tasks here.
 - description: AddWeatherFetcherTask 
   url: /tasks/process/AddWeatherFetcherTask
   schedule: every 24 hours 09:00
@@ -26,6 +27,11 @@ cron:
 
 - description: AddKirkwoodConditionsFetcherTask 
   url: /tasks/process/AddKirkwoodConditionsFetcherTask
+  schedule: every 1 hours
+#  schedule: every 1 minutes
+
+- description: AddExpectedSnowfallFetcherTask 
+  url: /tasks/process/AddExpectedSnowfallFetcherTask
   schedule: every 1 hours
 #  schedule: every 1 minutes
 
