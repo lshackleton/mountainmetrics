@@ -77,6 +77,15 @@ class KirkwoodSnowReport(ResortSnowReportBase):
   kirkwood_24_hour_snow_total_inches = db.StringProperty(multiline=True)
   kirkwood_new_snow_total_inches = db.StringProperty(multiline=True)
 
+class YesterdayWeather(db.Model):
+  """AppEngine data model to store Yesterday's weather information."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+
+
+class YahooWeatherForecast(db.Model):
+  """AppEngine data model to store Yesterday's weather information."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+
 
 class DOTi80RoadConditions(db.Model):
   """AppEngine data model to store DOT Road Conditions. All data in table from DOT website"""
@@ -84,6 +93,7 @@ class DOTi80RoadConditions(db.Model):
   road_conditions_details = db.TextProperty()
   stretch_of_road = db.StringProperty()
   chains_required = db.BooleanProperty()
+  road_closed = db.BooleanProperty()  
 
 class TodaysAvalancheReport(db.Model):
   """AppEngine data model to store Todays Avalanche Report. All data in table from Sierra Avalanche Center"""
@@ -102,3 +112,13 @@ class SevenDayWeatherForecast(db.Model):
   date_time_added = db.DateTimeProperty(auto_now_add=True)
   time_of_report = db.StringProperty(multiline=True)
   #TODO: Fill this out when we have a forecast provider.
+
+
+class ExpectedSnowfall(db.Model):
+  """AppEngine data model to store Expected Snowfall data. The data is from   
+     Sierra Avalanche Center
+  """
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  today = db.StringProperty(multiline=True)
+  tonight = db.StringProperty(multiline=True)
+  tomorrow = db.StringProperty(multiline=True)

@@ -42,6 +42,9 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 from django.core.paginator import ObjectPaginator, InvalidPage
 
+# Importing the mmlib for testing
+from mmlib.scrapers.expected_snowfall import expected_snowfall_parser
+
 # Datastore models.
 import models
 
@@ -178,6 +181,15 @@ class HomePageHandler(BaseRequestHandler):
       memcache.set("kirkwood_snow_report", kirkwood_snow_report,
                    time=3600)
 
+     expected_snowfall = memcache.get("expected_snowfall")
+     if expected_snowfall is None:
+       expected_snowfall_query = models.ExpectedSnowfall.all()
+       expected_snowfall_query.order('-date_time_added')
+       expected_snowfall = kirkwood_snow_report_query.get()
+       memcache.set("expected_snowfall", expected_snowfall,
+                    time=3600)
+
+
     logging.info('get_stats(): %s' % memcache.get_stats())
 
 
@@ -190,6 +202,7 @@ class HomePageHandler(BaseRequestHandler):
       'AlpineMeadowsSnowReport': alpine_meadows_snow_report,
       'SquawValleySnowReport': squaw_valley_snow_report,
       'KirkwoodSnowReport': kirkwood_snow_report,
+      'ExpectedSnowfall': expected_snowfall,
       'yesterday': datetime.datetime.today() - datetime.timedelta(1),
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
       'dayaftertomorrow': datetime.datetime.today() + datetime.timedelta(2),      
@@ -199,8 +212,8 @@ class HomePageHandler(BaseRequestHandler):
 class Bill(BaseRequestHandler):
   def get(self, garbageinput=None):
     logging.info('Visiting the bill page')
-#    sevendayforecast_parser.SevenDayForecastParser()
-#    logging.info('Success for SevenDayForecastParser()')
+    expected_snowfall_parser.ExpectedSnowFallParser()
+    logging.info('Success for the bill page')
 
 
 class AboutPageHandler(BaseRequestHandler):
@@ -230,7 +243,7 @@ class ErrorPageHandler(BaseRequestHandler):
 # Map URLs to our RequestHandler classes above
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
-#   ('/bill', Bill), #base.html
+   ('/bill', Bill), #base.html
    ('/error', ErrorPageHandler), #about.html
    ('/about', AboutPageHandler), #about.html
    ('/.*$', HomePageHandler), #base.html

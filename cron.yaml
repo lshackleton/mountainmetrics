@@ -33,3 +33,8 @@ cron:
   url: /tasks/process/Deletei80DataOneWeekAtATime
   schedule: every 24 hours 05:00
 #  schedule: every 1 minutes
+
+- description: DeleteYesterdayData 
+  url: /tasks/process/DeleteYesterdayData
+  schedule: every 24 hours 06:00
+#  schedule: every 1 minutes

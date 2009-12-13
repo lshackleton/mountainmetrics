@@ -33,10 +33,29 @@ class i80Parser(Scraper):
     match_term = 'IN NORTHERN CALIFORNIA & THE SIERRA NEVADA'
     position =re.search(match_term, block).span()
     conditions = block[position[1]+2:-7]
+    lower_case_conditions = conditions.lower()
+    
+    chain_status = False
+    try:      
+      lower_case_conditions.index('chains are required')
+      chain_status = True
+    except ValueError:
+      pass
+
+## Todo determine a phrase that can indicate if the roads are actually closed.
+#    road_closed_status = False
+#    try:
+#      lower_case_conditions.index()
+#      road_closed_status = True
+#    except ValueError:
+#      pass
+      
     
     logging.info('Prepping to put data into database.')
     new_i80_conditions = models.DOTi80RoadConditions()
     new_i80_conditions.stretch_of_road = match_term
     new_i80_conditions.road_conditions_details = str(conditions)
+    chains_required = chain_status
+#    road_closed = road_closed_status
     new_i80_conditions.put()
     logging.info('Finished adding to the databse.')

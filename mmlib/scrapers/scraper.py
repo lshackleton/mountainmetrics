@@ -6,6 +6,8 @@ __author__ = "Bill Ferrell"
 import sys
 import logging
 
+from google.appengine.api.urlfetch import DownloadError
+
 from mmlib.status_value import StatusValue
 from third_party.BeautifulSoup import BeautifulSoup
 
@@ -20,7 +22,10 @@ class Scraper(object):
 
   def scrape(self):
     """Download the URL or exit."""
-    self.result = urlfetch.fetch(self.url)
+    try:
+      self.result = urlfetch.fetch(self.url)
+    except DownloadError:
+      self.result = urlfetch.fetch(self.url)  
     if ((self.result.status_code == 200) and
         (self.result.content_was_truncated == 0)):
       self.soup = BeautifulSoup(self.result.content)

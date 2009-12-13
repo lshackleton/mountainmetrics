@@ -21,6 +21,7 @@ from main import BaseRequestHandler
 
 #The data models.
 import models
+from models import DOTi80RoadConditions, YesterdayWeather
 
 #For handling the time objects
 import rfc822  
@@ -135,10 +136,40 @@ class Deletei80DataOneWeekAtATime(BaseRequestHandler):
    """
    def get(self):
      logging.info('Running the Deletei80DataOneWeekAtATime.')
-     q = db.GqlQuery("SELECT __key__ FROM models.DOTi80RoadConditions WHERE "
+     q = db.GqlQuery("SELECT __key__ FROM DOTi80RoadConditions WHERE "
                      " date_time_added < :1", one_week_ago)
      results = q.fetch(50)
      db.delete(results)
+
+
+class PullYesterdayDataAndStore(BaseRequestHandler):
+  """ This function pulls yesterday's weather data and stores it in the   
+      Yesterday table.
+  """
+  def get(self):
+    logging.info('Running the PullYesterdayDataAndStore.')
+    process_yesterday.PullAndStoreData()
+    logging.info('Completed PullYesterdayDataAndStore.')
+
+
+class DeleteYesterdayDataOneWeekAtATime(BaseRequestHandler):
+  """ Delete data from the YesterdayWeather table
+  """
+  def get(self):
+    logging.info('Running the DeleteYesterdayDataOneWeekAtATime.')
+    q = db.GqlQuery("SELECT __key__ FROM YesterdayWeather WHERE "
+                    " date_time_added < :1", one_week_ago)
+    results = q.fetch(50)
+    db.delete(results)
+
+
+class YahooWeatherFetcher(BaseRequestHandler):
+  """ This function pulls weather from the Yahoo RSS feed.
+  """
+  def get(self):
+    logging.info('Running the YahooWeatherFetcher.')
+    yahoo_weather.PullAndStoreData()
+    logging.info('Completed YahooWeatherFetcher.')
 
 
 class WeatherFetcher(BaseRequestHandler):
@@ -379,6 +410,8 @@ def main():
 # This section contains processes that delete data
         ('/tasks/process/Deletei80DataOneWeekAtATime',   
           Deletei80DataOneWeekAtATime),
+        ('/tasks/process/DeleteYesterdayDataOneWeekAtATime',   
+          DeleteYesterdayDataOneWeekAtATime),
 # This is intended to only be used by Bill and Lane
         ('/tasks/process/allfetcher',   
           AllFetcher),
