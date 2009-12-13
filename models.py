@@ -72,6 +72,24 @@ class YesterdayWeather(db.Model):
 class YahooWeatherForecast(db.Model):
   """AppEngine data model to store Yesterday's weather information."""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
+#  title string
+#  link string
+#  language string
+#  description string
+#  city string 
+#  region string
+#  country string
+#  units_temperature string
+#  units_distance string
+#  units_pressure string
+#  units_speed string
+#  wind_chill int
+#  wind_direction_degrees int
+#  wind_speed int
+#  atmosphere_humidity_percent int
+#  visibility int
+#  pressure float
+#  state_of_barometic_pressue = string (steady (0), rising (1), or falling (2). (integer: 0, 1, 2))
 
 
 class DOTi80RoadConditions(db.Model):
