@@ -22,60 +22,33 @@ class SquawSnowReportParser(Scraper):
                      valueType='SquawConditions')
     self.scrape()
     time = self.parseTimeLastUpdate()
-    snow_conditions = self.parseSnowConditions()
-
-###    temp = float(snow_conditions[10][36:-12])
-    temp = snow_conditions[10][36:-12]
-###    lower_mountain_temp_f = float(snow_conditions[1][36:-12])
-###   upper_mountain_temp_f = float(snow_conditions[10][36:-12])
-
-    current_condition = snow_conditions[12][4:]
-    current_condition_top = snow_conditions[12][4:]
-    current_condition_base = snow_conditions[3][4:]
-
-    upper_m_snowbase = snow_conditions[14][36:-13]
-    lower_m_snowbase = snow_conditions[5][36:-13]
-
-    # Squaw does not provide the following data
-    #twentyfour_total_in = 
-    #twentyfour_total_in_base = 
-    #twentyfour_total_in_top = 
+    lower_mtn_conditions = self.parseConditions(div_class='snowreport6200')
+    upper_mtn_conditions = self.parseConditions(div_class='snowreport8200')
     
-    #new_snow_total_inches = 
-    #new_snow_total_inches_base = 
-    #new_snow_total_inches_top =        
+    new_data = models.SquawValleySnowReport()
 
-    wind = snow_conditions[11][4:-4]
-    wind_base = snow_conditions[2][4:-4]
-    wind_top = snow_conditions[11][4:-4]
-    
-    new_snow_report = models.SquawValleySnowReport()
+    new_data.time_of_report = str(time)
+    new_data.current_temp_f = float(lower_mtn_conditions[0])
+    new_data.upper_mountain_temp_f = float(lower_mtn_conditions[0])
+    new_data.lower_mountain_temp_f = float(upper_mtn_conditions[0])
+    new_data.upper_mountain_snow_base_inches = upper_mtn_conditions[3] 
+    new_data.lower_mountain_snow_base_inches = lower_mtn_conditions[3]
+    new_data.current_condition = str(lower_mtn_conditions[2])
+    new_data.current_condition_top = str(upper_mtn_conditions[2])
+    new_data.current_condition_base = str(lower_mtn_conditions[2])
+    new_data.new_snow_total_inches = lower_mtn_conditions[4]
+    new_data.new_snow_total_inches_base = lower_mtn_conditions[4]
+    new_data.new_snow_total_inches_top = upper_mtn_conditions[4][:-1]
+    new_data.twentyfour_hour_snow_total_inches = lower_mtn_conditions[5]
+    new_data.twentyfour_hour_snow_total_inches_base = lower_mtn_conditions[5]
+    new_data.twentyfour_hour_snow_total_inches_top = (
+      upper_mtn_conditions[5][:-2])
+    new_data.wind = lower_mtn_conditions[1]
+    new_data.wind_base = lower_mtn_conditions[1]
+    new_data.wind_top = upper_mtn_conditions[1]
+    new_data.is_squaw_valley = True
 
-    new_snow_report.time_of_report = str(time)
-    ###new_snow_report.current_temp_f = temp
-    ###new_snow_report.upper_mountain_temp_f = upper_mountain_temp_f
-    ###new_snow_report.lower_mountain_temp_f = lower_mountain_temp_f
-    new_snow_report.squaw_upper_mountain_snow_base_inches = upper_m_snowbase 
-    new_snow_report.squaw_lower_mountain_snow_base_inches = lower_m_snowbase
-    new_snow_report.current_condition = str(current_condition)
-    new_snow_report.current_condition_top = str(current_condition_top)
-    new_snow_report.current_condition_base = str(current_condition_base)
-# Commented out because Squaw does not provide this data
-#    new_snow_report.new_snow_total_inches = new_snow_total_inches
-#    new_snow_report.new_snow_total_inches_base = new_snow_total_inches_base
-#    new_snow_report.new_snow_total_inches_top = new_snow_total_inches_top
-#    new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
-#    new_snow_report.twentyfour_hour_snow_total_inches_base = twentyfour_total_in_base
-#    new_snow_report.twentyfour_hour_snow_total_inches_top = twentyfour_total_in_top
-#    new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
-
-    new_snow_report.wind = wind
-    new_snow_report.wind_base = wind_base
-    new_snow_report.wind_top = wind_top
-    new_snow_report.is_squaw_valley = True
-
-    new_snow_report.put()
-
+    new_data.put()
 
   def parseTimeLastUpdate(self):
     time = None
@@ -88,13 +61,56 @@ class SquawSnowReportParser(Scraper):
       logging.info('Failing to find data.')
     return time
 
-  def parseSnowConditions(self):
+  def parseConditions(self, div_class=None):
     dat = []
-    block = self.soup.findAll('p', attrs={'class': 'snowreport-item'})
+    block = self.soup.find('div', attrs={'class': div_class})
+    count = 0
     for tag in block:
-#      print tag.attrs
-#      print tag.contents
-      dat += map(str, tag.contents)
-#    print dat [1]
+#      print count
+#      print tag
+
+      if count == 5:
+        raw_data_var = tag.contents[3]
+        temp = raw_data_var.findNext('span')
+        temp = temp.contents[0]
+        temp = temp[:-5]
+        logging.info('temp:%s' % str(temp))
+        wind = str(raw_data_var)
+        wind = wind[82:-6]
+#        print wind
+        logging.info('wind:%s' % str(wind))
+        dat.append(temp)
+        dat.append(wind)
+
+      if count == 7:
+        current_conditions = tag.find('p', attrs={'class': 'snowreport-item'})
+        current_conditions = current_conditions.contents[0]
+        current_conditions = current_conditions[4:-2]
+        logging.info('current_conditions:%s' % str(current_conditions))        
+        dat.append(current_conditions)
+
+      if count == 9:
+        raw_data_var = tag
+        base_snow = raw_data_var.findAll('span')
+        base_snow = base_snow[1]
+        base_snow = base_snow.contents[0]
+        base_snow = base_snow[:-6]
+        logging.info('base_snow:%s' % str(base_snow))
+
+        new_snow = str(raw_data_var)
+        new_snow = new_snow[214:-21]
+        logging.info('new_snow:%s' % str(new_snow))        
+        
+        dat.append(base_snow)
+        dat.append(new_snow)
+
+      if count == 11:
+        storm_total = tag.find('p', attrs={'class': 'snowreport-item'})
+        storm_total = storm_total.contents[0]
+        storm_total = storm_total[6:-7]
+        logging.info('storm_total:%s' % str(storm_total))
+        dat.append(storm_total)
+      count += 1
+#    print dat
     logging.info('dat: %s' % str(dat))
     return dat

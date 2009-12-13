@@ -26,16 +26,16 @@ class AlpineMeadowsSnowReportParser(Scraper):
     current_condition = self.parseWeatherDescription()
     snow_conditions = self.parseSnowConditions()
 
-    upper_m_snowbase = float(snow_conditions[1][:-1])
-    lower_m_snowbase = float(snow_conditions[2][:-1])
+    upper_m_snowbase = (snow_conditions[1][:-1])
+    lower_m_snowbase = (snow_conditions[2][:-1])
 
-    twentyfour_total_in = float(snow_conditions[5][:-1])
-    twentyfour_total_in_base = float(snow_conditions[4][:-1])
-    twentyfour_total_in_top = float(snow_conditions[5][:-1])
+    twentyfour_total_in = (snow_conditions[5][:-1])
+    twentyfour_total_in_base = (snow_conditions[4][:-1])
+    twentyfour_total_in_top = (snow_conditions[5][:-1])
     
-    new_snow_total_inches = float(snow_conditions[8][:-1])
-    new_snow_total_inches_base = float(snow_conditions[7][:-1])
-    new_snow_total_inches_top = float(snow_conditions[8][:-1])        
+    new_snow_total_inches = (snow_conditions[8][:-1])
+    new_snow_total_inches_base = (snow_conditions[7][:-1])
+    new_snow_total_inches_top = (snow_conditions[8][:-1])        
 
 
     lower_mountain_temp_f =  float(snow_conditions[10][:-7])

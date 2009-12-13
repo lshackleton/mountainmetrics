@@ -35,25 +35,17 @@ class ResortSnowReportBase(db.Model):
   upper_mountain_temp_c = db.FloatProperty()
   lower_mountain_temp_f = db.FloatProperty()
   lower_mountain_temp_c = db.FloatProperty()
-  upper_mountain_snow_base_cm = db.FloatProperty()
-  upper_mountain_snow_base_inches = db.FloatProperty()
-  lower_mountain_snow_base_cm = db.FloatProperty()
-  lower_mountain_snow_base_inches = db.FloatProperty()
+  upper_mountain_snow_base_inches = db.StringProperty(multiline=True)
+  lower_mountain_snow_base_inches = db.StringProperty(multiline=True)
   current_condition = db.StringProperty(multiline=True)
   current_condition_top = db.StringProperty(multiline=True)
   current_condition_base = db.StringProperty(multiline=True)
-  new_snow_total_inches = db.FloatProperty()
-  new_snow_total_inches_base = db.FloatProperty()
-  new_snow_total_inches_top = db.FloatProperty()
-  new_snow_total_cm = db.FloatProperty()
-  new_snow_total_cm_base = db.FloatProperty()
-  new_snow_total_cm_top = db.FloatProperty()
-  twentyfour_hour_snow_total_inches = db.FloatProperty()
-  twentyfour_hour_snow_total_inches_base = db.FloatProperty()
-  twentyfour_hour_snow_total_inches_top = db.FloatProperty()
-  twentyfour_hour_snow_total_cm = db.FloatProperty() 
-  twentyfour_hour_snow_total_cm_base = db.FloatProperty() 
-  twentyfour_hour_snow_total_cm_top = db.FloatProperty() 
+  new_snow_total_inches = db.StringProperty(multiline=True)
+  new_snow_total_inches_base = db.StringProperty(multiline=True)
+  new_snow_total_inches_top = db.StringProperty(multiline=True)
+  twentyfour_hour_snow_total_inches = db.StringProperty(multiline=True)
+  twentyfour_hour_snow_total_inches_base = db.StringProperty(multiline=True)
+  twentyfour_hour_snow_total_inches_top = db.StringProperty(multiline=True)
   wind = db.StringProperty(multiline=True)
   wind_base = db.StringProperty(multiline=True)
   wind_top = db.StringProperty(multiline=True)
@@ -62,8 +54,6 @@ class ResortSnowReportBase(db.Model):
 class SquawValleySnowReport(ResortSnowReportBase):
   """AppEngine data model to store Squaw Valley Snow Report."""
   is_squaw_valley = db.BooleanProperty()
-  squaw_lower_mountain_snow_base_inches = db.StringProperty(multiline=True)
-  squaw_upper_mountain_snow_base_inches = db.StringProperty(multiline=True)
 
 class AlpineMeadowsSnowReport(ResortSnowReportBase):
   """AppEngine data model to store Alpine Meadows Snow Report."""
@@ -73,9 +63,6 @@ class KirkwoodSnowReport(ResortSnowReportBase):
   """AppEngine data model to store Kirkwood Snow Report."""
   is_kirkwood = db.BooleanProperty()
   kirkwood_forcast = db.StringProperty(multiline=True)
-  kirkwood_mid_mountain_snow_base = db.StringProperty(multiline=True)
-  kirkwood_24_hour_snow_total_inches = db.StringProperty(multiline=True)
-  kirkwood_new_snow_total_inches = db.StringProperty(multiline=True)
 
 class YesterdayWeather(db.Model):
   """AppEngine data model to store Yesterday's weather information."""
