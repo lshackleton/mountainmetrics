@@ -70,7 +70,7 @@ class YesterdayWeather(db.Model):
 
 
 class YahooWeatherForecast(db.Model):
-  """AppEngine data model to store Yesterday's weather information."""
+  """AppEngine data model to store Yahoo's weather information."""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
 #  title string
 #  link string
@@ -110,14 +110,6 @@ class TodaysAvalancheReport(db.Model):
   high_danger = db.BooleanProperty()
   extreme_danger = db.BooleanProperty()
   multiple_danger_levels = db.BooleanProperty()  
-
-
-class SevenDayWeatherForecast(db.Model):
-  """AppEngine data model to hold the seven day forecast."""
-  date_time_added = db.DateTimeProperty(auto_now_add=True)
-  time_of_report = db.StringProperty(multiline=True)
-  #TODO: Fill this out when we have a forecast provider.
-
 
 class ExpectedSnowfall(db.Model):
   """AppEngine data model to store Expected Snowfall data. The data is from   

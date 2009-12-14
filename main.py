@@ -145,18 +145,24 @@ class HomePageHandler(BaseRequestHandler):
     if avalanche.multiple_danger_levels:
       avalanche_multi_levels = True
 
+    avalanche_status = None
     avalanche_graph_url = None
     if avalanche.extreme_danger:
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:5&chl=Extreme&chdlp=b'
+      avalanche_status = 'Extreme'
     elif avalanche.high_danger:
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:10&chl=High&chdlp=b'
+      avalanche_status = 'High'
     elif avalanche.considerable_danger:
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:25&chl=Considerable&chdlp=b'
+      avalanche_status = 'Considerable'
     elif avalanche.moderate_danger:
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:50&chl=Moderate&chdlp=b'
+      avalanche_status = 'Moderate'
     elif avalanche.low_danger:
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:90&chl=Low&chdlp=b'
-    
+      avalanche_status = 'Low'
+
     alpine_meadows_snow_report = memcache.get("alpine_meadows_snow_report")
     if alpine_meadows_snow_report is None:
       alpine_meadows_snow_report_query = models.AlpineMeadowsSnowReport.all()
@@ -199,6 +205,7 @@ class HomePageHandler(BaseRequestHandler):
       'avalanche_multi_levels': avalanche_multi_levels,
       'avalanche_graph_url': avalanche_graph_url,
       'avalanche_paragraph': avalanche.avalanche_report_paragraph,
+      'avalanche_status': avalanche_status,
       'AlpineMeadowsSnowReport': alpine_meadows_snow_report,
       'SquawValleySnowReport': squaw_valley_snow_report,
       'KirkwoodSnowReport': kirkwood_snow_report,
