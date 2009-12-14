@@ -29,7 +29,7 @@ class KirkwoodSnowReportParser(Scraper):
     new_snow_report.current_temp_f = float(snow_conditions[2][:-7])
     new_snow_report.current_condition = str(snow_conditions[1])
     new_snow_report.new_snow_total_inches = str(snow_conditions[6])
-    new_snow_report.twentyfour_hour_snow_total_inches = str(  
+    new_snow_report.storm_snow_total_inches = str(  
       snow_conditions[5])
     new_snow_report.wind = str(snow_conditions[3])
     new_snow_report.kirkwood_forcast = str(snow_conditions[4])

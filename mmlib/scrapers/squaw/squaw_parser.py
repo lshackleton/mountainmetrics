@@ -39,9 +39,9 @@ class SquawSnowReportParser(Scraper):
     new_data.new_snow_total_inches = lower_mtn_conditions[4]
     new_data.new_snow_total_inches_base = lower_mtn_conditions[4]
     new_data.new_snow_total_inches_top = upper_mtn_conditions[4][:-1]
-    new_data.twentyfour_hour_snow_total_inches = lower_mtn_conditions[5]
-    new_data.twentyfour_hour_snow_total_inches_base = lower_mtn_conditions[5]
-    new_data.twentyfour_hour_snow_total_inches_top = (
+    new_data.storm_snow_total_inches = lower_mtn_conditions[5]
+    new_data.storm_snow_total_inches_base = lower_mtn_conditions[5]
+    new_data.storm_snow_total_inches_inches_top = (
       upper_mtn_conditions[5][:-2])
     new_data.wind = lower_mtn_conditions[1]
     new_data.wind_base = lower_mtn_conditions[1]

@@ -73,9 +73,9 @@ class AlpineMeadowsSnowReportParser(Scraper):
     new_snow_report.new_snow_total_inches = new_snow_total_inches
     new_snow_report.new_snow_total_inches_base = new_snow_total_inches_base
     new_snow_report.new_snow_total_inches_top = new_snow_total_inches_top
-    new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
-    new_snow_report.twentyfour_hour_snow_total_inches_base = twentyfour_total_in_base
-    new_snow_report.twentyfour_hour_snow_total_inches_top = twentyfour_total_in_top
+    new_snow_report.storm_snow_total_inches = twentyfour_total_in
+    new_snow_report.storm_snow_total_inches_base = twentyfour_total_in_base
+    new_snow_report.storm_snow_total_inches_top = twentyfour_total_in_top
     new_snow_report.twentyfour_hour_snow_total_inches = twentyfour_total_in
     new_snow_report.is_alpine_meadows = True
 
