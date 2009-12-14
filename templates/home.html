@@ -9,31 +9,37 @@
       
       <!-- BEGIN weather forecast module -->
       <div class="post">
-        <h2>3 Day Weather Forecast</h2>
-        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P) O" }}</p>
+        <h2>Current and Forecasted Weather</h2>
+        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y" }}</p>
           <ul>
             {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
             <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>
             <li>High Temp: {Insert Temp}</li>
             <li>Low Temp: {Insert Temp}</li>
-            {% if ThreeDayWeatherForecast.wind_string %}<li>Wind: {{ ThreeDayWeatherForecast.wind_string }}</li>{% else %}{% endif %}
-            <li>New Snow: {Insert New Snow}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
+            <li>Wind Direction: {{  ThreeDayWeatherForecast.wind_dir }}</li>
+            {% if ThreeDayWeatherForecast.wind_mph %}<li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }} mph to {{ ThreeDayWeatherForecast.wind_gust_mph }} mph</li>{% else %}{% endif %}
+            <li>Visibility: { Insert Visibility }</li>
+            <li>Relative Humidity: { Insert relative humidity }</li>
+            {% if ThreeDayWeatherForecast.dewpoint_f %}<li>Current Dewpoint: {{ ThreeDayWeatherForecast.dewpoint_f }}&deg; F</li>{% else %}{% endif %}
+            {% if ThreeDayWeatherForecast.new_snow_8200_24hours %}<li>New Snow: {{ new_snow_8200_24hours }}in at 8,000 in past 24 hours</li>{% else %}{% endif %}
+            {% if ExpectedSnowfall.today %}<li>Expected Snowfall: {{ ExpectedSnowfall.today }}</li>{% else %}{% endif %}
           </ul>
         
+        <p>Tonight: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y" }}</p>
+          <ul>
+            <li>High Temp: {Insert Temp}</li>
+            <li>Low Temp: {Insert Temp}</li>
+            {% if ExpectedSnowfall.tonight %}<li>Expected Snowfall: {{ ExpectedSnowfall.tonight }}</li>{% else %}{% endif %}
+          </ul>
+
         <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
           <ul>
             <li>High Temp: {Insert Temp}</li>
             <li>Low Temp: {Insert Temp}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
+            {% if ExpectedSnowfall.tomorrow %}<li>Expected Snowfall: {{ ExpectedSnowfall.tomorrow }}</li>{% else %}{% endif %}
           </ul>
+         <p><a href="http://www.weather.gov/data/obhistory/KTRK.html" target="_blank">Full Historical Report...</a></p>  
 
-        <p>{{ dayaftertomorrow|date:"D - F j, Y" }}</p>
-          <ul>
-            <li>High Temp: {Insert Temp}</li>
-            <li>Low Temp: {Insert Temp}</li>
-            <li>Expected Snowfall: {Insert Expected Snow}</li>
-          </ul>
        <br />
       </div>
       <!-- END weather forecast module -->
@@ -43,14 +49,14 @@
         <h2>Today's Resort Snow Report</h2>
         <p>{% if SquawValleySnowReport.date_time_added %}<p>Squaw Valley {{ SquawValleySnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Squaw Valley.{% endif %}
           <ul>
-            {% if SquawValleySnowReport.current_temp_f %}<li>Current Temp: {{ SquawValleySnowReport.current_temp_f }} &deg;F</li>{% else %}{% endif %}
             {% if SquawValleySnowReport.current_condition %}<li>Current Condition: {{ SquawValleySnowReport.current_condition }}</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.wind %}<li>Wind: {{ SquawValleySnowReport.wind }}</li>{% else %}{% endif %}
-
-            {% if SquawValleySnowReport.today_high_temp %}<li>High Temp: {{ SquawValleySnowReport.today_high_temp }}</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.today_low_temp %}<li>Low Temp: {{ SquawValleySnowReport.today_low_temp }}</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.today_new_snow %}<li>New Snow: {{ SquawValleySnowReport.today_new_snow }} in</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.today_expected_snowfall %}<li>Expected Snow: {{ SquawValleySnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.wind %}<li>Current Wind: {{ SquawValleySnowReport.wind }} mph</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.upper_mountain_temp_f %}<li>Upper Mountain Temp: {{ SquawValleySnowReport.upper_mountain_temp_f }}&deg;F</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.lower_mountain_temp_f %}<li>Lower Mountain Temp: {{ SquawValleySnowReport.lower_mountain_temp_f }}&deg;F</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.upper_mountain_snow_base_inches %}<li>Upper Mountain Base : {{ SquawValleySnowReport.upper_mountain_snow_base_inches }} in.</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.lower_mountain_snow_base_inches %}<li>Lower Mountain Base: {{ SquawValleySnowReport.lower_mountain_snow_base_inches }} in.</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.new_snow_total_inches_base %}<li>24hr Snow at Base: {{ SquawValleySnowReport.new_snow_total_inches_base }} in.</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.new_snow_total_inches_top %}<li>24hr Snow at Top: {{ SquawValleySnowReport.new_snow_total_inches_top }} in.</li>{% else %}{% endif %}
           </ul>
         
         <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpineMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
@@ -91,7 +97,7 @@
         
         {% if DOTi80RoadConditions.date_time_added %}<p>Details: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>{% else %}<p>No New Traffic Updates</p>{% endif %}
           <ul>
-            {% if DOTi80RoadConditions.road_conditions_details %}<li>{{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}{% endif %}
+            {% if DOTi80RoadConditions.road_conditions_details %}<li>In Northern California and the Sierra Nevada - {{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}{% endif %}
           </ul>
         <br />
       </div>
@@ -125,49 +131,11 @@
         <br />
       </div>
       <!-- END avalanche conditions module -->
-      
-      <!-- BEGIN detailed weather module -->
-      <div class="box">
-        <h2>3 Day Detailed Weather</h2>
-              <p>Yesterday: {{ yesterday|date:"D - F j, Y" }}</p>
-              <ul>
-              <li>Wind Direction: {Insert Wind Direction}</li>
-              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
-              <li>Dewpoint: {Insert Dewpoint}</li>
-              <li>Relative Humidity: {Insert Relative Humidity}</li>
-              <li>Visibility: {Insert Visibility}</li>
-              <li>Snowfall: {Insert Expected Snowfall}</li>
-              </ul>
-            <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
-              <ul>
-              <li>Wind Direction: {{  ThreeDayWeatherForecast.wind_dir }}</li>
-              <li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }} mph to {{ ThreeDayWeatherForecast.wind_gust_mph }} mph</li>
-              <li>Dewpoint: {{ ThreeDayWeatherForecast.dewpoint_f }}&deg; F</li>
-              <li>Relative Humidity: {{ ThreeDayWeatherForecast.wind_dir }}</li>
-              <li>Visibility: {{ ThreeDayWeatherForecast.wind_dir }}</li>
-              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
-              </ul>
-            <p>Tonight</p>
-              <ul>
-              <li>Wind Direction: {Insert Direction}</li>
-              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
-              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
-              </ul>
-            <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
-              <ul>
-              <li>Wind Direction: {Insert Direction}</li>
-              <li>Wind Speed: {Insert Min-Max Wind Speed Range}</li>
-              <li>Expected Snowfall: {Insert Expected Snowfall}</li>
-              </ul>
-            <p><a href="http://www.weather.gov/data/obhistory/KTRK.html" target="_blank">Full Historical Report...</a></p>  
-        <br />
-      </div>
-      <!-- END detailed weather module -->
 
       <!-- BEGIN snowfall trend module -->
       <div class="box">
         <h2>2009 Snowfall Trends</h2>
-<p><img src="http://chart.apis.google.com/chart?chs=400x200&amp;chdlp=b&amp;chf=bg,s,ffffff|c,s,ffffff&amp;chxt=x,y&amp;chxl=0:|Nov|Dec|Jan|1:|0.00|15.00|30.00&amp;cht=lc&amp;chd=t:0.00,26.66,40.00,46.66,73.33,100.00|0.00,26.66,13.33,6.66,26.66,33.33&amp;chdl=Base+Depth|New+Snow&amp;chco=0000ff,009900&amp;chls=2,1,0|2,3,3" /></p><br />
+<p><img src="http://chart.apis.google.com/chart?chs=400x200&amp;chdlp=b&amp;chf=bg,s,ffffff|c,s,ffffff&amp;chxt=x,y&amp;chxl=0:|Nov|Dec|Jan|1:|0.00|15.00|30.00&amp;cht=lc&amp;chd=t:0.00,26.66,40.00,46.66,73.33,100.00|0.00,26.66,13.33,6.66,26.66,33.33&amp;chdl=7,000+-+8,000+ft|8,000+-+9,000+ft&amp;chco=0000ff,009900&amp;chls=2,1,0|2,3,3" /></p><br />
       </div>
       <!-- END snowfall trend module -->
     
