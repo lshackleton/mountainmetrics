@@ -108,7 +108,7 @@
     
       <!-- BEGIN avalanche conditions module -->
       <div class="box">
-        <h2>Today's Avalanche Report</h2>
+        <h2>Today's Avalanche Danger: {{ avalanche_status }}</h2>
             {% if avalanche_graph_url %}
               <p><img src="{{ avalanche_graph_url }}" /></p>
             {% else %}
