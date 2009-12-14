@@ -191,7 +191,8 @@ class HomePageHandler(BaseRequestHandler):
     if expected_snowfall is None:
       expected_snowfall_query = models.ExpectedSnowfall.all()
       expected_snowfall_query.order('-date_time_added')
-      expected_snowfall = kirkwood_snow_report_query.get()
+      expected_snowfall = expected_snowfall_query.get()
+      logging.info('expected_snowfall: %s' % str(expected_snowfall))
       memcache.set("expected_snowfall", expected_snowfall,
                    time=3600)
 
