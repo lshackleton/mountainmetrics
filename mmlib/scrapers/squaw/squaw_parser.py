@@ -32,6 +32,8 @@ class SquawSnowReportParser(Scraper):
     else:
       upper_mtn_conditions[4] = upper_mtn_conditions[4][:-1]
     
+    
+    
     new_data = models.SquawValleySnowReport()
 
     new_data.time_of_report = str(time)
