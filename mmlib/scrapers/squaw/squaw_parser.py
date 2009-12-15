@@ -25,12 +25,19 @@ class SquawSnowReportParser(Scraper):
     lower_mtn_conditions = self.parseConditions(div_class='snowreport6200')
     upper_mtn_conditions = self.parseConditions(div_class='snowreport8200')
     
+    if lower_mtn_conditions[4] == '    &':
+      lower_mtn_conditions[4] = None
+    if upper_mtn_conditions[4][:-1] == '    &':
+      upper_mtn_conditions[4] = '0'
+    else:
+      upper_mtn_conditions[4] = upper_mtn_conditions[4][:-1]
+    
     new_data = models.SquawValleySnowReport()
 
     new_data.time_of_report = str(time)
     new_data.current_temp_f = float(lower_mtn_conditions[0])
-    new_data.upper_mountain_temp_f = float(lower_mtn_conditions[0])
-    new_data.lower_mountain_temp_f = float(upper_mtn_conditions[0])
+    new_data.upper_mountain_temp_f = float(upper_mtn_conditions[0])
+    new_data.lower_mountain_temp_f = float(lower_mtn_conditions[0])
     new_data.upper_mountain_snow_base_inches = upper_mtn_conditions[3] 
     new_data.lower_mountain_snow_base_inches = lower_mtn_conditions[3]
     new_data.current_condition = str(lower_mtn_conditions[2])
@@ -38,7 +45,7 @@ class SquawSnowReportParser(Scraper):
     new_data.current_condition_base = str(lower_mtn_conditions[2])
     new_data.new_snow_total_inches = lower_mtn_conditions[4]
     new_data.new_snow_total_inches_base = lower_mtn_conditions[4]
-    new_data.new_snow_total_inches_top = upper_mtn_conditions[4][:-1]
+    new_data.new_snow_total_inches_top = upper_mtn_conditions[4]
     new_data.storm_snow_total_inches = lower_mtn_conditions[5]
     new_data.storm_snow_total_inches_base = lower_mtn_conditions[5]
     new_data.storm_snow_total_inches_inches_top = (
