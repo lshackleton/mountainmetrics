@@ -34,7 +34,7 @@ from mmlib import delete_functions
 
 #The library for processing weather data already stored on site
 from mmlib.stored_weather_fetcher import FetchAndStoreExistingWeatherData
-from mmlib.stored_weather_fetcher import YesterdaysWeatherCalculator
+from mmlib.stored_weather_fetcher import YesterdayWeatherFetchAndStore
 
 #The libraries for scraping data
 from mmlib.scrapers.i80 import i80_parser
@@ -395,9 +395,9 @@ class StoredWeatherProcesser(BaseRequestHandler):
 class YesterdayWeatherProcesser(BaseRequestHandler):
   
   def YesterdayWeatherProcess(self):
-    logging.info('Running the StoredWeatherFetcher.')
-    YesterdaysWeatherCalculator()
-    logging.info('SUCCESS: Running the StoredWeatherFetcher.')
+    logging.info('Running the YesterdayWeatherProcess.')
+    YesterdayWeatherFetchAndStore()
+    logging.info('SUCCESS: Running the YesterdayWeatherProcess.')
     memcache.flush_all()
     logging.info('memcache.flush_all() run.')
 
@@ -442,6 +442,10 @@ class AllFetcher(BaseRequestHandler):
     weather.WeatherFetcherprocess()
     expected_snowfall = ExpectedSnowfallFetcher()
     expected_snowfall.ExpectedSnowfallProcess()
+    stored_weather = StoredWeatherProcesser()
+    stored_weather.StoredWeatherFetcher()
+    yesterdaysweather = YesterdayWeatherProcesser()
+    yesterdaysweather.YesterdayWeatherProcess()
 
     logging.info('SUCCESS: Running the AllFetcherProcess.')
     memcache.flush_all()
