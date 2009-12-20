@@ -261,7 +261,7 @@ class ErrorPageHandler(BaseRequestHandler):
 # Map URLs to our RequestHandler classes above
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
-   ('/bill', Bill), #base.html
+#   ('/bill', Bill), #base.html
    ('/error', ErrorPageHandler), #about.html
    ('/about', AboutPageHandler), #about.html
    ('/.*$', HomePageHandler), #base.html
