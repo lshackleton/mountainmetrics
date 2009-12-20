@@ -458,6 +458,8 @@ class AllFetcher(BaseRequestHandler):
     weather.WeatherFetcherprocess()
     expected_snowfall = ExpectedSnowfallFetcher()
     expected_snowfall.ExpectedSnowfallProcess()
+    yahoo_weather = YahooWeatherFetcher()
+    yahoo_weather.YahooFetcherProcess()
     stored_weather = StoredWeatherProcesser()
     stored_weather.StoredWeatherFetcher()
     yesterdaysweather = YesterdayWeatherProcesser()

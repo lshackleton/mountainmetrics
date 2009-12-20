@@ -149,6 +149,7 @@ class TodaysAvalancheReport(db.Model):
   high_danger = db.BooleanProperty()
   extreme_danger = db.BooleanProperty()
   multiple_danger_levels = db.BooleanProperty()  
+  published_time = db.StringProperty(multiline=True)
 
 
 class ExpectedSnowfall(db.Model):
@@ -159,6 +160,7 @@ class ExpectedSnowfall(db.Model):
   today = db.StringProperty(multiline=True)
   tonight = db.StringProperty(multiline=True)
   tomorrow = db.StringProperty(multiline=True)
+  published_time = db.StringProperty(multiline=True)
 
 
 class YesterdaysWeather(db.Model):

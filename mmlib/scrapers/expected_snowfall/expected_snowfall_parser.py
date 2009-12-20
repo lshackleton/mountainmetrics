@@ -22,13 +22,22 @@ class ExpectedSnowFallParser(Scraper):
     self.scrape()
     expected_snowfall = self.parseSnowFallData()
 
+    published_time = self.parsePublishedTime()
+
     new_data = models.ExpectedSnowfall()
 
     new_data.today = str(expected_snowfall[0])
     new_data.tonight = str(expected_snowfall[1])
     new_data.tomorrow = str(expected_snowfall[2])
+    new_data.published_time = str(published_time)
 
     new_data.put()
+
+
+  def parsePublishedTime(self):
+    block = self.soup.find('td', attrs={'class':"views-field views-field-field-pubtime-php-value"})
+    time = block.findNext('strong').contents
+    return time
 
 
   def parseSnowFallData(self):

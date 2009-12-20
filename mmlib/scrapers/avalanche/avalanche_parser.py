@@ -21,6 +21,7 @@ class AvalancheConditionsParser(Scraper):
                      valueType='AvalancheConditions')
     self.scrape()
     intro_paragraph = self.parseIntroText()
+    published_time = self.parsePublishedTime()
     low = self.parseDanger(find_value=
       'http://www.avalanche.org/~uac/encyclopedia/low_avalanche_hazard.htm')
     if not low:
@@ -68,6 +69,7 @@ class AvalancheConditionsParser(Scraper):
     new_avalanche_data.high_danger = high
     new_avalanche_data.extreme_danger = extreme
     new_avalanche_data.multiple_danger_levels = multiple_danger_levels
+    new_avalanche_data.published_time = published_time
 
     new_avalanche_data.put()
 
@@ -102,3 +104,8 @@ class AvalancheConditionsParser(Scraper):
     
     logging.info('intro = %s' % str(intro))
     return str(intro)
+
+  def parsePublishedTime(self):
+    block = self.soup.find('td', attrs={'class':"views-field views-field-field-pubtime-php-value"})
+    time = block.findNext('strong').contents
+    return time
