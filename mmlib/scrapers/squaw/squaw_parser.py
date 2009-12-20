@@ -24,16 +24,10 @@ class SquawSnowReportParser(Scraper):
     time = self.parseTimeLastUpdate()
     lower_mtn_conditions = self.parseConditions(div_class='snowreport6200')
     upper_mtn_conditions = self.parseConditions(div_class='snowreport8200')
-    
-    if lower_mtn_conditions[4] == '    &':
-      lower_mtn_conditions[4] = None
-    if upper_mtn_conditions[4][:-1] == '    &':
-      upper_mtn_conditions[4] = '0'
-    else:
-      upper_mtn_conditions[4] = upper_mtn_conditions[4][:-1]
-    
-    
-    
+
+    if not upper_mtn_conditions[5] == 0:
+      upper_mtn_conditions[5] = upper_mtn_conditions[5][:-2]
+
     new_data = models.SquawValleySnowReport()
 
     new_data.time_of_report = str(time)
@@ -45,13 +39,12 @@ class SquawSnowReportParser(Scraper):
     new_data.current_condition = str(lower_mtn_conditions[2])
     new_data.current_condition_top = str(upper_mtn_conditions[2])
     new_data.current_condition_base = str(lower_mtn_conditions[2])
-    new_data.new_snow_total_inches = lower_mtn_conditions[4]
-    new_data.new_snow_total_inches_base = lower_mtn_conditions[4]
-    new_data.new_snow_total_inches_top = upper_mtn_conditions[4]
-    new_data.storm_snow_total_inches = lower_mtn_conditions[5]
-    new_data.storm_snow_total_inches_base = lower_mtn_conditions[5]
-    new_data.storm_snow_total_inches_inches_top = (
-      upper_mtn_conditions[5][:-2])
+    new_data.new_snow_total_inches = str(lower_mtn_conditions[4])
+    new_data.new_snow_total_inches_base = str(lower_mtn_conditions[4])
+    new_data.new_snow_total_inches_top = str(upper_mtn_conditions[4])
+    new_data.storm_snow_total_inches = str(lower_mtn_conditions[5])
+    new_data.storm_snow_total_inches_base = str(lower_mtn_conditions[5])
+    new_data.storm_snow_total_inches_inches_top = str(upper_mtn_conditions[5])
     new_data.wind = lower_mtn_conditions[1]
     new_data.wind_base = lower_mtn_conditions[1]
     new_data.wind_top = upper_mtn_conditions[1]
@@ -61,9 +54,8 @@ class SquawSnowReportParser(Scraper):
 
   def parseTimeLastUpdate(self):
     time = None
-    block = self.soup.find(attrs={'id':"snow-report"})
-    span = block.findNext('span')
-    time = span.contents[0]
+    block = self.soup.find('span', attrs={'class':"date-display-single"})
+    time = block.contents[0]
     logging.info('time: %s' % str(time))
     if not time:
       time = ''
@@ -108,6 +100,10 @@ class SquawSnowReportParser(Scraper):
 
         new_snow = str(raw_data_var)
         new_snow = new_snow[214:-21]
+        if new_snow == '    &':
+          new_snow = 0
+        elif new_snow == '    &n':
+          new_snow = 0
         logging.info('new_snow:%s' % str(new_snow))        
         
         dat.append(base_snow)
@@ -117,6 +113,8 @@ class SquawSnowReportParser(Scraper):
         storm_total = tag.find('p', attrs={'class': 'snowreport-item'})
         storm_total = storm_total.contents[0]
         storm_total = storm_total[6:-7]
+        if storm_total == '':
+          storm_total = 0
         logging.info('storm_total:%s' % str(storm_total))
         dat.append(storm_total)
       count += 1
