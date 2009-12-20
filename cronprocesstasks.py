@@ -275,6 +275,15 @@ class WeatherFetcher(BaseRequestHandler):
       new_forecast_data.wind_gust_mph = float(a["wind_gust_mph"])
     except:
       pass
+    try:
+      new_forecast_data.visibility_mi = float(a["visibility_mi"])
+    except:
+      pass
+    try:
+      new_forecast_data.relative_humidity = float(a["relative_humidity"])
+    except:
+      pass
+
 
     new_forecast_data.put()
     logging.info('SUCCESS: Running the WeatherFetcher.')

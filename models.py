@@ -24,6 +24,8 @@ class ThreeDayWeatherForecast(db.Model):
   icon_url_base = db.StringProperty()
   icon_url_name = db.StringProperty()
   two_day_history_url = db.StringProperty()
+  visibility_mi = db.FloatProperty()
+  relative_humidity = db.FloatProperty()
 
 
 class ResortSnowReportBase(db.Model):

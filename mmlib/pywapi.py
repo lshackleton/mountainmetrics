@@ -29,6 +29,7 @@ import urllib2, re
 from xml.dom import minidom
 
 NOAA_WEATHER_URL     = 'http://www.weather.gov/xml/current_obs/%s.xml'
+
     
 def get_weather_from_noaa(station_id):
     """
@@ -89,6 +90,8 @@ def get_weather_from_noaa(station_id):
                 'icon_url_base',
                 'icon_url_name',
                 'two_day_history_url',
+                'visibility_mi',
+                'relative_humidity',
                 'ob_url'
                 )
     weather_data = {}
