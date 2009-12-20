@@ -56,7 +56,7 @@ class i80Parser(Scraper):
     new_i80_conditions = models.DOTi80RoadConditions()
     new_i80_conditions.stretch_of_road = match_term
     new_i80_conditions.road_conditions_details = str(conditions)
-    chains_required = chain_status
-##    road_closed = road_closed_status
+    new_i80_conditions.chains_required = chain_status
+##    new_i80_conditions.road_closed = road_closed_status
     new_i80_conditions.put()
     logging.info('Finished adding to the database.')
