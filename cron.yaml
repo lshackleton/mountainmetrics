@@ -49,3 +49,9 @@ cron:
   url: /tasks/process/YesterdayWeatherProcesser
   schedule: every 24 hours 08:34
 #  schedule: every 1 minutes
+
+- description: YahooWeatherFetcher 
+  url: /tasks/process/YahooWeatherFetcher
+  schedule: every 1 hours
+#  schedule: every 1 minutes
+

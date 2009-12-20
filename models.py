@@ -37,6 +37,7 @@ class DewpointPerDay(db.Model):
   dewpoint_c_high = db.FloatProperty()
   dewpoint_c_low = db.FloatProperty()
 
+
 class TemperaturePerDay(db.Model):
   """ Data model to hold the temperature for the previous day. Each entry is for
       the previous day given date_time_added value.
@@ -77,14 +78,17 @@ class SquawValleySnowReport(ResortSnowReportBase):
   """AppEngine data model to store Squaw Valley Snow Report."""
   is_squaw_valley = db.BooleanProperty()
 
+
 class AlpineMeadowsSnowReport(ResortSnowReportBase):
   """AppEngine data model to store Alpine Meadows Snow Report."""
   is_alpine_meadows = db.BooleanProperty()
+
 
 class KirkwoodSnowReport(ResortSnowReportBase):
   """AppEngine data model to store Kirkwood Snow Report."""
   is_kirkwood = db.BooleanProperty()
   kirkwood_forcast = db.StringProperty(multiline=True)
+
 
 class YesterdayWeather(db.Model):
   """AppEngine data model to store Yesterday's weather information."""
@@ -94,24 +98,36 @@ class YesterdayWeather(db.Model):
 class YahooWeatherForecast(db.Model):
   """AppEngine data model to store Yahoo's weather information."""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
-#  title string
-#  link string
-#  language string
-#  description string
-#  city string 
-#  region string
-#  country string
-#  units_temperature string
-#  units_distance string
-#  units_pressure string
-#  units_speed string
-#  wind_chill int
-#  wind_direction_degrees int
-#  wind_speed int
-#  atmosphere_humidity_percent int
-#  visibility int
-#  pressure float
-#  state_of_barometic_pressue = string (steady (0), rising (1), or falling (2). (integer: 0, 1, 2))
+  condition_text = db.StringProperty(multiline=True)
+  condition_code = db.StringProperty(multiline=True)
+  condition_temp = db.StringProperty(multiline=True)
+  condition_date = db.StringProperty(multiline=True)
+  astronomy_sunrise = db.StringProperty(multiline=True)
+  astronomy_sunset = db.StringProperty(multiline=True)
+  atmosphere_humidity = db.StringProperty(multiline=True)
+  atmosphere_visibility = db.StringProperty(multiline=True)
+  atmosphere_pressure = db.StringProperty(multiline=True)
+  atmosphere_rising = db.StringProperty(multiline=True)
+  wind_chill = db.StringProperty(multiline=True)
+  wind_direction = db.StringProperty(multiline=True)
+  wind_speed = db.StringProperty(multiline=True)
+  units_temperature = db.StringProperty(multiline=True)
+  units_distance = db.StringProperty(multiline=True)
+  units_pressure = db.StringProperty(multiline=True)
+  units_speed = db.StringProperty(multiline=True)
+  location_city = db.StringProperty(multiline=True)
+  location_region = db.StringProperty(multiline=True)
+  location_country = db.StringProperty(multiline=True)
+  forecast_one_date = db.StringProperty(multiline=True)
+  forecast_one_low = db.StringProperty(multiline=True)
+  forecast_one_high = db.StringProperty(multiline=True)
+  forecast_one_condition = db.StringProperty(multiline=True)
+  forecast_two_date = db.StringProperty(multiline=True)
+  forecast_two_low = db.StringProperty(multiline=True)
+  forecast_two_high = db.StringProperty(multiline=True)
+  forecast_two_condition = db.StringProperty(multiline=True)
+  title = db.StringProperty(multiline=True)
+  img_tag = db.StringProperty(multiline=True)
 
 
 class DOTi80RoadConditions(db.Model):
@@ -121,6 +137,7 @@ class DOTi80RoadConditions(db.Model):
   stretch_of_road = db.StringProperty()
   chains_required = db.BooleanProperty()
   road_closed = db.BooleanProperty()  
+
 
 class TodaysAvalancheReport(db.Model):
   """AppEngine data model to store Todays Avalanche Report. All data in table from Sierra Avalanche Center"""
@@ -133,6 +150,7 @@ class TodaysAvalancheReport(db.Model):
   extreme_danger = db.BooleanProperty()
   multiple_danger_levels = db.BooleanProperty()  
 
+
 class ExpectedSnowfall(db.Model):
   """AppEngine data model to store Expected Snowfall data. The data is from   
      Sierra Avalanche Center
@@ -141,6 +159,7 @@ class ExpectedSnowfall(db.Model):
   today = db.StringProperty(multiline=True)
   tonight = db.StringProperty(multiline=True)
   tomorrow = db.StringProperty(multiline=True)
+
 
 class YesterdaysWeather(db.Model):
   """ Data model to hold yesterday's weather. 

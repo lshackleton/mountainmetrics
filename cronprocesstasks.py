@@ -43,7 +43,7 @@ from mmlib.scrapers.alpinemeadows import alpinemeadows_parser
 from mmlib.scrapers.squaw import squaw_parser
 from mmlib.scrapers.kirkwood import kirkwood_parser
 from mmlib.scrapers.expected_snowfall import expected_snowfall_parser
-
+from mmlib.scrapers import yahoo_weather_fetcher
 
 ## Set logging level.
 logging.getLogger().setLevel(logging.INFO)
@@ -406,7 +406,23 @@ class YesterdayWeatherProcesser(BaseRequestHandler):
 
   def post(self):
     self.YesterdayWeatherProcess()
+
+
+class YahooWeatherFetcher(BaseRequestHandler):
   
+  def YahooFetcherProcess(self):
+    logging.info('Running the YahooFetcherProcess.')
+    yahoo_weather_fetcher.run()
+    logging.info('SUCCESS: Running the YahooFetcherProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+    
+  def get(self):
+    self.YahooFetcherProcess()
+
+  def post(self):
+    self.YahooFetcherProcess()
+
 
 class BulkDeleter(BaseRequestHandler):
   
@@ -488,6 +504,8 @@ def main():
           StoredWeatherProcesser),      
         ('/tasks/process/YesterdayWeatherProcesser',   
           YesterdayWeatherProcesser),
+        ('/tasks/process/YahooWeatherFetcher',   
+          YahooWeatherFetcher),
 # This section contains processes that delete data
         ('/tasks/process/BulkDeleter',   
           BulkDeleter),
