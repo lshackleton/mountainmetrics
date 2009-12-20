@@ -30,7 +30,7 @@ class KirkwoodSnowReportParser(Scraper):
     new_snow_report.current_condition = str(snow_conditions[1])
     new_snow_report.new_snow_total_inches = str(snow_conditions[6])
     new_snow_report.storm_snow_total_inches = str(  
-      snow_conditions[5])
+      snow_conditions[6])
     new_snow_report.wind = str(snow_conditions[3])
     new_snow_report.kirkwood_forcast = str(snow_conditions[4])
     new_snow_report.is_kirkwood = True
@@ -61,6 +61,7 @@ class KirkwoodSnowReportParser(Scraper):
 
     dat = [time, weather_descrip, temp, wind, kirkwood_forcast, snow_24_hours,
            storm_total, mid_mtn_base]
+    logging.info('[time, weather_descrip, temp, wind, kirkwood_forcast, snow_24_hours,storm_total, mid_mtn_base]')
     logging.info('dat: %s' % str(dat))
 
     return dat
