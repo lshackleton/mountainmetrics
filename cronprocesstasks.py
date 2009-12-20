@@ -34,6 +34,7 @@ from mmlib import delete_functions
 
 #The library for processing weather data already stored on site
 from mmlib.stored_weather_fetcher import FetchAndStoreExistingWeatherData
+from mmlib.stored_weather_fetcher import YesterdaysWeatherCalculator
 
 #The libraries for scraping data
 from mmlib.scrapers.i80 import i80_parser
@@ -389,6 +390,22 @@ class StoredWeatherProcesser(BaseRequestHandler):
 
   def post(self):
     self.StoredWeatherFetcher()
+
+
+class YesterdayWeatherProcesser(BaseRequestHandler):
+  
+  def YesterdayWeatherProcess(self):
+    logging.info('Running the StoredWeatherFetcher.')
+    YesterdaysWeatherCalculator()
+    logging.info('SUCCESS: Running the StoredWeatherFetcher.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.YesterdayWeatherProcess()
+
+  def post(self):
+    self.YesterdayWeatherProcess()
   
 
 class BulkDeleter(BaseRequestHandler):
@@ -465,6 +482,8 @@ def main():
           ExpectedSnowfallFetcher),
         ('/tasks/process/StoredWeatherProcesser',   
           StoredWeatherProcesser),      
+        ('/tasks/process/YesterdayWeatherProcesser',   
+          YesterdayWeatherProcesser),
 # This section contains processes that delete data
         ('/tasks/process/BulkDeleter',   
           BulkDeleter),

@@ -44,3 +44,8 @@ cron:
   url: /tasks/process/StoredWeatherProcesser
   schedule: every 24 hours 08:04
 #  schedule: every 1 minutes
+
+- description: YesterdayWeatherProcesser 
+  url: /tasks/process/YesterdayWeatherProcesser
+  schedule: every 24 hours 08:34
+#  schedule: every 1 minutes
