@@ -196,6 +196,15 @@ class HomePageHandler(BaseRequestHandler):
       memcache.set("expected_snowfall", expected_snowfall,
                    time=3600)
 
+    yahoo_weather = memcache.get("yahoo_weather")
+    if yahoo_weather is None:
+      yahoo_weather_query = models.YahooWeatherForecast.all()
+      yahoo_weather_query.order('-date_time_added')
+      yahoo_weather = yahoo_weather_query.get()
+      logging.info('yahoo_weather: %s' % str(yahoo_weather))
+      memcache.set("yahoo_weather", yahoo_weather,
+                   time=3600)
+
 
     logging.info('get_stats(): %s' % memcache.get_stats())
 
@@ -211,6 +220,7 @@ class HomePageHandler(BaseRequestHandler):
       'SquawValleySnowReport': squaw_valley_snow_report,
       'KirkwoodSnowReport': kirkwood_snow_report,
       'ExpectedSnowfall': expected_snowfall,
+      'yahoo_weather': yahoo_weather,
       'yesterday': datetime.datetime.today() - datetime.timedelta(1),
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
       'dayaftertomorrow': datetime.datetime.today() + datetime.timedelta(2),      
