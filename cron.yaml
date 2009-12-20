@@ -35,12 +35,12 @@ cron:
   schedule: every 1 hours
 #  schedule: every 1 minutes
 
-- description: Deletei80DataOneWeekAtATime 
-  url: /tasks/process/Deletei80DataOneWeekAtATime
-  schedule: every 24 hours 05:00
+- description: BulkDeleter
+  url: /tasks/process/BulkDeleter
+  schedule: every 24 hours 06:00
 #  schedule: every 1 minutes
 
-- description: DeleteYesterdayData 
-  url: /tasks/process/DeleteYesterdayData
-  schedule: every 24 hours 06:00
+- description: StoredWeatherProcesser 
+  url: /tasks/process/StoredWeatherProcesser
+  schedule: every 24 hours 08:04
 #  schedule: every 1 minutes

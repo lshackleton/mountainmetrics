@@ -27,6 +27,26 @@ class ThreeDayWeatherForecast(db.Model):
   visibility_mi = db.FloatProperty()
   relative_humidity = db.FloatProperty()
 
+class DewpointPerDay(db.Model):
+  """ Data model to hold the dewpoint for the previous day. Each entry is for
+      the previous day given date_time_added value.
+  """
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  dewpoint_f_high = db.FloatProperty()
+  dewpoint_f_low = db.FloatProperty()
+  dewpoint_c_high = db.FloatProperty()
+  dewpoint_c_low = db.FloatProperty()
+
+class TemperaturePerDay(db.Model):
+  """ Data model to hold the temperature for the previous day. Each entry is for
+      the previous day given date_time_added value.
+  """
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  current_temp_c_high = db.FloatProperty()
+  current_temp_c_low = db.FloatProperty()
+  current_temp_f_high = db.FloatProperty()
+  current_temp_f_low = db.FloatProperty()
+
 
 class ResortSnowReportBase(db.Model):
   date_time_added = db.DateTimeProperty(auto_now_add=True)

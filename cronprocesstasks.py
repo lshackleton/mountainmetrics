@@ -26,8 +26,14 @@ from models import DOTi80RoadConditions, YesterdayWeather
 #For handling the time objects
 import rfc822  
 
-#The library for actually fetching the data from noaa.
+#The library for fetching the data from noaa.
 from mmlib.pywapi import get_weather_from_noaa
+
+#The library for deleting old data from the datastore
+from mmlib import delete_functions
+
+#The library for processing weather data already stored on site
+from mmlib.stored_weather_fetcher import FetchAndStoreExistingWeatherData
 
 #The libraries for scraping data
 from mmlib.scrapers.i80 import i80_parser
@@ -139,19 +145,6 @@ class AddExpectedSnowfallFetcherTask(BaseRequestHandler):
                     queue_name='AvalancheConditionsFetcher')
 
 
-class Deletei80DataOneWeekAtATime(BaseRequestHandler):
-   """ The i80 Data table is growing quickly. Old data is not needed.
-      This function deletes old data to ensure we don't grow our dataset and 
-      waste.
-   """
-   def get(self):
-     logging.info('Running the Deletei80DataOneWeekAtATime.')
-     q = db.GqlQuery("SELECT __key__ FROM DOTi80RoadConditions WHERE "
-                     " date_time_added < :1", one_week_ago)
-     results = q.fetch(50)
-     db.delete(results)
-
-
 class PullYesterdayDataAndStore(BaseRequestHandler):
   """ This function pulls yesterday's weather data and stores it in the   
       Yesterday table.
@@ -160,17 +153,6 @@ class PullYesterdayDataAndStore(BaseRequestHandler):
     logging.info('Running the PullYesterdayDataAndStore.')
     process_yesterday.PullAndStoreData()
     logging.info('Completed PullYesterdayDataAndStore.')
-
-
-class DeleteYesterdayDataOneWeekAtATime(BaseRequestHandler):
-  """ Delete data from the YesterdayWeather table
-  """
-  def get(self):
-    logging.info('Running the DeleteYesterdayDataOneWeekAtATime.')
-    q = db.GqlQuery("SELECT __key__ FROM YesterdayWeather WHERE "
-                    " date_time_added < :1", one_week_ago)
-    results = q.fetch(50)
-    db.delete(results)
 
 
 class YahooWeatherFetcher(BaseRequestHandler):
@@ -393,11 +375,42 @@ class ExpectedSnowfallFetcher(BaseRequestHandler):
     self.ExpectedSnowfallProcess()
 
 
+class StoredWeatherProcesser(BaseRequestHandler):
+
+  def StoredWeatherFetcher(self):
+    logging.info('Running the StoredWeatherFetcher.')
+    FetchAndStoreExistingWeatherData()
+    logging.info('SUCCESS: Running the StoredWeatherFetcher.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.StoredWeatherFetcher()
+
+  def post(self):
+    self.StoredWeatherFetcher()
+  
+
+class BulkDeleter(BaseRequestHandler):
+  
+  def BulkDeleteProcess(self):
+    logging.info('Running the BulkDeleteProcess.')
+    delete_functions.Deletei80RoadData()
+    delete_functions.DeleteYesterdaysWeatherData()
+    logging.info('SUCCESS: Running the BulkDeleteProcess.')
+
+  def get(self):
+    self.BulkDeleteProcess()
+
+  def post(self):
+    self.BulkDeleteProcess()
+
 
 class AllFetcher(BaseRequestHandler):
 
   def AllFetcherProcess(self):
     logging.info('Running the AllFetcherProcess.')
+
     kirkwood = KirkwoodConditionsFetcher()
     kirkwood.KirkwoodFetcherProcess()
     squaw = SquawValleyConditionsFetcher()
@@ -449,12 +462,12 @@ def main():
         ('/tasks/process/KirkwoodConditionsFetcher',   
           KirkwoodConditionsFetcher),      
         ('/tasks/process/ExpectedSnowfallFetcher',   
-          ExpectedSnowfallFetcher),      
+          ExpectedSnowfallFetcher),
+        ('/tasks/process/StoredWeatherProcesser',   
+          StoredWeatherProcesser),      
 # This section contains processes that delete data
-        ('/tasks/process/Deletei80DataOneWeekAtATime',   
-          Deletei80DataOneWeekAtATime),
-        ('/tasks/process/DeleteYesterdayDataOneWeekAtATime',   
-          DeleteYesterdayDataOneWeekAtATime),
+        ('/tasks/process/BulkDeleter',   
+          BulkDeleter),
 # This is intended to only be used by Bill and Lane
         ('/tasks/process/allfetcher',   
           AllFetcher),
