@@ -27,12 +27,13 @@ class i80Parser(Scraper):
   def parse(self):
     logging.info('i80Parser running Parse')
     self.status = {}
-    block = self.soup.find('pre')
+    block = self.soup
     block = str(block)
     
     match_term = 'IN NORTHERN CALIFORNIA & THE SIERRA NEVADA'
     position =re.search(match_term, block).span()
-    conditions = block[position[1]+2:-7]
+    logging.info('position 1: %s' % str(position[1]))
+    conditions = block[position[1]+2:]
     lower_case_conditions = conditions.lower()
     
     chain_status = False
@@ -56,6 +57,6 @@ class i80Parser(Scraper):
     new_i80_conditions.stretch_of_road = match_term
     new_i80_conditions.road_conditions_details = str(conditions)
     chains_required = chain_status
-#    road_closed = road_closed_status
+##    road_closed = road_closed_status
     new_i80_conditions.put()
-    logging.info('Finished adding to the databse.')
+    logging.info('Finished adding to the database.')
