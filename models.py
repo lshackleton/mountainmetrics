@@ -165,6 +165,67 @@ class SierraAvyCenterCurrentObservations(db.Model):
   published_time = db.StringProperty(multiline=True)
 
 
+class SierraAvyCenterWeather(db.Model):
+  """Data model to hold the Current Sierra Weather Observations."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  published_time = db.StringProperty(multiline=True)
+  today_7_to_8kft = db.StringProperty(multiline=True)
+  tonight_7_to_8kft = db.StringProperty(multiline=True)
+  tomorrow_7_to_8kft = db.StringProperty(multiline=True)
+  today_8_to_9kft = db.StringProperty(multiline=True)
+  tonight_8_to_9kft = db.StringProperty(multiline=True)
+  tomorrow_8_to_9kft = db.StringProperty(multiline=True)
+
+
+class SierraAvyCenterTemperatures(db.Model):
+  """Data model to hold the Current Sierra Weather Observations."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  published_time = db.StringProperty(multiline=True)
+  today_7_to_8kft = db.StringProperty(multiline=True)
+  tonight_7_to_8kft = db.StringProperty(multiline=True)
+  tomorrow_7_to_8kft = db.StringProperty(multiline=True)
+  today_8_to_9kft = db.StringProperty(multiline=True)
+  tonight_8_to_9kft = db.StringProperty(multiline=True)
+  tomorrow_8_to_9kft = db.StringProperty(multiline=True)
+
+
+class SierraAvyCenterWindDirection(db.Model):
+  """Data model to hold the Current Sierra Weather Observations."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  published_time = db.StringProperty(multiline=True)
+  today_7_to_8kft = db.StringProperty(multiline=True)
+  tonight_7_to_8kft = db.StringProperty(multiline=True)
+  tomorrow_7_to_8kft = db.StringProperty(multiline=True)
+  today_8_to_9kft = db.StringProperty(multiline=True)
+  tonight_8_to_9kft = db.StringProperty(multiline=True)
+  tomorrow_8_to_9kft = db.StringProperty(multiline=True)
+
+
+class SierraAvyCenterWindSpeed(db.Model):
+  """Data model to hold the Current Sierra Weather Observations."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  published_time = db.StringProperty(multiline=True)
+  today_7_to_8kft = db.StringProperty(multiline=True)
+  tonight_7_to_8kft = db.StringProperty(multiline=True)
+  tomorrow_7_to_8kft = db.StringProperty(multiline=True)
+  today_8_to_9kft = db.StringProperty(multiline=True)
+  tonight_8_to_9kft = db.StringProperty(multiline=True)
+  tomorrow_8_to_9kft = db.StringProperty(multiline=True)
+
+
+class SierraAvyCenterExpectedSnowfall(db.Model):
+  """Data model to hold the Current Sierra Weather Observations."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  published_time = db.StringProperty(multiline=True)
+  today_7_to_8kft = db.StringProperty(multiline=True)
+  tonight_7_to_8kft = db.StringProperty(multiline=True)
+  tomorrow_7_to_8kft = db.StringProperty(multiline=True)
+  today_8_to_9kft = db.StringProperty(multiline=True)
+  tonight_8_to_9kft = db.StringProperty(multiline=True)
+  tomorrow_8_to_9kft = db.StringProperty(multiline=True)
+
+
+
 class ExpectedSnowfall(db.Model):
   """AppEngine data model to store Expected Snowfall data. The data is from   
      Sierra Avalanche Center

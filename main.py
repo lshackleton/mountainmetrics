@@ -205,6 +205,60 @@ class HomePageHandler(BaseRequestHandler):
       memcache.set("yahoo_weather", yahoo_weather,
                    time=3600)
 
+    current_obs = memcache.get("current_observations")
+    if current_obs is None:
+      current_obs_query = models.SierraAvyCenterCurrentObservations.all()
+      current_obs_query.order('-date_time_added')
+      current_obs = current_obs_query.get()
+      logging.info('current_obs: %s' % str(current_obs))
+      memcache.set("current_obs", current_obs,
+                   time=3600)
+
+    sierra_weather = memcache.get("sierra_weather")
+    if sierra_weather is None:
+      sierra_weather_query = models.SierraAvyCenterWeather.all()
+      sierra_weather_query.order('-date_time_added')
+      sierra_weather = sierra_weather_query.get()
+      logging.info('sierra_weather: %s' % str(sierra_weather))
+      memcache.set("sierra_weather", sierra_weather,
+                   time=3600)
+
+    sierra_temp = memcache.get("sierra_temp")
+    if sierra_temp is None:
+      sierra_temp_query = models.SierraAvyCenterTemperatures.all()
+      sierra_temp_query.order('-date_time_added')
+      sierra_temp = sierra_temp_query.get()
+      logging.info('sierra_temp: %s' % str(sierra_temp))
+      memcache.set("sierra_temp", sierra_temp,
+                   time=3600)
+
+    sierra_wind_direction = memcache.get("sierra_wind_direction")
+    if sierra_wind_direction is None:
+      sierra_wind_direction_query = models.SierraAvyCenterWindDirection.all()
+      sierra_wind_direction_query.order('-date_time_added')
+      sierra_wind_direction = sierra_wind_direction_query.get()
+      logging.info('sierra_wind_direction: %s' % str(sierra_wind_direction))
+      memcache.set("sierra_wind_direction", sierra_wind_direction,
+                   time=3600)
+
+    sierra_wind_speed = memcache.get("sierra_wind_speed")
+    if sierra_wind_speed is None:
+      sierra_wind_speed_query = models.SierraAvyCenterWindSpeed.all()
+      sierra_wind_speed_query.order('-date_time_added')
+      sierra_wind_speed = sierra_wind_speed_query.get()
+      logging.info('sierra_wind_speed: %s' % str(sierra_wind_speed))
+      memcache.set("sierra_wind_speed", sierra_wind_speed,
+                   time=3600)
+
+    sierra_expected_snow = memcache.get("sierra_expected_snow")
+    if sierra_expected_snow is None:
+      sierra_expected_snow_query = models.SierraAvyCenterExpectedSnowfall.all()
+      sierra_expected_snow_query.order('-date_time_added')
+      sierra_expected_snow = sierra_expected_snow_query.get()
+      logging.info('sierra_expected_snow: %s' % str(sierra_expected_snow))
+      memcache.set("sierra_expected_snow", sierra_expected_snow,
+                   time=3600)
+
 
     logging.info('get_stats(): %s' % memcache.get_stats())
 
@@ -221,6 +275,12 @@ class HomePageHandler(BaseRequestHandler):
       'KirkwoodSnowReport': kirkwood_snow_report,
       'ExpectedSnowfall': expected_snowfall,
       'yahoo_weather': yahoo_weather,
+      'current_obs': current_obs,
+      'sierra_weather': sierra_weather,
+      'sierra_temp': sierra_temp,
+      'sierra_wind_direction': sierra_wind_direction,
+      'sierra_wind_speed': sierra_wind_speed,
+      'sierra_expected_snow': sierra_expected_snow,
       'yesterday': datetime.datetime.today() - datetime.timedelta(1),
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
       'dayaftertomorrow': datetime.datetime.today() + datetime.timedelta(2),      

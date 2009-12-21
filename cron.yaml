@@ -25,6 +25,11 @@ cron:
   schedule: every 1 hours
 #  schedule: every 1 minutes
 
+- description: AddHourlyTask 
+  url: /tasks/process/AddHourlyTask
+  schedule: every 1 hours
+#  schedule: every 1 minutes
+
 - description: AddKirkwoodConditionsFetcherTask 
   url: /tasks/process/AddKirkwoodConditionsFetcherTask
   schedule: every 1 hours
@@ -55,3 +60,7 @@ cron:
   schedule: every 1 hours
 #  schedule: every 1 minutes
 
+- description: SierraAvyCenterFetcher 
+  url: /tasks/process/SierraAvyCenterFetcher
+  schedule: every 1 hours
+#  schedule: every 1 minutes

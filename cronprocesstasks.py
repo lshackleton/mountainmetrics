@@ -102,6 +102,22 @@ class Addi80ConditionsFetcherTask(BaseRequestHandler):
     taskqueue.Task(url='/tasks/process/i80ConditionsFetcher').add(
                    queue_name='i80ConditionsFetcher')
 
+class AddHourlyTask(BaseRequestHandler):
+ """Cron calls this class to add tasks that need to be added hourly."""
+ def get(self):
+   logging.info('Running the AddHourlyTask.')
+   taskqueue.Task(url='/tasks/process/SierraAvyCenterExpectedSnowFetcher').add(
+                  queue_name='AvalancheConditionsFetcher')
+   taskqueue.Task(url='/tasks/process/SierraAvyCenterCurrentObsFetcher').add(
+                  queue_name='AvalancheConditionsFetcher')
+   taskqueue.Task(url='/tasks/process/SierraAvyCenterWeatherFetcher').add(
+                  queue_name='AvalancheConditionsFetcher')
+   taskqueue.Task(url='/tasks/process/SierraAvyCenterTempFetcher').add(
+                  queue_name='AvalancheConditionsFetcher')               
+   taskqueue.Task(url='/tasks/process/SierraAvyCenterWindFetcher').add(
+                  queue_name='AvalancheConditionsFetcher')
+   taskqueue.Task(url='/tasks/process/SierraAvyCenterWindSpeedFetcher').add(
+                  queue_name='AvalancheConditionsFetcher')
 
 class AddAvalancheConditionsFetcherTask(BaseRequestHandler):
  """Cron calls this class to enqueue more AvalancheConditionsFetcher tasks."""
@@ -376,20 +392,100 @@ class ExpectedSnowfallFetcher(BaseRequestHandler):
   def post(self):
     self.ExpectedSnowfallProcess()
 
-class SierraAvyCenterFetcher(BaseRequestHandler):
+class SierraAvyCenterExpectedSnowFetcher(BaseRequestHandler):
 
-  def SierraAvyCenterProcess(self):
-    logging.info('Running the SierraAvyCenterProcess.')
-    sierra_avy_center_parser.SierraAvyCenterParser()
-    logging.info('SUCCESS: Running the SierraAvyCenterProcess.')
+  def SierraAvyCenterExpectedSnowProcess(self):
+    logging.info('Running the SierraAvyCenterExpectedSnowProcess.')
+    sierra_avy_center_parser.SierraAvyCenterExpectedSnowParser()
+    logging.info('SUCCESS: Running the SierraAvyCenterExpectedSnowProcess.')
     memcache.flush_all()
     logging.info('memcache.flush_all() run.')
 
   def get(self):
-    self.SierraAvyCenterProcess()
+    self.SierraAvyCenterExpectedSnowProcess()
 
   def post(self):
-    self.SierraAvyCenterProcess()
+    self.SierraAvyCenterExpectedSnowProcess()
+
+
+class SierraAvyCenterCurrentObsFetcher(BaseRequestHandler):
+
+  def SierraAvyCenterCurrentObsProcess(self):
+    logging.info('Running the SierraAvyCenterCurrentObsProcess.')
+    sierra_avy_center_parser.SierraAvyCenterCurrentObsParser()
+    logging.info('SUCCESS: Running the SierraAvyCenterCurrentObsProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.SierraAvyCenterCurrentObsProcess()
+
+  def post(self):
+    self.SierraAvyCenterCurrentObsProcess()
+
+
+class SierraAvyCenterWeatherFetcher(BaseRequestHandler):
+
+  def SierraAvyCenterWeatherProcess(self):
+    logging.info('Running the SierraAvyCenterWeatherProcess.')
+    sierra_avy_center_parser.SierraAvyCenterWeatherParser()
+    logging.info('SUCCESS: Running the SierraAvyCenterWeatherProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.SierraAvyCenterWeatherProcess()
+
+  def post(self):
+    self.SierraAvyCenterWeatherProcess()
+
+
+class SierraAvyCenterTempFetcher(BaseRequestHandler):
+
+  def SierraAvyCenterTempProcess(self):
+    logging.info('Running the SierraAvyCenterTempProcess.')
+    sierra_avy_center_parser.SierraAvyCenterTemperatureParser()
+    logging.info('SUCCESS: Running the SierraAvyCenterTempProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.SierraAvyCenterTempProcess()
+
+  def post(self):
+    self.SierraAvyCenterTempProcess()
+
+
+class SierraAvyCenterWindFetcher(BaseRequestHandler):
+
+  def SierraAvyCenterWindProcess(self):
+    logging.info('Running the SierraAvyCenterWindProcess.')
+    sierra_avy_center_parser.SierraAvyCenterWindParser()
+    logging.info('SUCCESS: Running the SierraAvyCenterWindProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.SierraAvyCenterWindProcess()
+
+  def post(self):
+    self.SierraAvyCenterWindProcess()
+
+
+class SierraAvyCenterWindSpeedFetcher(BaseRequestHandler):
+
+  def SierraAvyCenterWindSpeedFetcher(self):
+    logging.info('Running the SierraAvyCenterWindSpeedFetcher.')
+    sierra_avy_center_parser.SierraAvyCenterWindSpeedParser()
+    logging.info('SUCCESS: Running the SierraAvyCenterWindSpeedFetcher.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.SierraAvyCenterWindSpeedFetcher()
+
+  def post(self):
+    self.SierraAvyCenterWindSpeedFetcher()
 
 
 class StoredWeatherProcesser(BaseRequestHandler):
@@ -476,10 +572,14 @@ class AllFetcher(BaseRequestHandler):
     expected_snowfall.ExpectedSnowfallProcess()
     yahoo_weather = YahooWeatherFetcher()
     yahoo_weather.YahooFetcherProcess()
+    current_observations = SierraAvyCenterFetcher()
+    current_observations.SierraAvyCenterProcess()
+
     stored_weather = StoredWeatherProcesser()
     stored_weather.StoredWeatherFetcher()
     yesterdaysweather = YesterdayWeatherProcesser()
     yesterdaysweather.YesterdayWeatherProcess()
+
 
     logging.info('SUCCESS: Running the AllFetcherProcess.')
     memcache.flush_all()
@@ -504,6 +604,7 @@ def main():
           AddKirkwoodConditionsFetcherTask),
         ('/tasks/process/AddExpectedSnowfallFetcherTask',  
           AddExpectedSnowfallFetcherTask),
+        ('/tasks/process/AddHourlyTask', AddHourlyTask),
 # The section above are URLs that the cron job calls -- to queue up fetchers.
 # The section below are URLs for actually fetching data.
         ('/tasks/process/AvalancheConditionsFetcher', 
@@ -518,8 +619,18 @@ def main():
           KirkwoodConditionsFetcher),      
         ('/tasks/process/ExpectedSnowfallFetcher',   
           ExpectedSnowfallFetcher),
-        ('/tasks/process/SierraAvyCenterFetcher',   
-          SierraAvyCenterFetcher),
+        ('/tasks/process/SierraAvyCenterExpectedSnowFetcher',   
+          SierraAvyCenterExpectedSnowFetcher),
+        ('/tasks/process/SierraAvyCenterCurrentObsFetcher',   
+          SierraAvyCenterCurrentObsFetcher),
+        ('/tasks/process/SierraAvyCenterWeatherFetcher',   
+          SierraAvyCenterWeatherFetcher),
+        ('/tasks/process/SierraAvyCenterTempFetcher',   
+          SierraAvyCenterTempFetcher),
+        ('/tasks/process/SierraAvyCenterWindFetcher',   
+          SierraAvyCenterWindFetcher),
+        ('/tasks/process/SierraAvyCenterWindSpeedFetcher',   
+          SierraAvyCenterWindSpeedFetcher),
         ('/tasks/process/StoredWeatherProcesser',   
           StoredWeatherProcesser),      
         ('/tasks/process/YesterdayWeatherProcesser',   
