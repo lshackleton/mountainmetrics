@@ -69,7 +69,7 @@ class AvalancheConditionsParser(Scraper):
     new_avalanche_data.high_danger = high
     new_avalanche_data.extreme_danger = extreme
     new_avalanche_data.multiple_danger_levels = multiple_danger_levels
-    new_avalanche_data.published_time = published_time
+    new_avalanche_data.published_time = str(published_time[0])
 
     new_avalanche_data.put()
 

@@ -152,6 +152,19 @@ class TodaysAvalancheReport(db.Model):
   published_time = db.StringProperty(multiline=True)
 
 
+class SierraAvyCenterCurrentObservations(db.Model):
+  """Data model to hold the Current Sierra Weather Observations."""
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  temp_0600_8700ft = db.StringProperty(multiline=True)
+  max_temp_24_hours = db.StringProperty(multiline=True)
+  avg_wind_direction_24_hours = db.StringProperty(multiline=True)
+  avg_wind_speed_24_hours = db.StringProperty(multiline=True)
+  max_wind_gust_24_hours = db.StringProperty(multiline=True)
+  new_snow_8200ft_24_hours = db.StringProperty(multiline=True)
+  total_snow_depth_8200ft = db.StringProperty(multiline=True)
+  published_time = db.StringProperty(multiline=True)
+
+
 class ExpectedSnowfall(db.Model):
   """AppEngine data model to store Expected Snowfall data. The data is from   
      Sierra Avalanche Center

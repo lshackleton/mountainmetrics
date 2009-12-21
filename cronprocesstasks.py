@@ -43,6 +43,7 @@ from mmlib.scrapers.alpinemeadows import alpinemeadows_parser
 from mmlib.scrapers.squaw import squaw_parser
 from mmlib.scrapers.kirkwood import kirkwood_parser
 from mmlib.scrapers.expected_snowfall import expected_snowfall_parser
+from mmlib.scrapers.sierra_avy_center import sierra_avy_center_parser
 from mmlib.scrapers import yahoo_weather_fetcher
 
 ## Set logging level.
@@ -375,6 +376,21 @@ class ExpectedSnowfallFetcher(BaseRequestHandler):
   def post(self):
     self.ExpectedSnowfallProcess()
 
+class SierraAvyCenterFetcher(BaseRequestHandler):
+
+  def SierraAvyCenterProcess(self):
+    logging.info('Running the SierraAvyCenterProcess.')
+    sierra_avy_center_parser.SierraAvyCenterParser()
+    logging.info('SUCCESS: Running the SierraAvyCenterProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.SierraAvyCenterProcess()
+
+  def post(self):
+    self.SierraAvyCenterProcess()
+
 
 class StoredWeatherProcesser(BaseRequestHandler):
 
@@ -502,6 +518,8 @@ def main():
           KirkwoodConditionsFetcher),      
         ('/tasks/process/ExpectedSnowfallFetcher',   
           ExpectedSnowfallFetcher),
+        ('/tasks/process/SierraAvyCenterFetcher',   
+          SierraAvyCenterFetcher),
         ('/tasks/process/StoredWeatherProcesser',   
           StoredWeatherProcesser),      
         ('/tasks/process/YesterdayWeatherProcesser',   
