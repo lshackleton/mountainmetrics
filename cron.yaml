@@ -59,8 +59,3 @@ cron:
   url: /tasks/process/YahooWeatherFetcher
   schedule: every 1 hours
 #  schedule: every 1 minutes
-
-- description: SierraAvyCenterFetcher 
-  url: /tasks/process/SierraAvyCenterFetcher
-  schedule: every 1 hours
-#  schedule: every 1 minutes
