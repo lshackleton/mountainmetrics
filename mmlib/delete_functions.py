@@ -11,7 +11,7 @@ import datetime
 today = datetime.date.today()
 one_week_ago = today + datetime.timedelta(days=-7)
 
-def Deletei80RoadData(self):
+def Deletei80RoadData():
   
   logging.info('Running the Deletei80DataOneWeekAtATime.')
   q = db.GqlQuery("SELECT __key__ FROM DOTi80RoadConditions WHERE "
@@ -20,7 +20,7 @@ def Deletei80RoadData(self):
   db.delete(results)
   
 
-def DeleteYesterdaysWeatherData(self):
+def DeleteYesterdaysWeatherData():
 
   logging.info('Running the DeleteYesterdayDataOneWeekAtATime.')
   q = db.GqlQuery("SELECT __key__ FROM YesterdayWeather WHERE "
