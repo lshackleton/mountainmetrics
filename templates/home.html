@@ -10,7 +10,7 @@
       <!-- BEGIN weather forecast module -->
       <div class="post">
         <h2>Current and Forecasted Weather</h2>
-        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y" }}</p>
+        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y Z" }}</p>
           <ul>
             {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
             <li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>
@@ -18,8 +18,8 @@
             <li>Low Temp: {Insert Temp}</li>
             <li>Wind Direction: {{  ThreeDayWeatherForecast.wind_dir }}</li>
             {% if ThreeDayWeatherForecast.wind_mph %}<li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }} mph to {{ ThreeDayWeatherForecast.wind_gust_mph }} mph</li>{% else %}{% endif %}
-            <li>Visibility: { Insert Visibility }</li>
-            <li>Relative Humidity: { Insert relative humidity }</li>
+            {% if ThreeDayWeatherForecast.visibility_mi %}<li>Visibility: {{  ThreeDayWeatherForecast.visibility_mi }} miles</li>{% else %}{% endif %}
+            {% if ThreeDayWeatherForecast.relative_humidity %}<li>Relative Humidity: {{  ThreeDayWeatherForecast.relative_humidity }}%</li>{% else %}{% endif %}
             {% if ThreeDayWeatherForecast.dewpoint_f %}<li>Current Dewpoint: {{ ThreeDayWeatherForecast.dewpoint_f }}&deg; F</li>{% else %}{% endif %}
             {% if ThreeDayWeatherForecast.new_snow_8200_24hours %}<li>New Snow: {{ new_snow_8200_24hours }}in at 8,000 in past 24 hours</li>{% else %}{% endif %}
             {% if ExpectedSnowfall.today %}<li>Expected Snowfall: {{ ExpectedSnowfall.today }}</li>{% else %}{% endif %}
@@ -53,11 +53,14 @@
             {% if SquawValleySnowReport.wind %}<li>Current Wind: {{ SquawValleySnowReport.wind }} mph</li>{% else %}{% endif %}
             {% if SquawValleySnowReport.upper_mountain_temp_f %}<li>Upper Mountain Temp: {{ SquawValleySnowReport.upper_mountain_temp_f }}&deg;F</li>{% else %}{% endif %}
             {% if SquawValleySnowReport.lower_mountain_temp_f %}<li>Lower Mountain Temp: {{ SquawValleySnowReport.lower_mountain_temp_f }}&deg;F</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.upper_mountain_snow_base_inches %}<li>Upper Mountain Base : {{ SquawValleySnowReport.upper_mountain_snow_base_inches }} in.</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.lower_mountain_snow_base_inches %}<li>Lower Mountain Base: {{ SquawValleySnowReport.lower_mountain_snow_base_inches }} in.</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.upper_mountain_snow_base_inches %}<li>Upper Mountain Snow Depth: {{ SquawValleySnowReport.upper_mountain_snow_base_inches }} in.</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.lower_mountain_snow_base_inches %}<li>Lower Mountain Snow Depth: {{ SquawValleySnowReport.lower_mountain_snow_base_inches }} in.</li>{% else %}{% endif %}
             {% if SquawValleySnowReport.new_snow_total_inches_base %}<li>24hr Snow at Base: {{ SquawValleySnowReport.new_snow_total_inches_base }} in.</li>{% else %}{% endif %}
             {% if SquawValleySnowReport.new_snow_total_inches_top %}<li>24hr Snow at Top: {{ SquawValleySnowReport.new_snow_total_inches_top }} in.</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.storm_snow_total_inches_base %}<li>Storm Snow at Base: {{ SquawValleySnowReport.new_snow_total_inches_base }} in.</li>{% else %}{% endif %}
+            {% if SquawValleySnowReport.storm_snow_total_inches_top %}<li>Storm Snow at Top: {{ SquawValleySnowReport.new_snow_total_inches_top }} in.</li>{% else %}{% endif %}
           </ul>
+       
         
         <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpineMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
           <ul>
@@ -79,7 +82,8 @@
 
             {% if KirkwoodSnowReport.today_high_temp %}<li>High Temp: {{KirkwoodSnowReport.today_high_temp }}</li>{% else %}{% endif %}
             {% if KirkwoodSnowReport.today_low_temp %}<li>Low Temp: {{ KirkwoodSnowReport.today_low_temp }}</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.today_new_snow %}<li>New Snow: {{ KirkwoodSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.storm_snow_total_inches %}<li>Storm Snow Total: {{ KirkwoodSnowReport.storm_snow_total_inches }} in</li>{% else %}{% endif %}
+            {% if KirkwoodSnowReport.kirkwood_forcast %}<li>Forecast: {{ KirkwoodSnowReport.kirkwood_forcast }}</li>{% else %}{% endif %}
             {% if KirkwoodSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ KirkwoodSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
           </ul>
        <br />
@@ -97,7 +101,7 @@
         
         {% if DOTi80RoadConditions.date_time_added %}<p>Details: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y - P" }}</p>{% else %}<p>No New Traffic Updates</p>{% endif %}
           <ul>
-            {% if DOTi80RoadConditions.road_conditions_details %}<li>In Northern California and the Sierra Nevada - {{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}{% endif %}
+            {% if DOTi80RoadConditions.road_conditions_details %}<li>In Northern California and the Sierra Nevada: {{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}{% endif %}
           </ul>
         <br />
       </div>
