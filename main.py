@@ -330,7 +330,7 @@ _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
 #   ('/bill', Bill), #base.html
    ('/error', ErrorPageHandler), #error.html
-   ('/simple', SimplePageHandler), #simple.html
+   ('/error', SimplePageHandler), #simple.html
    ('/about', AboutPageHandler), #about.html
    ('/.*$', HomePageHandler), #base.html
 ]
