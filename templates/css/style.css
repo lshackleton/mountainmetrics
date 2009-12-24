@@ -139,6 +139,12 @@ img {
 	float: left;
 	padding: 20px 0;
 }
+
+#content_wide {
+	width: 800px;
+	float: left;
+	padding: 20px 0;
+}
 	#featured {
 		margin-bottom: 10px;
 		height: 230px;

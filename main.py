@@ -315,6 +315,12 @@ class SimplePageHandler(BaseRequestHandler):
       #'title': 'Simple',
     })
 
+class GraphsPageHandler(BaseRequestHandler):
+  def get(self, garbageinput=None):
+    logging.info('Visiting the graphs page')
+    self.generate('graphs.html', {
+      #'title': 'Graphs',
+    })
 
 #
 # End Webpage Handlers
@@ -330,7 +336,8 @@ _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
 #   ('/bill', Bill), #base.html
    ('/error', ErrorPageHandler), #error.html
-   ('/error', SimplePageHandler), #simple.html
+   ('/simple', SimplePageHandler), #simple.html
+   ('/graphs', GraphsPageHandler), #graphs.html
    ('/about', AboutPageHandler), #about.html
    ('/.*$', HomePageHandler), #base.html
 ]
