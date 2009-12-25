@@ -44,6 +44,7 @@ from django.core.paginator import ObjectPaginator, InvalidPage
 
 # Importing the mmlib for testing
 from mmlib.scrapers.expected_snowfall import expected_snowfall_parser
+from mmlib import mmutil
 
 # Datastore models.
 import models
@@ -268,6 +269,13 @@ class HomePageHandler(BaseRequestHandler):
       memcache.set("yesterday_data", yesterday_data,
                     time=3600)
 
+    snow_fall_graph = memcache.get("snow_fall_graph")
+    if snow_fall_graph is None:
+      ### Likely to pull data from YesterdaysWeather.all()
+      snow_fall_graph = mmutil.SnowfallGraphMaker(data=None)
+      memcache.set("snow_fall_graph", snow_fall_graph,
+                    time=3600)
+
     logging.info('get_stats(): %s' % memcache.get_stats())
 
 
@@ -290,9 +298,8 @@ class HomePageHandler(BaseRequestHandler):
       'sierra_wind_speed': sierra_wind_speed,
       'sierra_expected_snow': sierra_expected_snow,
       'yesterday_data': yesterday_data,
-      'yesterday': datetime.datetime.today() - datetime.timedelta(1),
+      'snow_fall_graph': snow_fall_graph,
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
-      'dayaftertomorrow': datetime.datetime.today() + datetime.timedelta(2),      
     })
 
 
@@ -310,12 +317,22 @@ class AboutPageHandler(BaseRequestHandler):
       #'title': 'About',
     })
 
+
+class TweetPageHandler2(BaseRequestHandler):
+  def get(self, garbageinput=None):
+    logging.info('Visiting the about page')
+    self.generate('tweet_test2.html', {
+      #'title': 'Tweet',
+    })
+
+
 class ErrorPageHandler(BaseRequestHandler):
   def get(self, garbageinput=None):
     logging.info('Visiting the error page')
     self.generate('error.html', {
       #'title': 'Error',
     })
+
 
 class SimplePageHandler(BaseRequestHandler):
   def get(self, garbageinput=None):
@@ -324,11 +341,21 @@ class SimplePageHandler(BaseRequestHandler):
       #'title': 'Simple',
     })
 
+
 class GraphsPageHandler(BaseRequestHandler):
   def get(self, garbageinput=None):
     logging.info('Visiting the graphs page')
+    past_temp_data = memcache.get("past_temp_data")
+    if past_temp_data is None:
+      past_temp_data_query = models.YesterdaysWeather.all()
+      past_temp_data_query.order('-date_time_added')
+      past_temp_data = yesterday_data_query.fetch(limit=30)
+      memcache.set("past_temp_data", past_temp_data,
+                    time=3600)
+
     self.generate('graphs.html', {
       #'title': 'Graphs',
+      'past_temp_data':past_temp_data,
     })
 
 #
@@ -348,6 +375,7 @@ _MountainMetrics_Urls = [
    ('/simple', SimplePageHandler), #simple.html
    ('/graphs', GraphsPageHandler), #graphs.html
    ('/about', AboutPageHandler), #about.html
+   ('/tweet2', TweetPageHandler2),
    ('/.*$', HomePageHandler), #base.html
 ]
 
