@@ -266,4 +266,5 @@ class YesterdaysWeather(db.Model):
   visibility_mi_low = db.FloatProperty()
   relative_humidity_high = db.FloatProperty()
   relative_humidity_low = db.FloatProperty()
+  new_snow_8200ft_24_hours = db.StringProperty(multiline=True)
 

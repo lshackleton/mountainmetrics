@@ -42,7 +42,7 @@ cron:
 
 - description: BulkDeleter
   url: /tasks/process/BulkDeleter
-  schedule: every 24 hours 06:00
+  schedule: every 3 hours
 #  schedule: every 1 minutes
 
 - description: StoredWeatherProcesser 
@@ -52,7 +52,7 @@ cron:
 
 - description: YesterdayWeatherProcesser 
   url: /tasks/process/YesterdayWeatherProcesser
-  schedule: every 24 hours 08:34
+  schedule: every 2 hours
 #  schedule: every 1 minutes
 
 - description: YahooWeatherFetcher 

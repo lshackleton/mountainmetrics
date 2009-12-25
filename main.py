@@ -259,6 +259,14 @@ class HomePageHandler(BaseRequestHandler):
       memcache.set("sierra_expected_snow", sierra_expected_snow,
                    time=3600)
 
+    yesterday_data = memcache.get("yesterday_data")
+    if yesterday_data is None:
+      yesterday_data_query = models.YesterdaysWeather.all()
+      yesterday_data_query.order('-date_time_added')
+      yesterday_data = yesterday_data_query.get()
+      logging.info('yesterday_data: %s' % str(yesterday_data))
+      memcache.set("yesterday_data", yesterday_data,
+                    time=3600)
 
     logging.info('get_stats(): %s' % memcache.get_stats())
 
@@ -281,6 +289,7 @@ class HomePageHandler(BaseRequestHandler):
       'sierra_wind_direction': sierra_wind_direction,
       'sierra_wind_speed': sierra_wind_speed,
       'sierra_expected_snow': sierra_expected_snow,
+      'yesterday_data': yesterday_data,
       'yesterday': datetime.datetime.today() - datetime.timedelta(1),
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
       'dayaftertomorrow': datetime.datetime.today() + datetime.timedelta(2),      

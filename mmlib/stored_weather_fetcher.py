@@ -11,6 +11,8 @@ from google.appengine.ext import db
 
 import models
 
+age_threshold = datetime.datetime.now() - datetime.timedelta(days=1)
+
 def FetchAndStoreExistingWeatherData():
   """ Fetch Data from app engine and then process and store it in a new model.
   """
@@ -23,7 +25,12 @@ def YesterdayWeatherFetchAndStore():
   """ Fetch all weather data, process and store it in a new model.
   """
   weather_data = FetchPastWeatherData()
-  YesterdaysWeatherCalculator(weather=weather_data)
+  
+  snow_obs = models.SierraAvyCenterCurrentObservations.all()
+  snow_obs.filter('date_time_added >', age_threshold)
+  snow_data = snow_obs.get()
+  snow = snow_data.total_snow_depth_8200ft
+  YesterdaysWeatherCalculator(weather=weather_data, snow=snow)
   logging.info('Success fetching ALL old weather data and storing.')
 
 
@@ -33,7 +40,7 @@ def FetchPastWeatherData():
    """
    # The age threshold requires that this report be run at one hour after 
    # midnight for the region being considered.
-   age_threshold = datetime.datetime.now() - datetime.timedelta(days=1)
+
    weather = models.ThreeDayWeatherForecast.all()
    weather.filter('date_time_added >', age_threshold)
    
@@ -96,7 +103,7 @@ def CalculateAndPutData(weather):
    new_temp.put()
   
 
-def YesterdaysWeatherCalculator(weather):
+def YesterdaysWeatherCalculator(weather, snow):
     """ Given the Weather data for the past day, process the input and develop 
         values to represent Yesterday's weather.
     """
@@ -175,6 +182,8 @@ def YesterdaysWeatherCalculator(weather):
       if datapoint.relative_humidity < relative_humidity_low:
         relative_humidity_low = datapoint.relative_humidity
 
+    
+
     new = models.YesterdaysWeather()
 
     new.noaa_observation_location = noaa_observation_location
@@ -202,5 +211,6 @@ def YesterdaysWeatherCalculator(weather):
     new.visibility_mi_low = visibility_mi_low
     new.relative_humidity_high = relative_humidity_high
     new.relative_humidity_low = relative_humidity_low
+    new.new_snow_8200ft_24_hours = snow
 
     new.put()
