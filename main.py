@@ -349,7 +349,7 @@ class GraphsPageHandler(BaseRequestHandler):
     if past_temp_data is None:
       past_temp_data_query = models.YesterdaysWeather.all()
       past_temp_data_query.order('-date_time_added')
-      past_temp_data = yesterday_data_query.fetch(limit=30)
+      past_temp_data = past_temp_data_query.fetch(limit=30)
       memcache.set("past_temp_data", past_temp_data,
                     time=3600)
 
