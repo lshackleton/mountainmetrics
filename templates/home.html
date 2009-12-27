@@ -10,6 +10,12 @@
       <!-- BEGIN weather forecast module -->
       <div class="post">
         <h2>Current and Forecasted Weather</h2>
+         {% if TemperaturePerDay.current_temp_f_high %}<p>Yesterday: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y" }}</p>{% else %}{% endif %}
+          <ul>
+            {% if TemperaturePerDay.current_temp_f_high %}<li>High Temp: {{ TemperaturePerDay.current_temp_f_high }}</li>{% else %}{% endif %}
+            {% if TemperaturePerDay.current_temp_f_low %}<li>Low Temp: {{ TemperaturePerDay.current_temp_f_low }}&deg; F</li>{% else %}{% endif %}
+          </ul>
+        
         <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
           <ul>
             {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
