@@ -13,6 +13,46 @@ import models
 
 age_threshold = datetime.datetime.now() - datetime.timedelta(days=1)
 
+
+def CreateSnowFallGraph():
+  """ Create the snowfall graph and store the graph
+  """
+  raw_data = models.YesterdaysWeather.all()
+  raw_data.order('-date_time_added')
+  data = raw_data.fetch(limit=1000)
+  snow_fall_graph = SnowfallGraphMaker(data=data)
+
+  new = models.SnowFallGraph()
+  new.snow_fall_graph = snow_fall_graph  
+  new.put()
+
+
+def SnowfallGraphMaker(data):
+  """ This function takes in all the snow data, processes it and returns an img 
+      url.
+  """
+  head = """<img src="http://chart.apis.google.com/chart?chs=400x200&chdlp=b&chf=bg,s,ffffff|c,s,ffffff&chxt=x,y&chxl=0:|Dec|Jan|1:|0.00|15.00|30.00&"""
+
+#### Commented out x axis and y axis. We may need to create chxl=0:|Dec|Jan|1:|0.00|15.00|30.00& dynamically.
+##  x_axis = """"""
+##  y_axis = """"""
+  
+  spacer = """&cht=lc&chd=t:"""
+  daily_snowfall_8200 = """"""
+
+  for dat in data:
+    if daily_snowfall_8200 == """""":
+      daily_snowfall_8200 += dat.new_snow_8200ft_24_hours
+    else:
+      daily_snowfall_8200 += ',%s' % dat.new_snow_8200ft_24_hours
+
+  closer = """&chdl=7,000+-+8,000+ft|8,000+-+9,000+ft&chco=0000ff&chls=2,1,0|2,3,3" />"""
+
+  complete = (head + spacer + daily_snowfall_8200 + closer)
+
+  return complete
+
+
 def FetchAndStoreExistingWeatherData():
   """ Fetch Data from app engine and then process and store it in a new model.
   """

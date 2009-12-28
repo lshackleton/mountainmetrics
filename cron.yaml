@@ -56,6 +56,11 @@ cron:
   schedule: every 24 hours 09:17
 #  schedule: every 1 minutes
 
+- description: SnowFallGraphCreater 
+  url: /tasks/process/SnowFallGraphCreater
+  schedule: every 24 hours 10:17
+#  schedule: every 1 minutes
+
 - description: YahooWeatherFetcher 
   url: /tasks/process/YahooWeatherFetcher
   schedule: every 1 hours

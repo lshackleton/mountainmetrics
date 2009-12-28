@@ -138,8 +138,9 @@ class HomePageHandler(BaseRequestHandler):
     sierra_wind_speed = handler.handle(type='sierra_wind_speed')
     sierra_expected_snow = handler.handle(type='sierra_expected_snow')
     yesterday_data = handler.handle(type='yesterday_data')
-    TemperaturePerDay = handler.handle(type='TemperaturePerDay')             
-
+    TemperaturePerDay = handler.handle(type='TemperaturePerDay')
+    #snow_fall_graph = handler.handle(type='snow_fall_graph')
+    snow_fall_graph = None
   
     avalanche_multi_levels = False  
     if avalanche.multiple_danger_levels:
@@ -163,13 +164,6 @@ class HomePageHandler(BaseRequestHandler):
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:90&chl=Low&chdlp=b'
       avalanche_status = 'Low'
 
-
-    snow_fall_graph = memcache.get("snow_fall_graph")
-    if snow_fall_graph is None:
-      ### Likely to pull data from YesterdaysWeather.all()
-      snow_fall_graph = mmutil.SnowfallGraphMaker(data=None)
-      memcache.set("snow_fall_graph", snow_fall_graph,
-                    time=3600)
 
     logging.info('get_stats(): %s' % memcache.get_stats())
 
@@ -195,6 +189,7 @@ class HomePageHandler(BaseRequestHandler):
       'yesterday_data': yesterday_data,
       'snow_fall_graph': snow_fall_graph,
       'TemperaturePerDay': TemperaturePerDay,
+      'snow_fall_graph': snow_fall_graph,
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
     })
 

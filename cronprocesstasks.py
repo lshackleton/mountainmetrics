@@ -35,6 +35,7 @@ from mmlib import delete_functions
 #The library for processing weather data already stored on site
 from mmlib.stored_weather_fetcher import FetchAndStoreExistingWeatherData
 from mmlib.stored_weather_fetcher import YesterdayWeatherFetchAndStore
+from mmlib.stored_weather_fetcher import CreateSnowFallGraph
 
 #The libraries for scraping data
 from mmlib.scrapers.i80 import i80_parser
@@ -536,6 +537,23 @@ class YahooWeatherFetcher(BaseRequestHandler):
     self.YahooFetcherProcess()
 
 
+class SnowFallGraphCreater(BaseRequestHandler):
+
+  def SnowFallGraphCreaterProcess(self):
+    logging.info('Running the SnowFallGraphCreaterProcess.')
+    CreateSnowFallGraph()
+    logging.info('SUCCESS: Running the SnowFallGraphCreaterProcess.')
+    memcache.flush_all()
+    logging.info('memcache.flush_all() run.')
+
+  def get(self):
+    self.SnowFallGraphCreaterProcess()
+
+  def post(self):
+    self.SnowFallGraphCreaterProcess()
+
+
+
 class BulkDeleter(BaseRequestHandler):
   
   def BulkDeleteProcess(self):
@@ -632,7 +650,9 @@ def main():
         ('/tasks/process/SierraAvyCenterWindSpeedFetcher',   
           SierraAvyCenterWindSpeedFetcher),
         ('/tasks/process/StoredWeatherProcesser',   
-          StoredWeatherProcesser),      
+          StoredWeatherProcesser),
+        ('/tasks/process/SnowFallGraphCreater',   
+          SnowFallGraphCreater),
         ('/tasks/process/YesterdayWeatherProcesser',   
           YesterdayWeatherProcesser),
         ('/tasks/process/YahooWeatherFetcher',   

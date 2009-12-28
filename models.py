@@ -225,7 +225,6 @@ class SierraAvyCenterExpectedSnowfall(db.Model):
   tomorrow_8_to_9kft = db.StringProperty(multiline=True)
 
 
-
 class ExpectedSnowfall(db.Model):
   """AppEngine data model to store Expected Snowfall data. The data is from   
      Sierra Avalanche Center
@@ -268,3 +267,9 @@ class YesterdaysWeather(db.Model):
   relative_humidity_low = db.FloatProperty()
   new_snow_8200ft_24_hours = db.StringProperty(multiline=True)
 
+
+class SnowFallGraph(db.Model):
+  """ Graph of the current snowfall data.
+  """
+  date_time_added = db.DateTimeProperty(auto_now_add=True)
+  snow_fall_graph = db.StringProperty(multiline=True)
