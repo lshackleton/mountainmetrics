@@ -77,6 +77,9 @@ class DataPopulator(object):
   def handle_yesterday_data(self, *args, **kwargs):
     return models.YesterdaysWeather.all()
 
+  def handle_TemperaturePerDay(self, *args, **kwargs):
+    return models.TemperaturePerDay.all()
+
 
   def handle(self, type, *args, **kwargs):
     data = memcache.get("%s" % type)

@@ -137,7 +137,8 @@ class HomePageHandler(BaseRequestHandler):
     sierra_wind_direction = handler.handle(type='sierra_wind_direction')
     sierra_wind_speed = handler.handle(type='sierra_wind_speed')
     sierra_expected_snow = handler.handle(type='sierra_expected_snow')
-    yesterday_data = handler.handle(type='yesterday_data')             
+    yesterday_data = handler.handle(type='yesterday_data')
+    TemperaturePerDay = handler.handle(type='TemperaturePerDay')             
 
   
     avalanche_multi_levels = False  
@@ -193,6 +194,7 @@ class HomePageHandler(BaseRequestHandler):
       'sierra_expected_snow': sierra_expected_snow,
       'yesterday_data': yesterday_data,
       'snow_fall_graph': snow_fall_graph,
+      'TemperaturePerDay': TemperaturePerDay,
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
     })
 
