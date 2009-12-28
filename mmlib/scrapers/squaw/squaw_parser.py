@@ -27,6 +27,9 @@ class SquawSnowReportParser(Scraper):
 
     if not upper_mtn_conditions[5] == 0:
       upper_mtn_conditions[5] = upper_mtn_conditions[5][:-2]
+      
+    if upper_mtn_conditions[4][-1:] == '&':
+      upper_mtn_conditions[4] = upper_mtn_conditions[4][:-1]
 
     new_data = models.SquawValleySnowReport()
 
