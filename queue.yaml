@@ -14,3 +14,6 @@ queue:
 - name: ResortReportFetcher
   rate: 5/s
   bucket_size: 10
+- name: General
+  rate: 5/s
+  bucket_size: 20

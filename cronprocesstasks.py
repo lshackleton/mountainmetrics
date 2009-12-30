@@ -119,6 +119,15 @@ class AddHourlyTask(BaseRequestHandler):
                   queue_name='AvalancheConditionsFetcher')
    taskqueue.Task(url='/tasks/process/SierraAvyCenterWindSpeedFetcher').add(
                   queue_name='AvalancheConditionsFetcher')
+   taskqueue.Task(url='/tasks/process/StoredWeatherProcesser').add(
+                  queue_name='General')
+   taskqueue.Task(url='/tasks/process/YesterdayWeatherProcesser').add(
+                  queue_name='General')
+   taskqueue.Task(url='/tasks/process/SnowFallGraphCreater').add(
+                  queue_name='General')
+   taskqueue.Task(url='/tasks/process/YahooWeatherFetcher').add(
+                  queue_name='General')
+
 
 class AddAvalancheConditionsFetcherTask(BaseRequestHandler):
  """Cron calls this class to enqueue more AvalancheConditionsFetcher tasks."""
