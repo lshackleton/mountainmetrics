@@ -41,7 +41,7 @@ def SnowfallGraphMaker(data):
   daily_snowfall_8200 = """"""
 
   for dat in data:
-    if dat.new_snow_8200ft_24_hours not None:
+    if not dat.new_snow_8200ft_24_hours:
       if daily_snowfall_8200 == """""":
         daily_snowfall_8200 += dat.new_snow_8200ft_24_hours
       else:
@@ -59,7 +59,7 @@ def FetchAndStoreExistingWeatherData():
   """
   
   weather_data = FetchPastWeatherData()
-  if weather_data not None:
+  if not weather_data:
     CalculateAndPutData(weather=weather_data)
     logging.info('Success fetching old weather data and storing.')
 
@@ -130,7 +130,7 @@ def CalculateAndPutData(weather):
    dew = models.DewpointPerDay.all()
    dew.filter('date_time_added >', age_threshold)
    dew_data = dew.get()
-   if dew_data is None:
+   if not dew_data:
      new_dew = models.DewpointPerDay()
 
      new_dew.dewpoint_f_high = dewpoint_f_high
@@ -144,7 +144,7 @@ def CalculateAndPutData(weather):
    temp_per_day.filter('date_time_added >', age_threshold)
    temp_per_day_data = temp_per_day.get()
 
-   if temp_per_day_data is None:
+   if not temp_per_day_data:
      new_temp = models.TemperaturePerDay()
 
      new_temp.current_temp_c_high = current_temp_c_high
@@ -164,7 +164,7 @@ def YesterdaysWeatherCalculator(weather, snow):
     raw_data = models.YesterdaysWeather.all()
     raw_data.filter('date_time_added >', age_threshold)
     data = temp_per_day.get()
-    if data is None:
+    if not data:
     
       initial = weather[0]
   
