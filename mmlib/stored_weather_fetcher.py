@@ -41,7 +41,7 @@ def SnowfallGraphMaker(data):
   daily_snowfall_8200 = """"""
 
   for dat in data:
-    if not dat.new_snow_8200ft_24_hours:
+    if dat.new_snow_8200ft_24_hours:
       if daily_snowfall_8200 == """""":
         daily_snowfall_8200 += dat.new_snow_8200ft_24_hours
       else:
@@ -72,7 +72,10 @@ def YesterdayWeatherFetchAndStore():
   snow_obs = models.SierraAvyCenterCurrentObservations.all()
   snow_obs.filter('date_time_added >', age_threshold)
   snow_data = snow_obs.get()
-  snow = snow_data.total_snow_depth_8200ft
+  snow = None
+  if snow_data:
+    if snow_data.total_snow_depth_8200ft:
+      snow = snow_data.total_snow_depth_8200ft
   YesterdaysWeatherCalculator(weather=weather_data, snow=snow)
   logging.info('Success fetching ALL old weather data and storing.')
 
