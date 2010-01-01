@@ -484,7 +484,7 @@ class SierraAvyCenterWindFetcher(BaseRequestHandler):
 
 class SierraAvyCenterWindSpeedFetcher(BaseRequestHandler):
 
-  def SierraAvyCenterWindSpeedFetcher(self):
+  def SierraAvyCenterWindSpeedProcess(self):
     logging.info('Running the SierraAvyCenterWindSpeedFetcher.')
     sierra_avy_center_parser.SierraAvyCenterWindSpeedParser()
     logging.info('SUCCESS: Running the SierraAvyCenterWindSpeedFetcher.')
@@ -492,10 +492,10 @@ class SierraAvyCenterWindSpeedFetcher(BaseRequestHandler):
     logging.info('memcache.flush_all() run.')
 
   def get(self):
-    self.SierraAvyCenterWindSpeedFetcher()
+    self.SierraAvyCenterWindSpeedProcess()
 
   def post(self):
-    self.SierraAvyCenterWindSpeedFetcher()
+    self.SierraAvyCenterWindSpeedProcess()
 
 
 class StoredWeatherProcesser(BaseRequestHandler):
@@ -599,8 +599,18 @@ class AllFetcher(BaseRequestHandler):
     expected_snowfall.ExpectedSnowfallProcess()
     yahoo_weather = YahooWeatherFetcher()
     yahoo_weather.YahooFetcherProcess()
-    current_observations = SierraAvyCenterFetcher()
-    current_observations.SierraAvyCenterProcess()
+    current_observations = SierraAvyCenterCurrentObsFetcher()
+    current_observations.SierraAvyCenterCurrentObsProcess()
+    sierra_avy_center_expected_snow = SierraAvyCenterExpectedSnowFetcher()
+    sierra_avy_center_expected_snow.SierraAvyCenterExpectedSnowProcess()
+    sierra_avy_center_weather = SierraAvyCenterWeatherFetcher()
+    sierra_avy_center_weather.SierraAvyCenterWeatherProcess()
+    sierra_avy_center_temp = SierraAvyCenterTempFetcher()
+    sierra_avy_center_temp.SierraAvyCenterTempProcess()
+    sierra_avy_center_wind = SierraAvyCenterWindFetcher()
+    sierra_avy_center_wind.SierraAvyCenterWindProcess()
+    sierra_avy_center_wind_speed = SierraAvyCenterWindSpeedFetcher()
+    sierra_avy_center_wind_speed.SierraAvyCenterWindSpeedProcess()
 
     stored_weather = StoredWeatherProcesser()
     stored_weather.StoredWeatherFetcher()

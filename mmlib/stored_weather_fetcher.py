@@ -166,7 +166,7 @@ def YesterdaysWeatherCalculator(weather, snow):
     
     raw_data = models.YesterdaysWeather.all()
     raw_data.filter('date_time_added >', age_threshold)
-    data = temp_per_day.get()
+    data = raw_data.get()
     if not data:
     
       initial = weather[0]
