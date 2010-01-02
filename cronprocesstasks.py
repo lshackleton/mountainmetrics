@@ -668,7 +668,7 @@ def main():
           SierraAvyCenterWindFetcher),
         ('/tasks/process/SierraAvyCenterWindSpeedFetcher',   
           SierraAvyCenterWindSpeedFetcher),
-        ('/tasks/process/StoredWeatherProcesser',   
+        ('/tasks/process/StoredWeatherProcesser',
           StoredWeatherProcesser),
         ('/tasks/process/SnowFallGraphCreater',   
           SnowFallGraphCreater),

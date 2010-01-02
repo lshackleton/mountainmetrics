@@ -59,9 +59,11 @@ def FetchAndStoreExistingWeatherData():
   """
   
   weather_data = FetchPastWeatherData()
-  if not weather_data:
+  if weather_data:
     CalculateAndPutData(weather=weather_data)
     logging.info('Success fetching old weather data and storing.')
+  else:
+    logging.info('Failing to get data from FetchPastWeatherData.')
 
 
 def YesterdayWeatherFetchAndStore():
@@ -133,6 +135,7 @@ def CalculateAndPutData(weather):
    dew = models.DewpointPerDay.all()
    dew.filter('date_time_added >', age_threshold)
    dew_data = dew.get()
+
    if not dew_data:
      new_dew = models.DewpointPerDay()
 
@@ -276,3 +279,7 @@ def YesterdaysWeatherCalculator(weather, snow):
       new.new_snow_8200ft_24_hours = snow
 
       new.put()
+      logging.info('Adding data to datastore.')
+
+    else:
+      logging.info('Data already exists.')
