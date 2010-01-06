@@ -4,6 +4,7 @@ __author__ = "Bill Ferrell"
 """Parses the AppEngine NOAA weather data stores interesting parts (highs and lows) in specific additional data models. 
 """
 
+import re
 import logging
 import datetime
 
@@ -42,10 +43,16 @@ def SnowfallGraphMaker(data):
 
   for dat in data:
     if dat.new_snow_8200ft_24_hours:
-      if daily_snowfall_8200 == """""":
-        daily_snowfall_8200 += dat.new_snow_8200ft_24_hours
-      else:
-        daily_snowfall_8200 += ',%s' % dat.new_snow_8200ft_24_hours
+     snowPattern = re.compile(r'^\D*(\d*)\D*(\d*)\D*$')
+     snowtuple = snowPattern.search(dat.new_snow_8200ft_24_hours).groups()
+     if len(snowtuple) == 2:
+       snow_final = ((snowtuple[0] + snowtuple[1])/2)
+     else:
+       snow_final = snowtuple[0]
+    if daily_snowfall_8200 == """""":
+      daily_snowfall_8200 += snow_final
+    else:
+      daily_snowfall_8200 += ',%s' % snow_final
 
   closer = """&chdl=7,000+-+8,000+ft|8,000+-+9,000+ft&chco=0000ff&chls=2,1,0|2,3,3" />"""
 
