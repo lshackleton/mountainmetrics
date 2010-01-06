@@ -163,6 +163,8 @@ class HomePageHandler(BaseRequestHandler):
     elif avalanche.low_danger:
       avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:90&chl=Low&chdlp=b'
       avalanche_status = 'Low'
+    else:
+      avalanche_status = 'No data.'
 
 
     logging.info('get_stats(): %s' % memcache.get_stats())

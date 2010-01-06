@@ -76,8 +76,8 @@ def YesterdayWeatherFetchAndStore():
   snow_data = snow_obs.get()
   snow = None
   if snow_data:
-    if snow_data.total_snow_depth_8200ft:
-      snow = snow_data.total_snow_depth_8200ft
+    if snow_data.new_snow_8200ft_24_hours:
+      snow = snow_data.new_snow_8200ft_24_hours
   YesterdaysWeatherCalculator(weather=weather_data, snow=snow)
   logging.info('Success fetching ALL old weather data and storing.')
 
