@@ -139,8 +139,8 @@ class HomePageHandler(BaseRequestHandler):
     sierra_expected_snow = handler.handle(type='sierra_expected_snow')
     yesterday_data = handler.handle(type='yesterday_data')
     TemperaturePerDay = handler.handle(type='TemperaturePerDay')
-    #snow_fall_graph = handler.handle(type='snow_fall_graph')
-    snow_fall_graph = None
+    snow_fall_graph = handler.handle(type='snow_fall_graph')
+    #snow_fall_graph = None
   
     avalanche_multi_levels = False  
     if avalanche.multiple_danger_levels:
