@@ -90,11 +90,6 @@ class KirkwoodSnowReport(ResortSnowReportBase):
   kirkwood_forcast = db.StringProperty(multiline=True)
 
 
-class YesterdayWeather(db.Model):
-  """AppEngine data model to store Yesterday's weather information."""
-  date_time_added = db.DateTimeProperty(auto_now_add=True)
-
-
 class YahooWeatherForecast(db.Model):
   """AppEngine data model to store Yahoo's weather information."""
   date_time_added = db.DateTimeProperty(auto_now_add=True)
