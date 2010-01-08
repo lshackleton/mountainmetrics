@@ -21,7 +21,7 @@ from main import BaseRequestHandler
 
 #The data models.
 import models
-from models import DOTi80RoadConditions, YesterdayWeather
+from models import DOTi80RoadConditions
 
 #For handling the time objects
 import rfc822  
