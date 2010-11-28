@@ -125,8 +125,7 @@ class HomePageHandler(BaseRequestHandler):
     weather = handler.handle(type='weather')
     roads = handler.handle(type='roads')
     avalanche = handler.handle(type='avalanche')
-    alpine_meadows_snow_report = handler.handle(type=
-                                                'alpine_meadows_snow_report')
+    alpine_meadows_snow_report = handler.handle(type='alpine_meadows_snow_report')
     squaw_valley_snow_report = handler.handle(type='squaw_valley_snow_report')
     kirkwood_snow_report = handler.handle(type='kirkwood_snow_report')
     expected_snowfall = handler.handle(type='expected_snowfall')
@@ -195,14 +194,6 @@ class HomePageHandler(BaseRequestHandler):
       'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
     })
 
-
-class Bill(BaseRequestHandler):
-  def get(self, garbageinput=None):
-    logging.info('Visiting the bill page')
-    expected_snowfall_parser.ExpectedSnowFallParser()
-    logging.info('Success for the bill page')
-
-
 class AboutPageHandler(BaseRequestHandler):
   def get(self, garbageinput=None):
     logging.info('Visiting the about page')
@@ -211,12 +202,332 @@ class AboutPageHandler(BaseRequestHandler):
     })
 
 
-class TweetPageHandler2(BaseRequestHandler):
+class AvalanchePageHandler(BaseRequestHandler):
+  """
+  Generates the avalanche page.
+
+  """
   def get(self, garbageinput=None):
-    logging.info('Visiting the about page')
-    self.generate('tweet_test2.html', {
-      #'title': 'Tweet',
+    logging.info('Visiting the avalanchepage')
+
+    handler = mmutil.DataPopulator()
+    weather = handler.handle(type='weather')
+    roads = handler.handle(type='roads')
+    avalanche = handler.handle(type='avalanche')
+    alpine_meadows_snow_report = handler.handle(type='alpine_meadows_snow_report')
+    squaw_valley_snow_report = handler.handle(type='squaw_valley_snow_report')
+    kirkwood_snow_report = handler.handle(type='kirkwood_snow_report')
+    expected_snowfall = handler.handle(type='expected_snowfall')
+    yahoo_weather = handler.handle(type='yahoo_weather')
+    current_obs = handler.handle(type='current_obs')
+    sierra_weather = handler.handle(type='sierra_weather')
+    sierra_temp = handler.handle(type='sierra_temp')
+    sierra_wind_direction = handler.handle(type='sierra_wind_direction')
+    sierra_wind_speed = handler.handle(type='sierra_wind_speed')
+    sierra_expected_snow = handler.handle(type='sierra_expected_snow')
+    yesterday_data = handler.handle(type='yesterday_data')
+    TemperaturePerDay = handler.handle(type='TemperaturePerDay')
+    snow_fall_graph = handler.handle(type='snow_fall_graph')
+    #snow_fall_graph = None
+  
+    avalanche_multi_levels = False  
+    if avalanche.multiple_danger_levels:
+      avalanche_multi_levels = True
+
+    avalanche_status = None
+    avalanche_graph_url = None
+    if avalanche.extreme_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:5&chl=Extreme&chdlp=b'
+      avalanche_status = 'Extreme'
+    elif avalanche.high_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:10&chl=High&chdlp=b'
+      avalanche_status = 'High'
+    elif avalanche.considerable_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:25&chl=Considerable&chdlp=b'
+      avalanche_status = 'Considerable'
+    elif avalanche.moderate_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:50&chl=Moderate&chdlp=b'
+      avalanche_status = 'Moderate'
+    elif avalanche.low_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:90&chl=Low&chdlp=b'
+      avalanche_status = 'Low'
+    else:
+      avalanche_status = 'No data.'
+
+
+    logging.info('get_stats(): %s' % memcache.get_stats())
+
+
+    self.generate('avalanche.html', {
+      'ThreeDayWeatherForecast': weather,
+      'DOTi80RoadConditions': roads,
+      'avalanche_multi_levels': avalanche_multi_levels,
+      'avalanche_graph_url': avalanche_graph_url,
+      'avalanche_paragraph': avalanche.avalanche_report_paragraph,
+      'avalanche_status': avalanche_status,
+      'AlpineMeadowsSnowReport': alpine_meadows_snow_report,
+      'SquawValleySnowReport': squaw_valley_snow_report,
+      'KirkwoodSnowReport': kirkwood_snow_report,
+      'ExpectedSnowfall': expected_snowfall,
+      'yahoo_weather': yahoo_weather,
+      'current_obs': current_obs,
+      'sierra_weather': sierra_weather,
+      'sierra_temp': sierra_temp,
+      'sierra_wind_direction': sierra_wind_direction,
+      'sierra_wind_speed': sierra_wind_speed,
+      'sierra_expected_snow': sierra_expected_snow,
+      'yesterday_data': yesterday_data,
+      'snow_fall_graph': snow_fall_graph,
+      'TemperaturePerDay': TemperaturePerDay,
+      'snow_fall_graph': snow_fall_graph,
+      'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
     })
+
+
+class WeatherPageHandler(BaseRequestHandler):
+  """
+  Generates the weather page.
+
+  """
+  def get(self, garbageinput=None):
+    logging.info('Visiting the weatherpage')
+
+    handler = mmutil.DataPopulator()
+    weather = handler.handle(type='weather')
+    roads = handler.handle(type='roads')
+    avalanche = handler.handle(type='avalanche')
+    alpine_meadows_snow_report = handler.handle(type='alpine_meadows_snow_report')
+    squaw_valley_snow_report = handler.handle(type='squaw_valley_snow_report')
+    kirkwood_snow_report = handler.handle(type='kirkwood_snow_report')
+    expected_snowfall = handler.handle(type='expected_snowfall')
+    yahoo_weather = handler.handle(type='yahoo_weather')
+    current_obs = handler.handle(type='current_obs')
+    sierra_weather = handler.handle(type='sierra_weather')
+    sierra_temp = handler.handle(type='sierra_temp')
+    sierra_wind_direction = handler.handle(type='sierra_wind_direction')
+    sierra_wind_speed = handler.handle(type='sierra_wind_speed')
+    sierra_expected_snow = handler.handle(type='sierra_expected_snow')
+    yesterday_data = handler.handle(type='yesterday_data')
+    TemperaturePerDay = handler.handle(type='TemperaturePerDay')
+    snow_fall_graph = handler.handle(type='snow_fall_graph')
+    #snow_fall_graph = None
+  
+    avalanche_multi_levels = False  
+    if avalanche.multiple_danger_levels:
+      avalanche_multi_levels = True
+
+    avalanche_status = None
+    avalanche_graph_url = None
+    if avalanche.extreme_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:5&chl=Extreme&chdlp=b'
+      avalanche_status = 'Extreme'
+    elif avalanche.high_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:10&chl=High&chdlp=b'
+      avalanche_status = 'High'
+    elif avalanche.considerable_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:25&chl=Considerable&chdlp=b'
+      avalanche_status = 'Considerable'
+    elif avalanche.moderate_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:50&chl=Moderate&chdlp=b'
+      avalanche_status = 'Moderate'
+    elif avalanche.low_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:90&chl=Low&chdlp=b'
+      avalanche_status = 'Low'
+    else:
+      avalanche_status = 'No data.'
+
+
+    logging.info('get_stats(): %s' % memcache.get_stats())
+
+
+    self.generate('weather.html', {
+      'ThreeDayWeatherForecast': weather,
+      'DOTi80RoadConditions': roads,
+      'avalanche_multi_levels': avalanche_multi_levels,
+      'avalanche_graph_url': avalanche_graph_url,
+      'avalanche_paragraph': avalanche.avalanche_report_paragraph,
+      'avalanche_status': avalanche_status,
+      'AlpineMeadowsSnowReport': alpine_meadows_snow_report,
+      'SquawValleySnowReport': squaw_valley_snow_report,
+      'KirkwoodSnowReport': kirkwood_snow_report,
+      'ExpectedSnowfall': expected_snowfall,
+      'yahoo_weather': yahoo_weather,
+      'current_obs': current_obs,
+      'sierra_weather': sierra_weather,
+      'sierra_temp': sierra_temp,
+      'sierra_wind_direction': sierra_wind_direction,
+      'sierra_wind_speed': sierra_wind_speed,
+      'sierra_expected_snow': sierra_expected_snow,
+      'yesterday_data': yesterday_data,
+      'snow_fall_graph': snow_fall_graph,
+      'TemperaturePerDay': TemperaturePerDay,
+      'snow_fall_graph': snow_fall_graph,
+      'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
+    })
+
+class RoadsPageHandler(BaseRequestHandler):
+  """
+  Generates the roads page.
+
+  """
+  def get(self, garbageinput=None):
+    logging.info('Visiting the roadspage')
+
+    handler = mmutil.DataPopulator()
+    weather = handler.handle(type='weather')
+    roads = handler.handle(type='roads')
+    avalanche = handler.handle(type='avalanche')
+    alpine_meadows_snow_report = handler.handle(type='alpine_meadows_snow_report')
+    squaw_valley_snow_report = handler.handle(type='squaw_valley_snow_report')
+    kirkwood_snow_report = handler.handle(type='kirkwood_snow_report')
+    expected_snowfall = handler.handle(type='expected_snowfall')
+    yahoo_weather = handler.handle(type='yahoo_weather')
+    current_obs = handler.handle(type='current_obs')
+    sierra_weather = handler.handle(type='sierra_weather')
+    sierra_temp = handler.handle(type='sierra_temp')
+    sierra_wind_direction = handler.handle(type='sierra_wind_direction')
+    sierra_wind_speed = handler.handle(type='sierra_wind_speed')
+    sierra_expected_snow = handler.handle(type='sierra_expected_snow')
+    yesterday_data = handler.handle(type='yesterday_data')
+    TemperaturePerDay = handler.handle(type='TemperaturePerDay')
+    snow_fall_graph = handler.handle(type='snow_fall_graph')
+    #snow_fall_graph = None
+  
+    avalanche_multi_levels = False  
+    if avalanche.multiple_danger_levels:
+      avalanche_multi_levels = True
+
+    avalanche_status = None
+    avalanche_graph_url = None
+    if avalanche.extreme_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:5&chl=Extreme&chdlp=b'
+      avalanche_status = 'Extreme'
+    elif avalanche.high_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:10&chl=High&chdlp=b'
+      avalanche_status = 'High'
+    elif avalanche.considerable_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:25&chl=Considerable&chdlp=b'
+      avalanche_status = 'Considerable'
+    elif avalanche.moderate_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:50&chl=Moderate&chdlp=b'
+      avalanche_status = 'Moderate'
+    elif avalanche.low_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:90&chl=Low&chdlp=b'
+      avalanche_status = 'Low'
+    else:
+      avalanche_status = 'No data.'
+
+
+    logging.info('get_stats(): %s' % memcache.get_stats())
+
+
+    self.generate('roads.html', {
+      'ThreeDayWeatherForecast': weather,
+      'DOTi80RoadConditions': roads,
+      'avalanche_multi_levels': avalanche_multi_levels,
+      'avalanche_graph_url': avalanche_graph_url,
+      'avalanche_paragraph': avalanche.avalanche_report_paragraph,
+      'avalanche_status': avalanche_status,
+      'AlpineMeadowsSnowReport': alpine_meadows_snow_report,
+      'SquawValleySnowReport': squaw_valley_snow_report,
+      'KirkwoodSnowReport': kirkwood_snow_report,
+      'ExpectedSnowfall': expected_snowfall,
+      'yahoo_weather': yahoo_weather,
+      'current_obs': current_obs,
+      'sierra_weather': sierra_weather,
+      'sierra_temp': sierra_temp,
+      'sierra_wind_direction': sierra_wind_direction,
+      'sierra_wind_speed': sierra_wind_speed,
+      'sierra_expected_snow': sierra_expected_snow,
+      'yesterday_data': yesterday_data,
+      'snow_fall_graph': snow_fall_graph,
+      'TemperaturePerDay': TemperaturePerDay,
+      'snow_fall_graph': snow_fall_graph,
+      'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
+    })
+
+
+class ResortsPageHandler(BaseRequestHandler):
+  """
+  Generates the resorts page.
+
+  """
+  def get(self, garbageinput=None):
+    logging.info('Visiting the resortspage')
+
+    handler = mmutil.DataPopulator()
+    weather = handler.handle(type='weather')
+    roads = handler.handle(type='roads')
+    avalanche = handler.handle(type='avalanche')
+    alpine_meadows_snow_report = handler.handle(type='alpine_meadows_snow_report')
+    squaw_valley_snow_report = handler.handle(type='squaw_valley_snow_report')
+    kirkwood_snow_report = handler.handle(type='kirkwood_snow_report')
+    expected_snowfall = handler.handle(type='expected_snowfall')
+    yahoo_weather = handler.handle(type='yahoo_weather')
+    current_obs = handler.handle(type='current_obs')
+    sierra_weather = handler.handle(type='sierra_weather')
+    sierra_temp = handler.handle(type='sierra_temp')
+    sierra_wind_direction = handler.handle(type='sierra_wind_direction')
+    sierra_wind_speed = handler.handle(type='sierra_wind_speed')
+    sierra_expected_snow = handler.handle(type='sierra_expected_snow')
+    yesterday_data = handler.handle(type='yesterday_data')
+    TemperaturePerDay = handler.handle(type='TemperaturePerDay')
+    snow_fall_graph = handler.handle(type='snow_fall_graph')
+    #snow_fall_graph = None
+  
+    avalanche_multi_levels = False  
+    if avalanche.multiple_danger_levels:
+      avalanche_multi_levels = True
+
+    avalanche_status = None
+    avalanche_graph_url = None
+    if avalanche.extreme_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:5&chl=Extreme&chdlp=b'
+      avalanche_status = 'Extreme'
+    elif avalanche.high_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:10&chl=High&chdlp=b'
+      avalanche_status = 'High'
+    elif avalanche.considerable_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:25&chl=Considerable&chdlp=b'
+      avalanche_status = 'Considerable'
+    elif avalanche.moderate_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:50&chl=Moderate&chdlp=b'
+      avalanche_status = 'Moderate'
+    elif avalanche.low_danger:
+      avalanche_graph_url = 'http://chart.apis.google.com/chart?cht=gom&chs=400x200&chd=t:90&chl=Low&chdlp=b'
+      avalanche_status = 'Low'
+    else:
+      avalanche_status = 'No data.'
+
+
+    logging.info('get_stats(): %s' % memcache.get_stats())
+
+
+    self.generate('resorts.html', {
+      'ThreeDayWeatherForecast': weather,
+      'DOTi80RoadConditions': roads,
+      'avalanche_multi_levels': avalanche_multi_levels,
+      'avalanche_graph_url': avalanche_graph_url,
+      'avalanche_paragraph': avalanche.avalanche_report_paragraph,
+      'avalanche_status': avalanche_status,
+      'AlpineMeadowsSnowReport': alpine_meadows_snow_report,
+      'SquawValleySnowReport': squaw_valley_snow_report,
+      'KirkwoodSnowReport': kirkwood_snow_report,
+      'ExpectedSnowfall': expected_snowfall,
+      'yahoo_weather': yahoo_weather,
+      'current_obs': current_obs,
+      'sierra_weather': sierra_weather,
+      'sierra_temp': sierra_temp,
+      'sierra_wind_direction': sierra_wind_direction,
+      'sierra_wind_speed': sierra_wind_speed,
+      'sierra_expected_snow': sierra_expected_snow,
+      'yesterday_data': yesterday_data,
+      'snow_fall_graph': snow_fall_graph,
+      'TemperaturePerDay': TemperaturePerDay,
+      'snow_fall_graph': snow_fall_graph,
+      'tomorrow': datetime.datetime.today() + datetime.timedelta(1),
+    })
+
 
 
 class ErrorPageHandler(BaseRequestHandler):
@@ -225,15 +536,6 @@ class ErrorPageHandler(BaseRequestHandler):
     self.generate('error.html', {
       #'title': 'Error',
     })
-
-
-class SimplePageHandler(BaseRequestHandler):
-  def get(self, garbageinput=None):
-    logging.info('Visiting the simple page')
-    self.generate('simple.html', {
-      #'title': 'Simple',
-    })
-
 
 class GraphsPageHandler(BaseRequestHandler):
   def get(self, garbageinput=None):
@@ -263,12 +565,13 @@ class GraphsPageHandler(BaseRequestHandler):
 # Map URLs to our RequestHandler classes above
 _MountainMetrics_Urls = [
 # after each URL map we list the html template that is displayed
-#   ('/bill', Bill), #base.html
    ('/error', ErrorPageHandler), #error.html
-   ('/simple', SimplePageHandler), #simple.html
+   ('/resorts', ResortsPageHandler), 
+   ('/avalanche', AvalanchePageHandler), 
+   ('/roads', RoadsPageHandler), 
+   ('/weather', WeatherPageHandler), 
    ('/graphs', GraphsPageHandler), #graphs.html
    ('/about', AboutPageHandler), #about.html
-   ('/tweet2', TweetPageHandler2),
    ('/.*$', HomePageHandler), #base.html
 ]
 

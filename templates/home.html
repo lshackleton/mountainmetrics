@@ -2,172 +2,30 @@
 
 {% block content %}
     
-	  <!-- BEGIN content -->
-  <div id="content">
-    <!-- begin featured -->
-      <!-- begin left column -->
-      
-      <!-- BEGIN weather forecast module -->
-      <div class="post">
-        <h2>Current and Forecasted Weather</h2>
-         {% if TemperaturePerDay.current_temp_f_high %}<p>Yesterday: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y" }}</p>{% else %}{% endif %}
-          <ul>
-            {% if TemperaturePerDay.current_temp_f_high %}<li>High Temp: {{ TemperaturePerDay.current_temp_f_high }}</li>{% else %}{% endif %}
-            {% if TemperaturePerDay.current_temp_f_low %}<li>Low Temp: {{ TemperaturePerDay.current_temp_f_low }}&deg; F</li>{% else %}{% endif %}
-          </ul>
-        
-        <p>Today: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y (P)" }}</p>
-          <ul>
-            {% if ThreeDayWeatherForecast.weather %}<li>Overall Weather: {{ ThreeDayWeatherForecast.weather }}</li>{% else %}{% endif %}
-            {% if ThreeDayWeatherForecast.current_temp_f %}<li>Current Temp: {{ ThreeDayWeatherForecast.current_temp_f }}&deg; F</li>{% else %}{% endif %}
-            {% if SierraAvyCenterTemperatures.today_7_to_8kft %}<li>Temp Range: {{ SierraAvyCenterTemperatures.today_7_to_8kft }}</li>{% else %}{% endif %}
-            <li>Wind Direction: {{  ThreeDayWeatherForecast.wind_dir }}</li>
-            {% if ThreeDayWeatherForecast.wind_mph %}<li>Wind Speed: {{ ThreeDayWeatherForecast.wind_mph }} mph to {{ ThreeDayWeatherForecast.wind_gust_mph }} mph</li>{% else %}{% endif %}
-            {% if ThreeDayWeatherForecast.visibility_mi %}<li>Visibility: {{  ThreeDayWeatherForecast.visibility_mi }} miles</li>{% else %}{% endif %}
-            {% if ThreeDayWeatherForecast.relative_humidity %}<li>Relative Humidity: {{  ThreeDayWeatherForecast.relative_humidity }}%</li>{% else %}{% endif %}
-            {% if ThreeDayWeatherForecast.dewpoint_f %}<li>Current Dewpoint: {{ ThreeDayWeatherForecast.dewpoint_f }}&deg; F</li>{% else %}{% endif %}
-            {% if ThreeDayWeatherForecast.new_snow_8200_24hours %}<li>New Snow: {{ new_snow_8200_24hours }}in at 8,000 in past 24 hours</li>{% else %}{% endif %}
-            {% if ExpectedSnowfall.today %}<li>Expected Snowfall: {{ ExpectedSnowfall.today }}</li>{% else %}{% endif %}
-          </ul>
-        
-        <p>Tonight: {{ ThreeDayWeatherForecast.date_time_added|date:"D - F j, Y" }}</p>
-          <ul>
-            {% if SierraAvyCenterTemperatures.tonight_8_to_9kft %}<li>Temp Range: {{ SierraAvyCenterTemperatures.tonight_8_to_9kft }}</li>{% else %}{% endif %}
-            {% if ExpectedSnowfall.tonight %}<li>Expected Snowfall: {{ ExpectedSnowfall.tonight }}</li>{% else %}{% endif %}
-          </ul>
-
-        <p>Tomorrow: {{ tomorrow|date:"D - F j, Y" }}</p>
-          <ul>
-            {% if SierraAvyCenterTemperatures.tomorrow_8_to_9kft %}<li>Temp Range: {{ SierraAvyCenterTemperatures.tomorrow_8_to_9kft }}</li>{% else %}{% endif %}
-            {% if ExpectedSnowfall.tomorrow %}<li>Expected Snowfall: {{ ExpectedSnowfall.tomorrow }}</li>{% else %}{% endif %}
-          </ul>
-         <p><a href="http://www.weather.gov/data/obhistory/KTRK.html" target="_blank">Full Historical Report...</a></p>  
-
-       <br />
-      </div>
-      <!-- END weather forecast module -->
-      
-      <!-- BEGIN resort snow report module -->
-      <div class="post">
-        <h2>Today's Resort Snow Report</h2>
-        <p>{% if SquawValleySnowReport.date_time_added %}<p>Squaw Valley {{ SquawValleySnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Squaw Valley.{% endif %}
-          <ul>
-            {% if SquawValleySnowReport.current_condition %}<li>Current Condition: {{ SquawValleySnowReport.current_condition }}</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.wind %}<li>Current Wind: {{ SquawValleySnowReport.wind }} mph</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.upper_mountain_temp_f %}<li>Upper Mountain Temp: {{ SquawValleySnowReport.upper_mountain_temp_f }}&deg;F</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.lower_mountain_temp_f %}<li>Lower Mountain Temp: {{ SquawValleySnowReport.lower_mountain_temp_f }}&deg;F</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.upper_mountain_snow_base_inches %}<li>Upper Mountain Snow Depth: {{ SquawValleySnowReport.upper_mountain_snow_base_inches }} in.</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.lower_mountain_snow_base_inches %}<li>Lower Mountain Snow Depth: {{ SquawValleySnowReport.lower_mountain_snow_base_inches }} in.</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.new_snow_total_inches_base %}<li>24hr Snow at Base: {{ SquawValleySnowReport.new_snow_total_inches_base }} in.</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.new_snow_total_inches_top %}<li>24hr Snow at Top: {{ SquawValleySnowReport.new_snow_total_inches_top }} in.</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.storm_snow_total_inches_base %}<li>Storm Snow at Base: {{ SquawValleySnowReport.new_snow_total_inches_base }} in.</li>{% else %}{% endif %}
-            {% if SquawValleySnowReport.storm_snow_total_inches_top %}<li>Storm Snow at Top: {{ SquawValleySnowReport.new_snow_total_inches_top }} in.</li>{% else %}{% endif %}
-          </ul>
-       
-        
-        <p>{% if AlpineMeadowsSnowReport.date_time_added %}<p>Alpine Meadows {{ AlpineMeadowsSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new Snow Report for Alpine Meadows.{% endif %}
-          <ul>
-            {% if AlpineMeadowsSnowReport.current_condition %}<li>Current Condition: {{ AlpineMeadowsSnowReport.current_condition }}</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.upper_mountain_temp_f %}<li>Upper Mountain Temp: {{ AlpineMeadowsSnowReport.upper_mountain_temp_f }}&deg;F</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.lower_mountain_temp_f %}<li>Lower Mountain Temp: {{ AlpineMeadowsSnowReport.lower_mountain_temp_f }}&deg;F</li>{% else %}{% endif %}
-
-            
-            {% if AlpineMeadowsSnowReport.wind_base %}<li>Wind at Base: {{ AlpineMeadowsSnowReport.wind_base }}</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.wind_top %}<li>Wind at Top: {{ AlpineMeadowsSnowReport.wind_top }}</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.lower_mountain_snow_base_inches %}<li>Lower Mountain Snow Depth: {{ AlpineMeadowsSnowReport.lower_mountain_snow_base_inches }} in</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.upper_mountain_snow_base_inches %}<li>Upper Mountain Snow Depth: {{ AlpineMeadowsSnowReport.upper_mountain_snow_base_inches }} in</li>{% else %}{% endif %}
-
-            {% if AlpineMeadowsSnowReport.new_snow_total_inches_base %}<li>New Snow at Base: {{ AlpineMeadowsSnowReport.new_snow_total_inches_base }} in</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.new_snow_total_inches_top %}<li>New Snow at Top: {{ AlpineMeadowsSnowReport.new_snow_total_inches_top }} in</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.today_high_temp %}<li>High Temp: {{ AlpineMeadowsSnowReport.today_high_temp }}</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.today_low_temp %}<li>Low Temp: {{ AlpineMeadowsSnowReport.today_low_temp }}</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.today_new_snow %}<li>New Snow: {{ AlpineMeadowsSnowReport.today_new_snow }} in</li>{% else %}{% endif %}
-            {% if AlpineMeadowsSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ AlpineMeadowsSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
-          </ul>
-
-        <p>{% if KirkwoodSnowReport.date_time_added %}<p>Kirkwood {{ KirkwoodSnowReport.date_time_added|date:"D - F j, Y (P)" }}</p>{% else %}No new snow report for Kirkwood.{% endif %}
-          <ul>
-            {% if KirkwoodSnowReport.current_temp_f %}<li>Current Temp: {{KirkwoodSnowReport.current_temp_f }} &deg;F</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.current_condition %}<li>Current Condition: {{KirkwoodSnowReport.current_condition }}</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.wind %}<li>Wind: {{KirkwoodSnowReport.wind }}</li>{% else %}{% endif %}
-
-            {% if KirkwoodSnowReport.today_high_temp %}<li>High Temp: {{KirkwoodSnowReport.today_high_temp }}</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.today_low_temp %}<li>Low Temp: {{ KirkwoodSnowReport.today_low_temp }}</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.storm_snow_total_inches %}<li>Storm Snow Total: {{ KirkwoodSnowReport.storm_snow_total_inches }} in</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.kirkwood_forcast %}<li>Forecast: {{ KirkwoodSnowReport.kirkwood_forcast }}</li>{% else %}{% endif %}
-            {% if KirkwoodSnowReport.today_expected_snowfall %}<li>Expected Snow: {{ KirkwoodSnowReport.today_expected_snowfall }} in</li>{% else %}{% endif %}
-          </ul>
-       <br />
-      </div>
-      <!-- END resort snow report module -->
-      
-      <!-- BEGIN dot traffic conditions module -->
-      <div class="post">
-        <h2>DOT Road Conditions</h2>
-        {% if DOTi80RoadConditions.chains_required %}<p>Chains</p>{% else %}{% endif %}
-          <ul>
-            {% if DOTi80RoadConditions.chains_required %}<li>Chains are currently required</li>{% else %}{% endif %}
-            {% if DOTi80RoadConditions.chains_required %}<li>Location of Requirement: {{ DOTi80RoadConditions.stretch_of_road|title }}{% else %}{% endif %}</li>
-          </ul>
-        
-        {% if DOTi80RoadConditions.date_time_added %}<p>Details: {{ DOTi80RoadConditions.date_time_added|date:"F j, Y" }}</p>{% else %}<p>No New Traffic Updates</p>{% endif %}
-          <ul>
-            {% if DOTi80RoadConditions.road_conditions_details %}<li>In Northern California and the Sierra Nevada: {{ DOTi80RoadConditions.road_conditions_details|title }}</li>{% else %}{% endif %}
-          </ul>
-        <br />
-      </div>
-      <!-- END dot traffic conditions module -->
+<div id="container">
+  
+  <div id="header">
     
-  <!-- END left column -->
+  <h1><a href="./">Welcome to Mountain Metric</a></h1>
+  
+    <ul>
+      <li><a href="/avalanche">Avalanche Conditions</a></li>
+    </ul>
+    
+    <ul>
+      <li><a href="/resorts">Resort Ski Conditions</a></li>
+    </ul>
+    
+    <ul>
+      <li><a href="/roads">Road Conditions</a></li>
+    </ul>
+    
+    <ul>
+      <li><a href="/weather">Weather Conditions</a></li>
+    </ul>
+
   </div>
-  <!-- END content -->
   
-  
-  
-  <!-- BEGIN right column -->
-  <div id="sidebar">    
-    
-      <!-- BEGIN avalanche conditions module -->
-      <div class="box">
-        <h2>Today's Avalanche Danger: {{ avalanche_status }}</h2>
-            {% if avalanche_graph_url %}
-              <p><img src="{{ avalanche_graph_url }}" /></p>
-            {% else %}
-            {% endif %}
-            
-            {% if multiple_danger_levels %}
-            <p>There are multiple danger levels today. In the graph above, we display the highest danger level.  We recommend reading <a href="http://www.sierraavalanchecenter.org/advisory" target="_blank">the full report</a>.</p>{% else %}
-            {% endif %}             
-             {% if avalanche_paragraph %}
-                <p>{{ avalanche_paragraph }}  Please see <a href="http://www.sierraavalanchecenter.org/advisory" target="_blank">Sierra Avalanche Center website</a> for more details.</p>
-            {% else %}
-              <p>No new avalanche report today.  Please see <a href="http://www.sierraavalanchecenter.org/advisory" target="_blank">Sierra Avalanche website</a> for more details.</p>
-            {% endif %}
-        <br />
-      </div>
-      <!-- END avalanche conditions module -->
-
-      <!-- BEGIN snowfall trend module -->
-      <div class="box">
-        <h2>2009 Snowfall Trends</h2>
-<p><img src="http://chart.apis.google.com/chart?chs=400x200&amp;chdlp=b&amp;chf=bg,s,ffffff|c,s,ffffff&amp;chxt=x,y&amp;chxl=0:|Nov|Dec|Jan|1:|0.00|15.00|30.00&amp;cht=lc&amp;chd=t:0.00,26.66,40.00,46.66,73.33,100.00|0.00,26.66,13.33,6.66,26.66,33.33&amp;chdl=7,000+-+8,000+ft|8,000+-+9,000+ft&amp;chco=0000ff,009900&amp;chls=2,1,0|2,3,3" /></p><br />
-      </div>
-      <!-- END snowfall trend module -->
-    
-      <!-- BEGIN snowfall trend module -->
-      <div class="box">
-        <h2>7 Day Temperature Profile</h2>
-        <p>Grab data from NOAA and display profile of last seven days highs and lows.</p>
-<p><img src="http://chart.apis.google.com/chart?cht=lc&chs=400x200&chxt=x,y&chxr=0,0,10|1,0,16.8&chd=t:71.4,65.5,59.5,65.5,77.4,95.2,89.3,83.3,65.5,71.4,77.4|59.5,47.6,29.8,23.8,29.8,35.7,41.7,29.8,23.8,35.7,41.7&chco=990000,339966&chls=1,1,0|1,1,0|1,1,0&chdl=High|Low
- &chm=o,990000,0,0,3|o,990000,0,1,3|o,990000,0,2,3|o,990000,0,3,3|o,990000,0,4,3|o,990000,0,5,3|o,990000,0,6,3|o,990000,0,7,3|o,990000,0,8,3|o,990000,0,9,3|o,990000,0,10,3|o,990000,0,11,3|o,990000,0,12,3|o,990000,0,13,3|o,990000,0,14,3|o,990000,0,15,3|o,990000,0,16,3|o,990000,0,17,3|o,990000,0,18,3|o,990000,0,19,3|o,990000,0,20,3|o,990000,0,21,3|o,990000,0,22,3|o,990000,0,23,3|o,990000,0,24,3|o,990000,0,25,3|o,990000,0,26,3|o,990000,0,27,3|o,990000,0,28,3|o,990000,0,29,3|o,990000,0,30,3|o,990000,0,31,3|o,990000,0,32,3|
-  o,339966,1,0,3|o,339966,1,1,3|o,339966,1,2,3|o,339966,1,3,3|o,339966,1,4,3|o,339966,1,5,3|o,339966,1,6,3|o,339966,1,7,3|o,339966,1,8,3|o,339966,1,9,3|o,339966,1,10,3|o,339966,1,11,3|o,339966,1,12,3|o,339966,1,13,3|o,339966,1,14,3|o,339966,1,15,3|o,339966,1,16,3|o,339966,1,17,3|o,339966,1,18,3|o,339966,1,19,3|o,339966,1,20,3|o,339966,1,21,3|o,339966,1,22,3
-"/></p>
-      </div>
-      <!-- END snowfall trend module -->
-           
-  </div>
-  <!-- END sidebar -->
 </div>
-<!-- END wrapper -->
 
 {% endblock %}
