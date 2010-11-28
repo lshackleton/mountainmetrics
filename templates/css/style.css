@@ -118,11 +118,11 @@ body {
     text-decoration: none;
 }
 
-#blocks ul li:first-child a {
+#blocks ul li:first-child {
     -webkit-border-top-left-radius: 8px;
     -webkit-border-top-right-radius: 8px;
 }
-#blocks ul li:last-child a {
+#blocks ul li:last-child {
     -webkit-border-bottom-left-radius: 8px;
     -webkit-border-bottom-right-radius: 8px;
 }
@@ -140,5 +140,6 @@ body {
 }
  
 #footer {
-    display: none;
+    padding: 15px;
+    font-size: 12px;
 }
